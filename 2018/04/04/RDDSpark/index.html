@@ -5,19 +5,19 @@
   
 
   
-  <title>Eden</title>
+  <title>RDD Programming Guide 翻译 | Eden</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="#RDD Programming Guidefrom http://spark.apache.org/docs/latest/rdd-programming-guide.html ##概述在一个较高的层级，每一个Spark 应用包含了一个driven程序运行用户的main函数以及运行不同的并行操作在一个集群上。Spark主要提供的抽象是一个弹性分布试数据集（RDD），是一个元素集分布在不同的集群节">
+  <meta name="description" content="RDD Programming Guidefrom http://spark.apache.org/docs/latest/rdd-programming-guide.html 概述在一个较高的层级，每一个Spark 应用包含了一个driven程序运行用户的main函数以及运行不同的并行操作在一个集群上。Spark主要提供的抽象是一个弹性分布试数据集（RDD），是一个元素集分布在不同的集群节点可以">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Eden">
+<meta property="og:title" content="RDD Programming Guide 翻译">
 <meta property="og:url" content="http://blog.sevenpan.com/2018/04/04/RDDSpark/index.html">
 <meta property="og:site_name" content="Eden">
-<meta property="og:description" content="#RDD Programming Guidefrom http://spark.apache.org/docs/latest/rdd-programming-guide.html ##概述在一个较高的层级，每一个Spark 应用包含了一个driven程序运行用户的main函数以及运行不同的并行操作在一个集群上。Spark主要提供的抽象是一个弹性分布试数据集（RDD），是一个元素集分布在不同的集群节">
+<meta property="og:description" content="RDD Programming Guidefrom http://spark.apache.org/docs/latest/rdd-programming-guide.html 概述在一个较高的层级，每一个Spark 应用包含了一个driven程序运行用户的main函数以及运行不同的并行操作在一个集群上。Spark主要提供的抽象是一个弹性分布试数据集（RDD），是一个元素集分布在不同的集群节点可以">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-04-04T13:48:00.000Z">
+<meta property="og:updated_time" content="2018-10-13T15:04:28.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eden">
-<meta name="twitter:description" content="#RDD Programming Guidefrom http://spark.apache.org/docs/latest/rdd-programming-guide.html ##概述在一个较高的层级，每一个Spark 应用包含了一个driven程序运行用户的main函数以及运行不同的并行操作在一个集群上。Spark主要提供的抽象是一个弹性分布试数据集（RDD），是一个元素集分布在不同的集群节">
+<meta name="twitter:title" content="RDD Programming Guide 翻译">
+<meta name="twitter:description" content="RDD Programming Guidefrom http://spark.apache.org/docs/latest/rdd-programming-guide.html 概述在一个较高的层级，每一个Spark 应用包含了一个driven程序运行用户的main函数以及运行不同的并行操作在一个集群上。Spark主要提供的抽象是一个弹性分布试数据集（RDD），是一个元素集分布在不同的集群节点可以">
   
     <link rel="alternate" href="/atom.xml" title="Eden" type="application/atom+xml">
   
@@ -74,23 +74,33 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      RDD Programming Guide 翻译
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#RDD Programming Guide<br>from <a href="http://spark.apache.org/docs/latest/rdd-programming-guide.html" target="_blank" rel="noopener">http://spark.apache.org/docs/latest/rdd-programming-guide.html</a></p>
-<p>##概述<br>在一个较高的层级，每一个Spark 应用包含了一个driven程序运行用户的main函数以及运行不同的并行操作在一个集群上。<br>Spark主要提供的抽象是一个弹性分布试数据集（RDD），是一个元素集分布在不同的集群节点可以被并行操作的。RDDs在Hadoop文件系统中由一个文件开始创造的。或者一个在驱动程序中存在的Scala集合并且改变它。用户也许会请求Spark来永久存储一个RDD在内存中，然后可以有效的在并行操作中再次访问。最终，RDDs自动从节点失败中恢复。<br>Spark提供的第二个抽象是共享变量，可以在并行操作中使用。默认的，当Spark并行运行一个函数作为一系列的任务在不同的节点中，它将每一个函数中的变量传输到每一个节点然后给到每一个任务。有时，一个变量需要在不同的任务直接共享或者需要在任务和driven 程序直接共享。Spark提供两种类型的共享变量：<b>broadcast</b> 变量，可以用来缓存值在所有的节点中。 <b> accumulators</b>,变量只是用于“added”，比如counter和sums。  </p>
-<p>##Initializing Spark（Java）<br>spark程序首先需要创建一个JavaSparkContext对象，告诉Spark如何访问一个集群。为了创建一个SparkContext你首先需要创建一个SparkConf对象，包含你应用的信息。  </p>
+        <h1 id="RDD-Programming-Guide"><a href="#RDD-Programming-Guide" class="headerlink" title="RDD Programming Guide"></a>RDD Programming Guide</h1><p>from <a href="http://spark.apache.org/docs/latest/rdd-programming-guide.html" target="_blank" rel="noopener">http://spark.apache.org/docs/latest/rdd-programming-guide.html</a></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在一个较高的层级，每一个Spark 应用包含了一个driven程序运行用户的main函数以及运行不同的并行操作在一个集群上。<br>Spark主要提供的抽象是一个弹性分布试数据集（RDD），是一个元素集分布在不同的集群节点可以被并行操作的。RDDs在Hadoop文件系统中由一个文件开始创造的。或者一个在驱动程序中存在的Scala集合并且改变它。用户也许会请求Spark来永久存储一个RDD在内存中，然后可以有效的在并行操作中再次访问。最终，RDDs自动从节点失败中恢复。<br>Spark提供的第二个抽象是共享变量，可以在并行操作中使用。默认的，当Spark并行运行一个函数作为一系列的任务在不同的节点中，它将每一个函数中的变量传输到每一个节点然后给到每一个任务。有时，一个变量需要在不同的任务直接共享或者需要在任务和driven 程序直接共享。Spark提供两种类型的共享变量：<b>broadcast</b> 变量，可以用来缓存值在所有的节点中。 <b> accumulators</b>,变量只是用于“added”，比如counter和sums。  </p>
+<h2 id="Initializing-Spark（Java）"><a href="#Initializing-Spark（Java）" class="headerlink" title="Initializing Spark（Java）"></a>Initializing Spark（Java）</h2><p>spark程序首先需要创建一个JavaSparkContext对象，告诉Spark如何访问一个集群。为了创建一个SparkContext你首先需要创建一个SparkConf对象，包含你应用的信息。  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SparkConf conf = new SparkConf().setAppName(appName).setMaster(master);</span><br><span class="line">JavaSparkContext sc = new JavaSparkContext(conf);</span><br></pre></td></tr></table></figure>
 <p>appName 参数是你的应用名字将会展示在集群UI上。 master可能是一个spark，Mesos或者YARN集群URL，或者一个特殊的“local“ 来本地运行。在实际使用中，当在集群中运行时，你不会想要hardcode master在程序中，而是启动应用使用 spark-submit 并且接受它。在本地测试和单元测试的时候，你可以传递”local“并且运行spark  </p>
-<p>##Resilient Distributed Datasets（RDDs）弹性分布式数据集<br>Spark是以RDD观念为中心的，是一个容错的元素集可以并行进行操作。这里有两种方式来创造RDDs：在driver程序中并行化一个已存在的集合，或者引用一个数据集在一个外部存储系统，比如一个文件系统，HDFS，HBase或者任何其他的提供一个Hadoop输入格式的数据源。  </p>
+<h2 id="Resilient-Distributed-Datasets（RDDs）弹性分布式数据集"><a href="#Resilient-Distributed-Datasets（RDDs）弹性分布式数据集" class="headerlink" title="Resilient Distributed Datasets（RDDs）弹性分布式数据集"></a>Resilient Distributed Datasets（RDDs）弹性分布式数据集</h2><p>Spark是以RDD观念为中心的，是一个容错的元素集可以并行进行操作。这里有两种方式来创造RDDs：在driver程序中并行化一个已存在的集合，或者引用一个数据集在一个外部存储系统，比如一个文件系统，HDFS，HBase或者任何其他的提供一个Hadoop输入格式的数据源。  </p>
 <h3 id="并行化集合"><a href="#并行化集合" class="headerlink" title="并行化集合"></a>并行化集合</h3><p>并行化集合是调用JavaSparkContext的parallelize方法来创造的。这个元素的集合会被复制称为一个分布式数据集，然后可以用来并行化操作。比如，这是如何创造一个并行化集合来存储数字1到5:  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; data = Arrays.asList(1, 2, 3, 4, 5);</span><br><span class="line">JavaRDD&lt;Integer&gt; distData = sc.parallelize(data);</span><br></pre></td></tr></table></figure>
 <p>一旦创造了，这个分布式数据集（distData）可以被用来并行操作。比如，我们也许会调用distData.reduce((a,b) -&gt; a + b) 来计算元素的列表的和。<br>一个重要的参数来并行化几个是将这个数据集拆分为几个partitions的个数。Spark将会在每一个集群的partition运行一个任务。一般的你想要一个CPU有2-4个partition在你的集群中。通常，Spark尝试自动设置partitions基于你的集群。同时你也可以手动的设置通过传递一个秒参数到parallelize（比如：sc.parallelize(data,10)）.</p>
-<p>##RDD 操作<br>RDDs支持两种类型的操作：变化，从已知的数据集中创造一个新的数据集，并且actions（执行），将会返回一个值给driver program在dataset运行了计算以后。比如，map是一个变化，将数据集中的每一个元素都运行一遍函数，然后返回新的RDD来代表结果。在另一方面，reduce也是一个action聚合所有的RDD元素使用某个函数然后返回最终的结果到driver program（尽管这仍然有一个并行的 reduceByKey返回一个分布式数据集）。<br>Spark中所有的变化都是lazy的，它们不会立刻的计算结果。反而，它们只是记住了有些基本的数据集需要执行一些transformations。这些transformations只会在最后需要一个结果返回给driver program时才会执行。这个设计保证了Spark可以有效率的运行。比如，我们可以认识到一个创造了map的数据集将会在reduce中使用，并且只返回reduce的结果到driver中，而不是一个庞大的mapped数据集。<br>默认的，这样的变化的RDD每次你运行一个action在上面的时候都会需要重新计算。你也可以持久化一个RDD在内存中使用persist或者cache方法，Spark将会保存元素在集群中以便快速访问。它也支持持久化RDDs到硬盘中，或者在多个节点之间进行复制。  </p>
-<p>###Basics<br>展示RDD的基础，考虑以下这个简单的程序：  </p>
+<h2 id="RDD-操作"><a href="#RDD-操作" class="headerlink" title="RDD 操作"></a>RDD 操作</h2><p>RDDs支持两种类型的操作：变化，从已知的数据集中创造一个新的数据集，并且actions（执行），将会返回一个值给driver program在dataset运行了计算以后。比如，map是一个变化，将数据集中的每一个元素都运行一遍函数，然后返回新的RDD来代表结果。在另一方面，reduce也是一个action聚合所有的RDD元素使用某个函数然后返回最终的结果到driver program（尽管这仍然有一个并行的 reduceByKey返回一个分布式数据集）。<br>Spark中所有的变化都是lazy的，它们不会立刻的计算结果。反而，它们只是记住了有些基本的数据集需要执行一些transformations。这些transformations只会在最后需要一个结果返回给driver program时才会执行。这个设计保证了Spark可以有效率的运行。比如，我们可以认识到一个创造了map的数据集将会在reduce中使用，并且只返回reduce的结果到driver中，而不是一个庞大的mapped数据集。<br>默认的，这样的变化的RDD每次你运行一个action在上面的时候都会需要重新计算。你也可以持久化一个RDD在内存中使用persist或者cache方法，Spark将会保存元素在集群中以便快速访问。它也支持持久化RDDs到硬盘中，或者在多个节点之间进行复制。  </p>
+<h3 id="Basics"><a href="#Basics" class="headerlink" title="Basics"></a>Basics</h3><p>展示RDD的基础，考虑以下这个简单的程序：  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">JavaRDD&lt;String&gt; lines = sc.textFile(&quot;data.txt&quot;);</span><br><span class="line">JavaRDD&lt;Integer&gt; lineLengths = lines.map(s -&gt; s.length());</span><br><span class="line">int totalLength = lineLengths.reduce((a, b) -&gt; a + b);</span><br></pre></td></tr></table></figure>
 <p>第一行定义了一个基础的RDD从外部文件中获取的。这个数据集没有加载到内存中或者采取了行动：lines只是一个指向文件的指针。第二行定义了lineLengths作为一个map变化的结果。同样lineLengths也不能立即的计算，应为laziness。最终，我们运行reduce，是一个action。在这个点，spark将计算分为多个任务并且在不同的独立机器中运行，每一个运行自己部分的map和一个本地的reduction，然后这个结果到driver program。<br>如果我们仍然想要使用lineLengths，我们可以增加</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lineLengths.persist(StorageLevel.MEMORY_ONLY());</span><br></pre></td></tr></table></figure>
-<p>###传递参数到Spark<br>Spark的API严重依赖在driver program中传递函数来运行集群。在Java，functions被实现了org.apache.spark.api.java.function package中的接口的class所代表。这里有两种方式来创造函数：  </p>
+<h3 id="传递参数到Spark"><a href="#传递参数到Spark" class="headerlink" title="传递参数到Spark"></a>传递参数到Spark</h3><p>Spark的API严重依赖在driver program中传递函数来运行集群。在Java，functions被实现了org.apache.spark.api.java.function package中的接口的class所代表。这里有两种方式来创造函数：  </p>
 <ol>
 <li>在你自己的类中实现函数接口，不管是匿名类或者有名字的，并且传递一个实例到spark。</li>
 <li>使用lambda expression来简洁的定义一个实现。  </li>
@@ -99,7 +109,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">JavaRDD&lt;String&gt; lines = sc.textFile(&quot;data.txt&quot;);</span><br><span class="line">JavaRDD&lt;Integer&gt; lineLengths = lines.map(new Function&lt;String, Integer&gt;() &#123;</span><br><span class="line">  public Integer call(String s) &#123; return s.length(); &#125;</span><br><span class="line">&#125;);</span><br><span class="line">int totalLength = lineLengths.reduce(new Function2&lt;Integer, Integer, Integer&gt;() &#123;</span><br><span class="line">  public Integer call(Integer a, Integer b) &#123; return a + b; &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>或者写函数是笨重的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class GetLength implements Function&lt;String, Integer&gt; &#123;</span><br><span class="line">  public Integer call(String s) &#123; return s.length(); &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Sum implements Function2&lt;Integer, Integer, Integer&gt; &#123;</span><br><span class="line">  public Integer call(Integer a, Integer b) &#123; return a + b; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">JavaRDD&lt;String&gt; lines = sc.textFile(&quot;data.txt&quot;);</span><br><span class="line">JavaRDD&lt;Integer&gt; lineLengths = lines.map(new GetLength());</span><br><span class="line">int totalLength = lineLengths.reduce(new Sum());</span><br></pre></td></tr></table></figure></p>
 <p>注意到java的匿名函数同样也可以访问变量在enclosing范围内，只要它们被标记为final。Spark将会传输这些变量到工作节点就像它会给其他的语言所做的那样。  </p>
-<p>###了解closures<br>Spark较为困难的一件事情是理解范围和变量和方法的生命周期当代码在集群中运行的时候。RDD操作改变了变量的外部范围常常容易让人困惑。在下面的例子中，我们会看到使用foreach()来增加一个counter，但是同样的问题也会在其他的操作中发生。  </p>
+<h3 id="了解closures"><a href="#了解closures" class="headerlink" title="了解closures"></a>了解closures</h3><p>Spark较为困难的一件事情是理解范围和变量和方法的生命周期当代码在集群中运行的时候。RDD操作改变了变量的外部范围常常容易让人困惑。在下面的例子中，我们会看到使用foreach()来增加一个counter，但是同样的问题也会在其他的操作中发生。  </p>
 <h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p>考虑原生的RDD元素和，将会根据是否在相同的JVM上运行会有不同的结果。一个普通的例子是执行spark在local模式（–master = local[n]）对比部署一个spark到一个集群中。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int counter = 0;</span><br><span class="line">JavaRDD&lt;Integer&gt; rdd = sc.parallelize(data);</span><br><span class="line"></span><br><span class="line">// Wrong: Don&apos;t do this!!</span><br><span class="line">rdd.foreach(x -&gt; counter += x);</span><br><span class="line"></span><br><span class="line">println(&quot;Counter value: &quot; + counter);</span><br></pre></td></tr></table></figure>
 <h4 id="Local-VS-cluster-modes"><a href="#Local-VS-cluster-modes" class="headerlink" title="Local VS. cluster modes"></a>Local VS. cluster modes</h4><p>上面的代码的行为是未定义的，而且可能运行并不像所预期的。为了执行job，spark将RDD操作切成多个任务，每一个在一个executor中执行。在执行之前，Spark会计算这个任务的closure。Closure是哪些变量和方法必须对这个executor可见来执行对RDD的计算（在这个例子中foreach()）。这个closure是序列化的并且被发给每一个executor。<br>被发给每一个executor的这个closure的变量会被复制并且然后当counter在这个foreach函数中被引用时，它不再是在driver节点上的counter。这里仍然有一个counter在driver节点的内存中，但是不在对executor可见了。executors只能看到序列化的closure的副本。这样最终的counter仍然将会是0因为所有在counter操作都是对序列化closure上的值的操作。<br>在本地模式，有时，foreach函数将会实际在和drive上的同一个jvm中执行，同时会引用原来的counter，这个时候就会更新它。<br>为了保证这种情况的可控性，应该使用一个 Accumulator。Accumulators在spark中通常用来提供一个机制来安全的更新一个变量，当执行被切分到不同的worker节点中时。这个Accumulators在后续还会被讨论。<br>通常说来， closures - constructs喜欢循环活着本地定义方法，不应该被用来改变一些全局的状态。Spark不能定义或者保证对对象的改变。一些代码也许会在本地模式其效果，但是也只是偶然，同时在分布式模式也不能和期望一样运行。使用一个Accumulators来取代一些全局变量的聚合是必要的。  </p>
@@ -108,7 +118,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/04/RDDSpark/" data-id="cjn7kdbdr0005g2rrroxph50g" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/04/RDDSpark/" data-id="cjn7kqa100006nkrrd7rtokjy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -117,11 +127,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/04/11/Hadoop & Spark/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/04/15/Deep Learning on Apache Spark/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          (no title)
+          Deep Learning on Apache Spark 翻译
         
       </div>
     </a>
@@ -129,7 +139,7 @@
   
     <a href="/2018/04/02/sparkLearningNote/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title"></div>
+      <div class="article-nav-title">Sparks 的一些名词</div>
     </a>
   
 </nav>
@@ -148,7 +158,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
     </div>
   </div>
 
@@ -158,7 +168,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a>
+      <a href="/tags/deeplearning4j-spark/" style="font-size: 10px;">deeplearning4j; spark</a> <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a>
     </div>
   </div>
 
@@ -167,7 +177,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
     </div>
   </div>
 
@@ -188,15 +198,15 @@
           </li>
         
           <li>
-            <a href="/2018/04/23/Shuffle_翻译自spark_programming_guideline/">(no title)</a>
+            <a href="/2018/04/23/Shuffle_翻译自spark_programming_guideline/">Spark Programming--- Shuffle Operations 翻译</a>
           </li>
         
           <li>
-            <a href="/2018/04/20/Distributed Training- Gradients Sharing/">(no title)</a>
+            <a href="/2018/04/20/Distributed Training- Gradients Sharing/">Distributed Training_Gradients Sharing 翻译</a>
           </li>
         
           <li>
-            <a href="/2018/04/15/Deep Learning on Apache Spark/">(no title)</a>
+            <a href="/2018/04/15/Deep Learning on Apache Spark/">Deep Learning on Apache Spark 翻译</a>
           </li>
         
       </ul>

@@ -136,7 +136,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/10/13/hexoWithGit/" data-id="cjn7kdbdw0009g2rr9rdun8f0" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/10/13/hexoWithGit/" data-id="cjn7kqa120008nkrr3qg9cdlm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
@@ -183,7 +183,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/10/13/hello-world/" data-id="cjn7kdbdu0007g2rrj76bmt1p" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/10/13/hello-world/" data-id="cjn7kqa0w0005nkrrchrtdb03" class="article-share-link">Share</a>
       
       
     </footer>
@@ -203,18 +203,28 @@ hexo deploy
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/23/Shuffle_翻译自spark_programming_guideline/">Spark Programming--- Shuffle Operations 翻译</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#Spark Programming— Shuffle operations<br><a href="http://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations" target="_blank" rel="noopener">http://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations</a></p>
+        <h1 id="Spark-Programming—-Shuffle-operations"><a href="#Spark-Programming—-Shuffle-operations" class="headerlink" title="Spark Programming— Shuffle operations"></a>Spark Programming— Shuffle operations</h1><p>original: <a href="http://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations" target="_blank" rel="noopener">http://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations</a></p>
 <p>一些spark的特定操作将会触发被称为shuffle的事件。Shuffle是Spark用于重新分布数据的机制，这样可以在不同的分区来分组。这通常涉及到在executor和机器之间进行拷贝数据，所以shuffle是一个很复杂并且消耗高的操作。  </p>
-<p>##背景<br>为了了解shuffle期间发生了什么，我们可以考虑reduceByKey操作作为例子。reduceByKey操作生成了一个新的RDD通过所有的单个键值组合为一个元组-关键字和针对与该关键字相关的所有值执行reduce函数的结果。这里的挑战不是所有的值对一个单独的键都在同一个分区上或者甚至说在一台机器上，而是它们必须被重新分布来计算结果。<br>在Spark，数据通常不会跨分区分布到特定操作的必要位置。在计算中，一个单独的任务将会在一个单独的分区上操作-然而为了组织所有的数据来被一个的单独reduceByKey 的reduce任务来执行，Spark需要来执行一个all-to-all操作。它必须读取所有分区来找到所有键的值，然后将它们带到一起跨分区来为每一个键计算最终的结果—这个被称为shuffle。<br>尽管在每一个分区中的新的shuffled数据的元素集是很重要的，同样分区自己的顺序也很重要，而元素之间的顺序就不是了。如果一个想要预测shuffle中的顺序数据那么可以使用：  </p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>为了了解shuffle期间发生了什么，我们可以考虑reduceByKey操作作为例子。reduceByKey操作生成了一个新的RDD通过所有的单个键值组合为一个元组-关键字和针对与该关键字相关的所有值执行reduce函数的结果。这里的挑战不是所有的值对一个单独的键都在同一个分区上或者甚至说在一台机器上，而是它们必须被重新分布来计算结果。<br>在Spark，数据通常不会跨分区分布到特定操作的必要位置。在计算中，一个单独的任务将会在一个单独的分区上操作-然而为了组织所有的数据来被一个的单独reduceByKey 的reduce任务来执行，Spark需要来执行一个all-to-all操作。它必须读取所有分区来找到所有键的值，然后将它们带到一起跨分区来为每一个键计算最终的结果—这个被称为shuffle。<br>尽管在每一个分区中的新的shuffled数据的元素集是很重要的，同样分区自己的顺序也很重要，而元素之间的顺序就不是了。如果一个想要预测shuffle中的顺序数据那么可以使用：  </p>
 <ol>
 <li>mapPartitions 来排序每一个分区，比如，.sorted</li>
 <li>repartitionAndSortWithinPartitions 来有效分区同时同步重新分区。  </li>
 <li>sortBy 创造一个全局的排序的RDD</li>
 </ol>
 <p>可以引起一个shuffle 的操作包括：repartition 和 coalesce,ByKey的操作，除了counting之外的比如：groupByKey 和reduceByKey,以及join操作比如cogroup 和 join。</p>
-<p>##性能影响<br>Shuffle是一个昂贵的操作因为它涉及到磁盘I/O，数据序列化和网络I/O。为了给shuffle组织数据，spark生成一系列任务-maps用于组织数据，以及一系列reduce任务来聚集它。这个命名系统来自于MapReduce而且并不直接和SparK的map，reduce操作有关。<br>在内部，单独的map任务的结果会被保存在内存中直到它们不适用。然后这些结果会被根据目标分区排序并且写向单一的文件。在reduce方面，任务读取相关的排序块。<br>一定的shuffle操作会消耗明显的数量的堆内存因为它们使用的是在内存中的数据结构来组织记录在传输之前或者之后。明显的，reduceByKey和AggregateByKey创造了这些结构在map阶段，以及 ‘Bykey的操作生成了它们在reduce阶段。当数据不能放进内存中时，Spark将会将这些表散落到硬盘中，会引起而外的磁盘I/O和增加垃圾回收次数。<br>Shuffle同样会生成大量的中间文件在磁盘中。从Spark1.3开始，这些文件被保存直到对应的RDDs不再被使用以及已经被垃圾回收了。这样做是为了shuffle文件不需要被重新创造如果lineage被重新计算时。垃圾回收也许会发生只有在一段很长时间，如果这个应用保留了对RDD的引用或者如果GC没有频繁的发生。这意味着长期运行的spark任务也许会消耗大量的磁盘空间。这个零时的磁盘目录会被spark.local.dir参数所指定。<br>Shuffle行为可以被调整通过一系列的参数。可以参考<a href="http://spark.apache.org/docs/latest/configuration.html#shuffle-behavior" target="_blank" rel="noopener"> Spark Configuration Guide.</a>‘Shuffle Behavior’章节。</p>
+<h2 id="性能影响"><a href="#性能影响" class="headerlink" title="性能影响"></a>性能影响</h2><p>Shuffle是一个昂贵的操作因为它涉及到磁盘I/O，数据序列化和网络I/O。为了给shuffle组织数据，spark生成一系列任务-maps用于组织数据，以及一系列reduce任务来聚集它。这个命名系统来自于MapReduce而且并不直接和SparK的map，reduce操作有关。<br>在内部，单独的map任务的结果会被保存在内存中直到它们不适用。然后这些结果会被根据目标分区排序并且写向单一的文件。在reduce方面，任务读取相关的排序块。<br>一定的shuffle操作会消耗明显的数量的堆内存因为它们使用的是在内存中的数据结构来组织记录在传输之前或者之后。明显的，reduceByKey和AggregateByKey创造了这些结构在map阶段，以及 ‘Bykey的操作生成了它们在reduce阶段。当数据不能放进内存中时，Spark将会将这些表散落到硬盘中，会引起而外的磁盘I/O和增加垃圾回收次数。<br>Shuffle同样会生成大量的中间文件在磁盘中。从Spark1.3开始，这些文件被保存直到对应的RDDs不再被使用以及已经被垃圾回收了。这样做是为了shuffle文件不需要被重新创造如果lineage被重新计算时。垃圾回收也许会发生只有在一段很长时间，如果这个应用保留了对RDD的引用或者如果GC没有频繁的发生。这意味着长期运行的spark任务也许会消耗大量的磁盘空间。这个零时的磁盘目录会被spark.local.dir参数所指定。<br>Shuffle行为可以被调整通过一系列的参数。可以参考<a href="http://spark.apache.org/docs/latest/configuration.html#shuffle-behavior" target="_blank" rel="noopener"> Spark Configuration Guide.</a>‘Shuffle Behavior’章节。</p>
 <h2 id="Shuffle-Behavior"><a href="#Shuffle-Behavior" class="headerlink" title="Shuffle Behavior"></a>Shuffle Behavior</h2><table>
 <thead>
 <tr>
@@ -362,7 +372,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/23/Shuffle_翻译自spark_programming_guideline/" data-id="cjn7kdbdt0006g2rrxugfm2lr" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/23/Shuffle_翻译自spark_programming_guideline/" data-id="cjn7kqa0r0002nkrr8d4zomqg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -382,9 +392,19 @@ hexo deploy
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/20/Distributed Training- Gradients Sharing/">Distributed Training_Gradients Sharing 翻译</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#Distributed Training: Gradients Sharing<br>from:<a href="https://deeplearning4j.org/distributed" target="_blank" rel="noopener">https://deeplearning4j.org/distributed</a></p>
+        <h1 id="Distributed-Training-Gradients-Sharing"><a href="#Distributed-Training-Gradients-Sharing" class="headerlink" title="Distributed Training: Gradients Sharing"></a>Distributed Training: Gradients Sharing</h1><p>from:<a href="https://deeplearning4j.org/distributed" target="_blank" rel="noopener">https://deeplearning4j.org/distributed</a></p>
 <p>从0.9.1开始，Deeplearning4j支持在Apache Spark环境中的分布式训练，以及Aeron作为spark之外的高性能内部节点通讯。<br>这个想法很简单：独立的worker在他们的数据集上计算梯度。<br>在梯度被使用到网络权重上的时候，它们在一个中间存储机制上被聚集（一个机器一个）。<br>在聚集之后，在一些配置的阀值基础上更新值并在网络上传播作为一个稀疏二进制数组。<br>在阀值一下的值被存储并且添加已备未来更新，所以它们没有丢失，但是很少在通讯中延迟。<br>这个阀值的方法减少了网络通讯需求相比于之前需要发送整个密度更新或者参数向量的方法。<br>详细的可以参考：<br><a href="http://nikkostrom.com/publications/interspeech2015/strom_interspeech2015.pdf" target="_blank" rel="noopener">Strom, 2015 - Scalable Distributed DNN Training using Commodity GPU Cloud Computing</a><br><a href="https://blog.skymind.ai/" target="_blank" rel="noopener"> Distributed Deep Learning, Part 1: An Introduction to Distributed Training of Neural Networks.</a><br>相比于之前 Nikko Strom提到的算法这里有很一些新的优点被添加了：  </p>
 <ol>
 <li>变量阀值：如果更新的数量迭代次数太低，这个阀值会自动的减少通过一个配置的step value。</li>
@@ -392,17 +412,17 @@ hexo deploy
 <li>周期性的，我们发送“抖动”信息，编码一个明显更小的发展，来分享目前阀值无法被共享的延迟权重。  </li>
 </ol>
 <p><img src="https://deeplearning4j.org/img/distributed.png" alt=""><br>注意使用spark需要开销，为了确定spark是否会帮助你，考虑使用 Performance Listener并且查看迭代毫秒级的时间。如果小于等于150Ms，spark也许不值得使用。  </p>
-<p>##配置你的集群<br>所有你需要做的就是一个spark1.X／2.X的集群，并且最少一个开放的UDP端口（内部绑定和外部绑定都需要）  </p>
-<p>###集群设置<br>如同上面提到的，DeepLearning4j支持Spark1.x和Spark2.x集群。同样也需要java 8+来运行。</p>
-<p>###网络配置<br>Master和slave节点之间的通讯分享Gradient重度依赖UDP协议。如果是运行在AWS或者Azure上，你需要允许一个UDP端口用来作为内部外部的连接，然后你需要指定对应的端口在VoidConfiguration.unicastPort(int)从而传递到SharedTrainingMaster构造器中。<br>另外一个需要记住的是：如果你在使用YARN，你需要指定网络掩码用来作为UDP通讯。这个可以用来完成通过使用像：VoidConfiguration.setNetworkMask(“10.1.1.0/24”)的语句。<br>一个对于IP地址选择的招数是DL4J_VOID_IP环境变量。在每一个节点设置这个变量，同时使用一个本地地址用于通讯。  </p>
+<h2 id="配置你的集群"><a href="#配置你的集群" class="headerlink" title="配置你的集群"></a>配置你的集群</h2><p>所有你需要做的就是一个spark1.X／2.X的集群，并且最少一个开放的UDP端口（内部绑定和外部绑定都需要）  </p>
+<h3 id="集群设置"><a href="#集群设置" class="headerlink" title="集群设置"></a>集群设置</h3><p>如同上面提到的，DeepLearning4j支持Spark1.x和Spark2.x集群。同样也需要java 8+来运行。</p>
+<h3 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h3><p>Master和slave节点之间的通讯分享Gradient重度依赖UDP协议。如果是运行在AWS或者Azure上，你需要允许一个UDP端口用来作为内部外部的连接，然后你需要指定对应的端口在VoidConfiguration.unicastPort(int)从而传递到SharedTrainingMaster构造器中。<br>另外一个需要记住的是：如果你在使用YARN，你需要指定网络掩码用来作为UDP通讯。这个可以用来完成通过使用像：VoidConfiguration.setNetworkMask(“10.1.1.0/24”)的语句。<br>一个对于IP地址选择的招数是DL4J_VOID_IP环境变量。在每一个节点设置这个变量，同时使用一个本地地址用于通讯。  </p>
 <h3 id="网络掩码"><a href="#网络掩码" class="headerlink" title="网络掩码"></a>网络掩码</h3><p>网络掩码是一个CIDR概念，只是用来告诉软件哪一个网络接口需要用来通讯。比如如果你的集群有三个IP地址：192.168.1.23, 192.168.1.78, 192.168.2.133，它们相同的部分是192.168.*，所以网络掩码是：192.168.0.0/16。你可以从：<a href="https://en.wikipedia.org/wiki/Subnetwork" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Subnetwork</a>获得详细信息。<br>我们在spark运行在Hadoop上时使用或者其他没有假设Spark IP地址被通知的环境。在这个情况下，合法的网络掩码应该在VoidConfiguration中提供，同时被用来选择接口作为Spark外面的通讯。  </p>
-<p>###Effective Scalability<br>The longer the original iteration time, the less relative impact will come from sharing, and the better hypothetical scalability you will get.</p>
+<h3 id="Effective-Scalability"><a href="#Effective-Scalability" class="headerlink" title="Effective Scalability"></a>Effective Scalability</h3><p>The longer the original iteration time, the less relative impact will come from sharing, and the better hypothetical scalability you will get.</p>
 <p>原始迭代时间越长，共享产生的相对影响就越小，并且您将获得更好的假设可伸缩性。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/20/Distributed Training- Gradients Sharing/" data-id="cjn7kdbdl0001g2rrejnb3r1s" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/20/Distributed Training- Gradients Sharing/" data-id="cjn7krgho0000o8rrwdkt1mwj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -422,10 +442,20 @@ hexo deploy
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/15/Deep Learning on Apache Spark/">Deep Learning on Apache Spark 翻译</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#Deep Learning on Apache Spark<br>翻译自：<a href="https://deeplearning4j.org/spark#locality" target="_blank" rel="noopener">https://deeplearning4j.org/spark#locality</a><br>Deep learning 是计算密集的，所以有非常大的数据，计算速度。你可以处理这个问题使用很快的硬件，通常是GPU,优化代码和一些形式的并行。<br>数据并行性使大型数据集称为碎片并把这些碎片交给神经网络分离，比如每个神经网络都在自己的核心上。Deeplearning4j依靠spark来处理这些，并发训练模型并且迭代平均它们在中心模型所产生的参数。（模型并发，在<a href="https://static.googleusercontent.com/media/research.google.com/en//archive/large_deep_networks_nips2012.pdf" target="_blank" rel="noopener">here</a>被讨论了，允许使用模型在不同的大数据集上使用而无需被平均）<br>注意如果你需要一个参数服务器基础的方法（需要更多的步骤），可以查看<a href="https://deeplearning4j.org/distributed" target="_blank" rel="noopener">分发页面</a>.</p>
-<p>##Overview 概述<br>Deeplearning4j支持在Spark集群上训练神经网络，为了加速网络训练。<br>和DL4J的MultiLayerNetwork和ComputationGraph类相同，DL4J定义了两个类用于在Spark上训练神经网络。  </p>
+        <h1 id="Deep-Learning-on-Apache-Spark"><a href="#Deep-Learning-on-Apache-Spark" class="headerlink" title="Deep Learning on Apache Spark"></a>Deep Learning on Apache Spark</h1><p>翻译自：<a href="https://deeplearning4j.org/spark#locality" target="_blank" rel="noopener">https://deeplearning4j.org/spark#locality</a><br>Deep learning 是计算密集的，所以有非常大的数据，计算速度。你可以处理这个问题使用很快的硬件，通常是GPU,优化代码和一些形式的并行。<br>数据并行性使大型数据集称为碎片并把这些碎片交给神经网络分离，比如每个神经网络都在自己的核心上。Deeplearning4j依靠spark来处理这些，并发训练模型并且迭代平均它们在中心模型所产生的参数。（模型并发，在<a href="https://static.googleusercontent.com/media/research.google.com/en//archive/large_deep_networks_nips2012.pdf" target="_blank" rel="noopener">here</a>被讨论了，允许使用模型在不同的大数据集上使用而无需被平均）<br>注意如果你需要一个参数服务器基础的方法（需要更多的步骤），可以查看<a href="https://deeplearning4j.org/distributed" target="_blank" rel="noopener">分发页面</a>.</p>
+<h2 id="Overview-概述"><a href="#Overview-概述" class="headerlink" title="Overview 概述"></a>Overview 概述</h2><p>Deeplearning4j支持在Spark集群上训练神经网络，为了加速网络训练。<br>和DL4J的MultiLayerNetwork和ComputationGraph类相同，DL4J定义了两个类用于在Spark上训练神经网络。  </p>
 <ol>
 <li>SparkDl4jMultiLayer 一个围绕MultiLayerNetwork的包装类</li>
 <li>SparkComputationGraph 一个围绕ComputationGraph的包装类</li>
@@ -444,7 +474,7 @@ hexo deploy
 <li>对于一个单机CPU/GPU系统，使用标准的MultiLayerNetwork或者ComputationGraph训练。  </li>
 <li>对于多个CPU／GPU系统，使用ParallelWrapper. 这个功能上等于运行spark在本地模式，尽管有更低的开销（从而有更好的训练表现）。</li>
 </ol>
-<p>##How Distributed Network Training Occurs with DL4J on Spark<br>分布式神经网络是如何在DL4J上训练的<br>当前的DL4J版本使用的参数平均的过程在训练一个网络的时候。未来的版本可能会加入其他分布式网络训练方法。<br>The process of training a network using parameter averaging is conceptually quite simple:<br>训练一个网络使用参数平均的过程在概念上很简单： </p>
+<h2 id="How-Distributed-Network-Training-Occurs-with-DL4J-on-Spark"><a href="#How-Distributed-Network-Training-Occurs-with-DL4J-on-Spark" class="headerlink" title="How Distributed Network Training Occurs with DL4J on Spark"></a>How Distributed Network Training Occurs with DL4J on Spark</h2><p>分布式神经网络是如何在DL4J上训练的<br>当前的DL4J版本使用的参数平均的过程在训练一个网络的时候。未来的版本可能会加入其他分布式网络训练方法。<br>The process of training a network using parameter averaging is conceptually quite simple:<br>训练一个网络使用参数平均的过程在概念上很简单： </p>
 <ol>
 <li>Master（spark driven）开始一个初始化的网络配置和参数</li>
 <li>数据被切分为很多子集，基于TrainingMaster的配置</li>
@@ -452,9 +482,9 @@ hexo deploy
 <li>训练结束，master有一个已经训练好的模型网络。  </li>
 </ol>
 <p>比如，下图展示了5个worker参数平均的过程一个每一个参数均衡频率是1.就像一个离线的训练，一个训练数据集被切割为一系列的数据子集（通常被认为是minibatch，在非分布式设置中）；在每一个split中训练过程，每一个worker获得这个切片的一个子集。在实际中，这个切片的个数是被自动决定的，基于训练配置（基于worker的数量，平均的频率和worker minibatch Size）。<br><a href="https://deeplearning4j.org/img/parameter_averaging.png" target="_blank" rel="noopener"></a></p>
-<p>##A Minimal Example<br>本节展示了你需要在spark上训练的要素的最小部分。关于加载数据的各种方法随后就来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">JavaSparkContext sc = ...;</span><br><span class="line">JavaRDD&lt;DataSet&gt; trainingData = ...;</span><br><span class="line">MultiLayerConfiguration networkConfig = ...;</span><br><span class="line"></span><br><span class="line">//Create the TrainingMaster instance</span><br><span class="line">int examplesPerDataSetObject = 1;</span><br><span class="line">TrainingMaster trainingMaster = new ParameterAveragingTrainingMaster.Builder(examplesPerDataSetObject)</span><br><span class="line">        .(other configuration options)</span><br><span class="line">        .build();</span><br><span class="line"></span><br><span class="line">//Create the SparkDl4jMultiLayer instance</span><br><span class="line">SparkDl4jMultiLayer sparkNetwork = new SparkDl4jMultiLayer(sc, networkConfig, trainingMaster);</span><br><span class="line"></span><br><span class="line">//Fit the network using the training data:</span><br><span class="line">sparkNetwork.fit(trainingData);</span><br></pre></td></tr></table></figure></p>
+<h2 id="A-Minimal-Example"><a href="#A-Minimal-Example" class="headerlink" title="A Minimal Example"></a>A Minimal Example</h2><p>本节展示了你需要在spark上训练的要素的最小部分。关于加载数据的各种方法随后就来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">JavaSparkContext sc = ...;</span><br><span class="line">JavaRDD&lt;DataSet&gt; trainingData = ...;</span><br><span class="line">MultiLayerConfiguration networkConfig = ...;</span><br><span class="line"></span><br><span class="line">//Create the TrainingMaster instance</span><br><span class="line">int examplesPerDataSetObject = 1;</span><br><span class="line">TrainingMaster trainingMaster = new ParameterAveragingTrainingMaster.Builder(examplesPerDataSetObject)</span><br><span class="line">        .(other configuration options)</span><br><span class="line">        .build();</span><br><span class="line"></span><br><span class="line">//Create the SparkDl4jMultiLayer instance</span><br><span class="line">SparkDl4jMultiLayer sparkNetwork = new SparkDl4jMultiLayer(sc, networkConfig, trainingMaster);</span><br><span class="line"></span><br><span class="line">//Fit the network using the training data:</span><br><span class="line">sparkNetwork.fit(trainingData);</span><br></pre></td></tr></table></figure></p>
 <p>##Using the output from SparkDl4jMultiLayer/ComputationGraph<br>由于spark网络作为一个wrapper围绕multi layer 网络和computation graph apis，你需要最终需要从spark神经网络中获取network在训练结束之后。其原因是由于数据平行训练实际上是在训练期间一次对多个网络进行平均。这意味着这里没有一个网络直到你获得了最后的平均参数在多个worker上积累的集合的输出。<br>了解了这些，我们应该获取底层的引用不论在SparkComputationGraph和SparkDl4jMultiLayer上都使用getNetwork方法。<br>你将会注意到合适的输出将会直接返回相同的底层的网络。在这种情况下， 你可以直接使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">JavaSparkContext sc = ...;</span><br><span class="line">JavaRDD&lt;DataSet&gt; trainingData = ...;</span><br><span class="line">MultiLayerConfiguration networkConfig = ...;</span><br><span class="line"></span><br><span class="line">//Create the TrainingMaster instance</span><br><span class="line">int examplesPerDataSetObject = 1;</span><br><span class="line">TrainingMaster trainingMaster = new ParameterAveragingTrainingMaster.Builder(examplesPerDataSetObject)</span><br><span class="line">        .(other configuration options)</span><br><span class="line">        .build();</span><br><span class="line"></span><br><span class="line">//Create the SparkDl4jMultiLayer instance</span><br><span class="line">SparkDl4jMultiLayer sparkNetwork = new SparkDl4jMultiLayer(sc, networkConfig, trainingMaster);</span><br><span class="line"></span><br><span class="line">//Fit the network using the training data:</span><br><span class="line">MultiLayerNetwork outputNetwork = sparkNetwork.fit(trainingData);</span><br></pre></td></tr></table></figure></p>
-<p>##Configuring the TrainingMaster<br>一个在DL4J中的TrainingMaster是一个接口允许多个不同的训练实现在SparkDl4jMultiLayer和SparkComputationGraph使用。<br>目前DL4J有一个实现，ParameterAveragingTrainingMaster。这个参数平均的过程在上面图片中展示了。为了创造一个，使用以下的构建模式：  </p>
+<h2 id="Configuring-the-TrainingMaster"><a href="#Configuring-the-TrainingMaster" class="headerlink" title="Configuring the TrainingMaster"></a>Configuring the TrainingMaster</h2><p>一个在DL4J中的TrainingMaster是一个接口允许多个不同的训练实现在SparkDl4jMultiLayer和SparkComputationGraph使用。<br>目前DL4J有一个实现，ParameterAveragingTrainingMaster。这个参数平均的过程在上面图片中展示了。为了创造一个，使用以下的构建模式：  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TrainingMaster tm = new ParameterAveragingTrainingMaster.Builder(int dataSetObjectSize)</span><br><span class="line">            ... (your configuration here)</span><br><span class="line">            .build();</span><br></pre></td></tr></table></figure>
 <p>这个ParameterAveragingTrainingMaster定义了很多的参数选项用于控制训练的执行：  </p>
 <p><em>dataSetObjectSize：</em>必须值。这个在build构造函数中知名。这个值指明了有多少的列子在每一个数据集对象中。作为一个通用的规则：<br>    如果你在训练一个预处理过的数据集对象，这个将会是这个预处理的数据集的大小<br>    如果你是直接从string中进行训练，比如CSV数据经过一定的步骤后到一个RDD<dataset>那么这个将会是1.<br><em>batchSizePerWorker：</em>这个控制了每一个worker的minibatch 大小。这个和淡季训练的时候使用minibatch size有些类型。换一种方式来说：这个是对每一个参数进行更新所需要的例子数量在每一个worker中。<br><em>averagingFrequency：</em>这个控制了参数平均和重新分发的频率，根据大小为batchSizePerWorker的minibatches数量计算，通常：<br>    低平均周期（比如，averagingFrequency = 1）也许不太有效率（太多的网络通信和初始化开销，相对于计算来说。）<br>    大平均周期（比如，averagingFrequency = 200）可能会导致低性能（不同的worker实例中的参数也许会有很大的差异）<br>    Averaging periods 在5-10个minibatches也许是一个安全的选择。</dataset></p>
@@ -463,39 +493,11 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/15/Deep Learning on Apache Spark/" data-id="cjn7kdbdi0000g2rrxwy2dkbo" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/15/Deep Learning on Apache Spark/" data-id="cjn7kqa0p0001nkrrlcl9at1v" class="article-share-link">Share</a>
       
       
-    </footer>
-  </div>
-  
-</article>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li></ul>
 
-
-  
-    <article id="post-Hadoop &amp; Spark" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/04/11/Hadoop & Spark/" class="article-date">
-  <time datetime="2018-04-11T04:18:47.000Z" itemprop="datePublished">2018-04-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>#Iterative Reduce With DL4J on Hadoop and Spark<br>如果你从他的简单前辈predecessor开始了解迭代reduce会更加容易</p>
-<p>##MapReduce<br>MapReduce 是一个用来在很多核上并发处理大量数据集的技术。<br>MapReduce 代表两种从函数式编程衍生出来的方法。Map是一个对每一个元素都进简单操作然后产生一个list。Reduce是一个操作用来应用一个列表并且组合它们到一个更小数量的元素列表。  </p>
-<p>##Iterative MapReduce<br>虽然简单的MapReduce在很多情况下都可以表现不错，但是对于机器学习和深度学习还不够，它们都是天生需要很多迭代，因为一个模型学习优化算法从而最小化误差，在很多步之后。<br>你可以考虑Iterative MapReduce，是一个YRAN框架，会多次pass过数据，而不是一次。Iterative Reduce和MapReduce是不同的，在高的级别上你可以理解为这个是一系列map-reduce操作，mapreduce1的输出变成了MapReduce2的输入。<br>让我们说你有一个深度学习网络你想要训练大量的数据集来创造一个模型可以精确的分类你的输出。一个deep-belied网络有三个函数部分组成：一个打分函数将输入映射到分类器；一个误差函数来处理模型猜测和正确答案；一个优化算法来调整模型的参数，直到你的模型可以猜测到最小误差值。<br>Map 将所有的操作都放到你的分布式系统中。然后它分布式处理你的大量数据集在这些core里。在每一个核，一个模型用来训练它收到的输入。Reduce获取所有的模型然后平均参数，在发送新的模型到每一个核之前。Iterative Reduce会执行很多次，直到学习稳定并且误差值减少。<br><a href="https://deeplearning4j.org/img/mapreduce_v_iterative.png" target="_blank" rel="noopener"></a><br>上面的图片，描述了这两个过程。在左边，你有一个闭合的MapReduce，在右边，是迭代的。每一个“processor”是一个deep-belief 网络在工作，学习大批量的数据，每一个Superstep是一个平均参数的实例，在中心模型被重新发布到集群的其他的节点上时。  </p>
-<h2 id="Hadoop-amp-Spark"><a href="#Hadoop-amp-Spark" class="headerlink" title="Hadoop &amp; Spark"></a>Hadoop &amp; Spark</h2><p>Hadoop和Spark都是分布式实时系统用于运行MapReduce和Iterative Reduce。Deeplearning4j在Hadoop／YARN或者Spark中作为一个job来运行。它可以作为一个YARN的app来被调用，运行和准备。<br>在Hadoop中，Iterative Reduce worker在它们的切片或者HDFS的block之上，并且并发的处理数据。在它们发送它们改变的参数回到master之前，这些参数是被平均了并且被是用来更新每一个worker的模型的。使用MapReduce，这个map路径离开，但是迭代的Reduceworker将会留下。这个架构和Spark很相同。<br>Google和yahoo操作参数服务器来保存上千万的参事然后分布到集群来处理。Google被称为GoogleBrain。<br>Deeplearning4j考虑分布式实时是可以内部交换的；它们通常简单的是一个目录在一个大的模块架构中可以被交换进来或者出去。这个允许项目以不同的速度来执行，并且从其他的模块中区分运行时间来给神经网络算法。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/11/Hadoop & Spark/" data-id="cjn7kdbdq0004g2rrsjpgcp0y" class="article-share-link">Share</a>
-      
-      
     </footer>
   </div>
   
@@ -513,23 +515,33 @@ hexo deploy
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/04/RDDSpark/">RDD Programming Guide 翻译</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#RDD Programming Guide<br>from <a href="http://spark.apache.org/docs/latest/rdd-programming-guide.html" target="_blank" rel="noopener">http://spark.apache.org/docs/latest/rdd-programming-guide.html</a></p>
-<p>##概述<br>在一个较高的层级，每一个Spark 应用包含了一个driven程序运行用户的main函数以及运行不同的并行操作在一个集群上。<br>Spark主要提供的抽象是一个弹性分布试数据集（RDD），是一个元素集分布在不同的集群节点可以被并行操作的。RDDs在Hadoop文件系统中由一个文件开始创造的。或者一个在驱动程序中存在的Scala集合并且改变它。用户也许会请求Spark来永久存储一个RDD在内存中，然后可以有效的在并行操作中再次访问。最终，RDDs自动从节点失败中恢复。<br>Spark提供的第二个抽象是共享变量，可以在并行操作中使用。默认的，当Spark并行运行一个函数作为一系列的任务在不同的节点中，它将每一个函数中的变量传输到每一个节点然后给到每一个任务。有时，一个变量需要在不同的任务直接共享或者需要在任务和driven 程序直接共享。Spark提供两种类型的共享变量：<b>broadcast</b> 变量，可以用来缓存值在所有的节点中。 <b> accumulators</b>,变量只是用于“added”，比如counter和sums。  </p>
-<p>##Initializing Spark（Java）<br>spark程序首先需要创建一个JavaSparkContext对象，告诉Spark如何访问一个集群。为了创建一个SparkContext你首先需要创建一个SparkConf对象，包含你应用的信息。  </p>
+        <h1 id="RDD-Programming-Guide"><a href="#RDD-Programming-Guide" class="headerlink" title="RDD Programming Guide"></a>RDD Programming Guide</h1><p>from <a href="http://spark.apache.org/docs/latest/rdd-programming-guide.html" target="_blank" rel="noopener">http://spark.apache.org/docs/latest/rdd-programming-guide.html</a></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在一个较高的层级，每一个Spark 应用包含了一个driven程序运行用户的main函数以及运行不同的并行操作在一个集群上。<br>Spark主要提供的抽象是一个弹性分布试数据集（RDD），是一个元素集分布在不同的集群节点可以被并行操作的。RDDs在Hadoop文件系统中由一个文件开始创造的。或者一个在驱动程序中存在的Scala集合并且改变它。用户也许会请求Spark来永久存储一个RDD在内存中，然后可以有效的在并行操作中再次访问。最终，RDDs自动从节点失败中恢复。<br>Spark提供的第二个抽象是共享变量，可以在并行操作中使用。默认的，当Spark并行运行一个函数作为一系列的任务在不同的节点中，它将每一个函数中的变量传输到每一个节点然后给到每一个任务。有时，一个变量需要在不同的任务直接共享或者需要在任务和driven 程序直接共享。Spark提供两种类型的共享变量：<b>broadcast</b> 变量，可以用来缓存值在所有的节点中。 <b> accumulators</b>,变量只是用于“added”，比如counter和sums。  </p>
+<h2 id="Initializing-Spark（Java）"><a href="#Initializing-Spark（Java）" class="headerlink" title="Initializing Spark（Java）"></a>Initializing Spark（Java）</h2><p>spark程序首先需要创建一个JavaSparkContext对象，告诉Spark如何访问一个集群。为了创建一个SparkContext你首先需要创建一个SparkConf对象，包含你应用的信息。  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SparkConf conf = new SparkConf().setAppName(appName).setMaster(master);</span><br><span class="line">JavaSparkContext sc = new JavaSparkContext(conf);</span><br></pre></td></tr></table></figure>
 <p>appName 参数是你的应用名字将会展示在集群UI上。 master可能是一个spark，Mesos或者YARN集群URL，或者一个特殊的“local“ 来本地运行。在实际使用中，当在集群中运行时，你不会想要hardcode master在程序中，而是启动应用使用 spark-submit 并且接受它。在本地测试和单元测试的时候，你可以传递”local“并且运行spark  </p>
-<p>##Resilient Distributed Datasets（RDDs）弹性分布式数据集<br>Spark是以RDD观念为中心的，是一个容错的元素集可以并行进行操作。这里有两种方式来创造RDDs：在driver程序中并行化一个已存在的集合，或者引用一个数据集在一个外部存储系统，比如一个文件系统，HDFS，HBase或者任何其他的提供一个Hadoop输入格式的数据源。  </p>
+<h2 id="Resilient-Distributed-Datasets（RDDs）弹性分布式数据集"><a href="#Resilient-Distributed-Datasets（RDDs）弹性分布式数据集" class="headerlink" title="Resilient Distributed Datasets（RDDs）弹性分布式数据集"></a>Resilient Distributed Datasets（RDDs）弹性分布式数据集</h2><p>Spark是以RDD观念为中心的，是一个容错的元素集可以并行进行操作。这里有两种方式来创造RDDs：在driver程序中并行化一个已存在的集合，或者引用一个数据集在一个外部存储系统，比如一个文件系统，HDFS，HBase或者任何其他的提供一个Hadoop输入格式的数据源。  </p>
 <h3 id="并行化集合"><a href="#并行化集合" class="headerlink" title="并行化集合"></a>并行化集合</h3><p>并行化集合是调用JavaSparkContext的parallelize方法来创造的。这个元素的集合会被复制称为一个分布式数据集，然后可以用来并行化操作。比如，这是如何创造一个并行化集合来存储数字1到5:  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; data = Arrays.asList(1, 2, 3, 4, 5);</span><br><span class="line">JavaRDD&lt;Integer&gt; distData = sc.parallelize(data);</span><br></pre></td></tr></table></figure>
 <p>一旦创造了，这个分布式数据集（distData）可以被用来并行操作。比如，我们也许会调用distData.reduce((a,b) -&gt; a + b) 来计算元素的列表的和。<br>一个重要的参数来并行化几个是将这个数据集拆分为几个partitions的个数。Spark将会在每一个集群的partition运行一个任务。一般的你想要一个CPU有2-4个partition在你的集群中。通常，Spark尝试自动设置partitions基于你的集群。同时你也可以手动的设置通过传递一个秒参数到parallelize（比如：sc.parallelize(data,10)）.</p>
-<p>##RDD 操作<br>RDDs支持两种类型的操作：变化，从已知的数据集中创造一个新的数据集，并且actions（执行），将会返回一个值给driver program在dataset运行了计算以后。比如，map是一个变化，将数据集中的每一个元素都运行一遍函数，然后返回新的RDD来代表结果。在另一方面，reduce也是一个action聚合所有的RDD元素使用某个函数然后返回最终的结果到driver program（尽管这仍然有一个并行的 reduceByKey返回一个分布式数据集）。<br>Spark中所有的变化都是lazy的，它们不会立刻的计算结果。反而，它们只是记住了有些基本的数据集需要执行一些transformations。这些transformations只会在最后需要一个结果返回给driver program时才会执行。这个设计保证了Spark可以有效率的运行。比如，我们可以认识到一个创造了map的数据集将会在reduce中使用，并且只返回reduce的结果到driver中，而不是一个庞大的mapped数据集。<br>默认的，这样的变化的RDD每次你运行一个action在上面的时候都会需要重新计算。你也可以持久化一个RDD在内存中使用persist或者cache方法，Spark将会保存元素在集群中以便快速访问。它也支持持久化RDDs到硬盘中，或者在多个节点之间进行复制。  </p>
-<p>###Basics<br>展示RDD的基础，考虑以下这个简单的程序：  </p>
+<h2 id="RDD-操作"><a href="#RDD-操作" class="headerlink" title="RDD 操作"></a>RDD 操作</h2><p>RDDs支持两种类型的操作：变化，从已知的数据集中创造一个新的数据集，并且actions（执行），将会返回一个值给driver program在dataset运行了计算以后。比如，map是一个变化，将数据集中的每一个元素都运行一遍函数，然后返回新的RDD来代表结果。在另一方面，reduce也是一个action聚合所有的RDD元素使用某个函数然后返回最终的结果到driver program（尽管这仍然有一个并行的 reduceByKey返回一个分布式数据集）。<br>Spark中所有的变化都是lazy的，它们不会立刻的计算结果。反而，它们只是记住了有些基本的数据集需要执行一些transformations。这些transformations只会在最后需要一个结果返回给driver program时才会执行。这个设计保证了Spark可以有效率的运行。比如，我们可以认识到一个创造了map的数据集将会在reduce中使用，并且只返回reduce的结果到driver中，而不是一个庞大的mapped数据集。<br>默认的，这样的变化的RDD每次你运行一个action在上面的时候都会需要重新计算。你也可以持久化一个RDD在内存中使用persist或者cache方法，Spark将会保存元素在集群中以便快速访问。它也支持持久化RDDs到硬盘中，或者在多个节点之间进行复制。  </p>
+<h3 id="Basics"><a href="#Basics" class="headerlink" title="Basics"></a>Basics</h3><p>展示RDD的基础，考虑以下这个简单的程序：  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">JavaRDD&lt;String&gt; lines = sc.textFile(&quot;data.txt&quot;);</span><br><span class="line">JavaRDD&lt;Integer&gt; lineLengths = lines.map(s -&gt; s.length());</span><br><span class="line">int totalLength = lineLengths.reduce((a, b) -&gt; a + b);</span><br></pre></td></tr></table></figure>
 <p>第一行定义了一个基础的RDD从外部文件中获取的。这个数据集没有加载到内存中或者采取了行动：lines只是一个指向文件的指针。第二行定义了lineLengths作为一个map变化的结果。同样lineLengths也不能立即的计算，应为laziness。最终，我们运行reduce，是一个action。在这个点，spark将计算分为多个任务并且在不同的独立机器中运行，每一个运行自己部分的map和一个本地的reduction，然后这个结果到driver program。<br>如果我们仍然想要使用lineLengths，我们可以增加</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lineLengths.persist(StorageLevel.MEMORY_ONLY());</span><br></pre></td></tr></table></figure>
-<p>###传递参数到Spark<br>Spark的API严重依赖在driver program中传递函数来运行集群。在Java，functions被实现了org.apache.spark.api.java.function package中的接口的class所代表。这里有两种方式来创造函数：  </p>
+<h3 id="传递参数到Spark"><a href="#传递参数到Spark" class="headerlink" title="传递参数到Spark"></a>传递参数到Spark</h3><p>Spark的API严重依赖在driver program中传递函数来运行集群。在Java，functions被实现了org.apache.spark.api.java.function package中的接口的class所代表。这里有两种方式来创造函数：  </p>
 <ol>
 <li>在你自己的类中实现函数接口，不管是匿名类或者有名字的，并且传递一个实例到spark。</li>
 <li>使用lambda expression来简洁的定义一个实现。  </li>
@@ -538,7 +550,7 @@ hexo deploy
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">JavaRDD&lt;String&gt; lines = sc.textFile(&quot;data.txt&quot;);</span><br><span class="line">JavaRDD&lt;Integer&gt; lineLengths = lines.map(new Function&lt;String, Integer&gt;() &#123;</span><br><span class="line">  public Integer call(String s) &#123; return s.length(); &#125;</span><br><span class="line">&#125;);</span><br><span class="line">int totalLength = lineLengths.reduce(new Function2&lt;Integer, Integer, Integer&gt;() &#123;</span><br><span class="line">  public Integer call(Integer a, Integer b) &#123; return a + b; &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>或者写函数是笨重的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class GetLength implements Function&lt;String, Integer&gt; &#123;</span><br><span class="line">  public Integer call(String s) &#123; return s.length(); &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Sum implements Function2&lt;Integer, Integer, Integer&gt; &#123;</span><br><span class="line">  public Integer call(Integer a, Integer b) &#123; return a + b; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">JavaRDD&lt;String&gt; lines = sc.textFile(&quot;data.txt&quot;);</span><br><span class="line">JavaRDD&lt;Integer&gt; lineLengths = lines.map(new GetLength());</span><br><span class="line">int totalLength = lineLengths.reduce(new Sum());</span><br></pre></td></tr></table></figure></p>
 <p>注意到java的匿名函数同样也可以访问变量在enclosing范围内，只要它们被标记为final。Spark将会传输这些变量到工作节点就像它会给其他的语言所做的那样。  </p>
-<p>###了解closures<br>Spark较为困难的一件事情是理解范围和变量和方法的生命周期当代码在集群中运行的时候。RDD操作改变了变量的外部范围常常容易让人困惑。在下面的例子中，我们会看到使用foreach()来增加一个counter，但是同样的问题也会在其他的操作中发生。  </p>
+<h3 id="了解closures"><a href="#了解closures" class="headerlink" title="了解closures"></a>了解closures</h3><p>Spark较为困难的一件事情是理解范围和变量和方法的生命周期当代码在集群中运行的时候。RDD操作改变了变量的外部范围常常容易让人困惑。在下面的例子中，我们会看到使用foreach()来增加一个counter，但是同样的问题也会在其他的操作中发生。  </p>
 <h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p>考虑原生的RDD元素和，将会根据是否在相同的JVM上运行会有不同的结果。一个普通的例子是执行spark在local模式（–master = local[n]）对比部署一个spark到一个集群中。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int counter = 0;</span><br><span class="line">JavaRDD&lt;Integer&gt; rdd = sc.parallelize(data);</span><br><span class="line"></span><br><span class="line">// Wrong: Don&apos;t do this!!</span><br><span class="line">rdd.foreach(x -&gt; counter += x);</span><br><span class="line"></span><br><span class="line">println(&quot;Counter value: &quot; + counter);</span><br></pre></td></tr></table></figure>
 <h4 id="Local-VS-cluster-modes"><a href="#Local-VS-cluster-modes" class="headerlink" title="Local VS. cluster modes"></a>Local VS. cluster modes</h4><p>上面的代码的行为是未定义的，而且可能运行并不像所预期的。为了执行job，spark将RDD操作切成多个任务，每一个在一个executor中执行。在执行之前，Spark会计算这个任务的closure。Closure是哪些变量和方法必须对这个executor可见来执行对RDD的计算（在这个例子中foreach()）。这个closure是序列化的并且被发给每一个executor。<br>被发给每一个executor的这个closure的变量会被复制并且然后当counter在这个foreach函数中被引用时，它不再是在driver节点上的counter。这里仍然有一个counter在driver节点的内存中，但是不在对executor可见了。executors只能看到序列化的closure的副本。这样最终的counter仍然将会是0因为所有在counter操作都是对序列化closure上的值的操作。<br>在本地模式，有时，foreach函数将会实际在和drive上的同一个jvm中执行，同时会引用原来的counter，这个时候就会更新它。<br>为了保证这种情况的可控性，应该使用一个 Accumulator。Accumulators在spark中通常用来提供一个机制来安全的更新一个变量，当执行被切分到不同的worker节点中时。这个Accumulators在后续还会被讨论。<br>通常说来， closures - constructs喜欢循环活着本地定义方法，不应该被用来改变一些全局的状态。Spark不能定义或者保证对对象的改变。一些代码也许会在本地模式其效果，但是也只是偶然，同时在分布式模式也不能和期望一样运行。使用一个Accumulators来取代一些全局变量的聚合是必要的。  </p>
@@ -547,7 +559,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/04/RDDSpark/" data-id="cjn7kdbdr0005g2rrroxph50g" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/04/RDDSpark/" data-id="cjn7kqa100006nkrrd7rtokjy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -567,12 +579,22 @@ hexo deploy
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/02/sparkLearningNote/">Sparks 的一些名词</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#Some terms with Spark<br><a href="https://spark.apache.org/docs/latest/cluster-overview.html" target="_blank" rel="noopener">https://spark.apache.org/docs/latest/cluster-overview.html</a></p>
+        <h1 id="Some-terms-with-Spark"><a href="#Some-terms-with-Spark" class="headerlink" title="Some terms with Spark"></a>Some terms with Spark</h1><p><a href="https://spark.apache.org/docs/latest/cluster-overview.html" target="_blank" rel="noopener">https://spark.apache.org/docs/latest/cluster-overview.html</a></p>
 <h3 id="excutor"><a href="#excutor" class="headerlink" title="excutor"></a>excutor</h3><p>A process launched for an application on a worker node, that runs tasks and keeps data in memory or disk storage across them. Each application has its own executors.<br>在一个工作节点运行的一个进程，用来运行任务，保存数据在内存或者硬盘中。每一个应用有自己的executors。</p>
-<p>###Application<br>User program built on Spark. Consists of a driver program and executors on the cluster.<br>在Spark上的用户程序。有一个驱动程序和executor在集群中组成。  </p>
-<p>###Application jar<br>A jar containing the user’s Spark application. In some cases users will want to create an “uber jar” containing their application along with its dependencies. The user’s jar should never include Hadoop or Spark libraries, however, these will be added at runtime.  </p>
+<h3 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h3><p>User program built on Spark. Consists of a driver program and executors on the cluster.<br>在Spark上的用户程序。有一个驱动程序和executor在集群中组成。  </p>
+<h3 id="Application-jar"><a href="#Application-jar" class="headerlink" title="Application jar"></a>Application jar</h3><p>A jar containing the user’s Spark application. In some cases users will want to create an “uber jar” containing their application along with its dependencies. The user’s jar should never include Hadoop or Spark libraries, however, these will be added at runtime.  </p>
 <p><b>一个包含了用户spark应用的程序。在有的地方用户将会创造一个“混合jar”将她们的应用和依赖一起包含。这个用户的jar不应该包含hadoop或者spark的包，它们将会在运行时被添加。 ？？？ 这段没看懂</b></p>
 <h3 id="Driver-program"><a href="#Driver-program" class="headerlink" title="Driver program"></a>Driver program</h3><p>The process running the main() function of the application and creating the SparkContext<br>创造应用的main()函数并且创造SparkContext</p>
 <h3 id="Cluster-manager"><a href="#Cluster-manager" class="headerlink" title="Cluster manager"></a>Cluster manager</h3><p>An external service for acquiring resources on the cluster (e.g. standalone manager, Mesos, YARN)<br>一个外部的服务用于获取集群的资源。（比如standalone manager，Mesos， YARN）</p>
@@ -593,7 +615,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/02/sparkLearningNote/" data-id="cjn7kdbdv0008g2rrfp95ozhn" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/02/sparkLearningNote/" data-id="cjn7kqa0v0004nkrr4q59h92a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -613,9 +635,19 @@ hexo deploy
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/02/LSTM/">LSTM Walk Through 翻译</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#LSTM Walk Through<br>reference:<a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank" rel="noopener">http://colah.github.io/posts/2015-08-Understanding-LSTMs/</a></p>
+        <h1 id="LSTM-Walk-Through"><a href="#LSTM-Walk-Through" class="headerlink" title="LSTM Walk Through"></a>LSTM Walk Through</h1><p>reference: <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank" rel="noopener">http://colah.github.io/posts/2015-08-Understanding-LSTMs/</a></p>
 <p>在下面这个LSTM模型中，需要决定的第一点就是我们将要丢掉什么从cell 状态中。<br>这个决定是被一个称为：“forget gate layer” 的sigmoid 层来决定的。它将 \( h_{t-1}\) 和 \(x_t\)作为输入，并且输出一个介于0到1之间的值在cell state \(C_{t-1}\). 1代表完全的保存而0代表完全丢掉。<br>接下来我们看回之前的语言模型，试图根据前一个值来预测下一个值。在这个问题中，这个Cell state可能包括包括当前客体的性别，所以正确的代词才会被使用。当我们看到一个新的客体时，我们想要忘掉老的客体。<br><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-focus-f.png" alt=""><br>下一步是决定哪些新的信息我们想要存储到cell state中。这里有两个部分：  </p>
 <pre><code>1. 一个sigmoid层，称为“input gate layer”，决定哪些值，我们将会更新。
 2. 一个tanh层，创造一个新的候选值的向量，\\( C_t^~ \\),将会用来加入到状态中。在下一步，我们将会组合这两个然后来在状态里创造一个升级。
@@ -628,57 +660,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/02/LSTM/" data-id="cjn7kdbdn0002g2rr3xw224l0" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-EC2实例" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/19/EC2实例/" class="article-date">
-  <time datetime="2018-01-19T11:06:17.000Z" itemprop="datePublished">2018-01-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>#AWS 服务学习</p>
-<h2 id="EC2实例"><a href="#EC2实例" class="headerlink" title="EC2实例"></a>EC2实例</h2><p>Amazon Elastic Compute Cloud (Amazon EC2)<br>就是服务器了，在亚马逊上提供的云服务。  </p>
-<h2 id="Amazon-S3"><a href="#Amazon-S3" class="headerlink" title="Amazon S3"></a>Amazon S3</h2><p>Amazon Simple Storage Service (Amazon S3) 是一种面向 Internet 的存储服务。您可以通过 Amazon S3 随时在 Web 上的任何位置存储和检索的任意大小的数据。您可以使用 AWS 管理控制台简单而直观的 web 界面来完成这些任务。<br>Amazon Simple Storage Service (S3) stores your website content in a container called a bucket. You can modify the content in your bucket, control access, and more.<br>这个服务看起来是运行用户直接上传自己的web内容到一个bucket中，你可以直接修改这里面的内容，以及设置权限等。  也就是方便的地方是这个是可以直接托管网站的，只需要关心内容就好了。<br>看起来主要是一个存储文件的地方，同时可以利用它们的域名分发服务来托管静态网站。  </p>
-<p>#在eclipse 上创建derby连接</p>
-<pre><code>1. Select Window &gt; Preferences from the main menu bar.
-2.Expand Data Management &gt; Connectivity and select Driver Definitions.
-3.Click Add.
-4.In the Name/Type tab, indicate the version of Derby on which you want to create the driver definition.
-    Select Derby for the Vendor Filter to narrow the display to only Derby driver definitions
-    Select Derby Embedded JDBC Driver for the version of Derby you have installed.
-    (Optional) Modify the Driver Name if a driver definition with this name already exists.
-5.In the JAR List tab, highlight the default derby.jar file and click Edit JAR/Zip to indicate the fully qualified path of the Derby JAR file.
-    Browse to the location of the ZIP file.
-    Click Open.
-6.(Optional) In the Properties tab, modify the default properties for the driver definition template.
-Note: Options in the Properties tab vary based on database server type. You can edit or enter a property in the Value box.
-7.Click OK.
-</code></pre><p>related links: </p>
-<pre><code>https://help.eclipse.org/luna/index.jsp?topic=%2Forg.eclipse.datatools.common.doc.user%2Fdoc%2Fhtml%2Fasc1229700387729.html
-这个链接是关于怎么使用dbconnect driver的
-下面这个链接是关于怎么使用db connection 和怎么运行sql的：
-http://www.vogella.com/tutorials/EclipseDataToolsPlatform/article.html
-</code></pre><p>#碰到的问题<br>1.之前使用netbean的时候，部署直接报错，而不是tutor上说的卡在发布的地方，查了下，是因为我之前的server配置不对，需要填写域名，domain1</p>
-<p>2.8080 端口一直没有反应，发现自己是用https连接的而不是http。<br>3.derby 运行sql的时候报错，是因为自己的lib包的版本不对，应该用10.0.2 的版本。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/01/19/EC2实例/" data-id="cjn7kdbdp0003g2rrcw2ihk97" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/02/LSTM/" data-id="cjn7kqa0l0000nkrrewjv2dvy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -701,7 +683,7 @@ http://www.vogella.com/tutorials/EclipseDataToolsPlatform/article.html
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
     </div>
   </div>
 
@@ -711,7 +693,7 @@ http://www.vogella.com/tutorials/EclipseDataToolsPlatform/article.html
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a>
+      <a href="/tags/deeplearning4j-spark/" style="font-size: 10px;">deeplearning4j; spark</a> <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a>
     </div>
   </div>
 
@@ -720,7 +702,7 @@ http://www.vogella.com/tutorials/EclipseDataToolsPlatform/article.html
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
     </div>
   </div>
 
@@ -741,15 +723,15 @@ http://www.vogella.com/tutorials/EclipseDataToolsPlatform/article.html
           </li>
         
           <li>
-            <a href="/2018/04/23/Shuffle_翻译自spark_programming_guideline/">(no title)</a>
+            <a href="/2018/04/23/Shuffle_翻译自spark_programming_guideline/">Spark Programming--- Shuffle Operations 翻译</a>
           </li>
         
           <li>
-            <a href="/2018/04/20/Distributed Training- Gradients Sharing/">(no title)</a>
+            <a href="/2018/04/20/Distributed Training- Gradients Sharing/">Distributed Training_Gradients Sharing 翻译</a>
           </li>
         
           <li>
-            <a href="/2018/04/15/Deep Learning on Apache Spark/">(no title)</a>
+            <a href="/2018/04/15/Deep Learning on Apache Spark/">Deep Learning on Apache Spark 翻译</a>
           </li>
         
       </ul>

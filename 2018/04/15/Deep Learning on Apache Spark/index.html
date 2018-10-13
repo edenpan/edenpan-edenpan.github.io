@@ -5,19 +5,20 @@
   
 
   
-  <title>Eden</title>
+  <title>Deep Learning on Apache Spark 翻译 | Eden</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="#Deep Learning on Apache Spark翻译自：https://deeplearning4j.org/spark#localityDeep learning 是计算密集的，所以有非常大的数据，计算速度。你可以处理这个问题使用很快的硬件，通常是GPU,优化代码和一些形式的并行。数据并行性使大型数据集称为碎片并把这些碎片交给神经网络分离，比如每个神经网络都在自己的核心上。Deepl">
+  <meta name="description" content="Deep Learning on Apache Spark翻译自：https://deeplearning4j.org/spark#localityDeep learning 是计算密集的，所以有非常大的数据，计算速度。你可以处理这个问题使用很快的硬件，通常是GPU,优化代码和一些形式的并行。数据并行性使大型数据集称为碎片并把这些碎片交给神经网络分离，比如每个神经网络都在自己的核心上。Deeple">
+<meta name="keywords" content="deeplearning4j; spark">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Eden">
+<meta property="og:title" content="Deep Learning on Apache Spark 翻译">
 <meta property="og:url" content="http://blog.sevenpan.com/2018/04/15/Deep Learning on Apache Spark/index.html">
 <meta property="og:site_name" content="Eden">
-<meta property="og:description" content="#Deep Learning on Apache Spark翻译自：https://deeplearning4j.org/spark#localityDeep learning 是计算密集的，所以有非常大的数据，计算速度。你可以处理这个问题使用很快的硬件，通常是GPU,优化代码和一些形式的并行。数据并行性使大型数据集称为碎片并把这些碎片交给神经网络分离，比如每个神经网络都在自己的核心上。Deepl">
+<meta property="og:description" content="Deep Learning on Apache Spark翻译自：https://deeplearning4j.org/spark#localityDeep learning 是计算密集的，所以有非常大的数据，计算速度。你可以处理这个问题使用很快的硬件，通常是GPU,优化代码和一些形式的并行。数据并行性使大型数据集称为碎片并把这些碎片交给神经网络分离，比如每个神经网络都在自己的核心上。Deeple">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-04-24T08:12:25.000Z">
+<meta property="og:updated_time" content="2018-10-13T15:00:59.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eden">
-<meta name="twitter:description" content="#Deep Learning on Apache Spark翻译自：https://deeplearning4j.org/spark#localityDeep learning 是计算密集的，所以有非常大的数据，计算速度。你可以处理这个问题使用很快的硬件，通常是GPU,优化代码和一些形式的并行。数据并行性使大型数据集称为碎片并把这些碎片交给神经网络分离，比如每个神经网络都在自己的核心上。Deepl">
+<meta name="twitter:title" content="Deep Learning on Apache Spark 翻译">
+<meta name="twitter:description" content="Deep Learning on Apache Spark翻译自：https://deeplearning4j.org/spark#localityDeep learning 是计算密集的，所以有非常大的数据，计算速度。你可以处理这个问题使用很快的硬件，通常是GPU,优化代码和一些形式的并行。数据并行性使大型数据集称为碎片并把这些碎片交给神经网络分离，比如每个神经网络都在自己的核心上。Deeple">
   
     <link rel="alternate" href="/atom.xml" title="Eden" type="application/atom+xml">
   
@@ -74,10 +75,20 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Deep Learning on Apache Spark 翻译
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#Deep Learning on Apache Spark<br>翻译自：<a href="https://deeplearning4j.org/spark#locality" target="_blank" rel="noopener">https://deeplearning4j.org/spark#locality</a><br>Deep learning 是计算密集的，所以有非常大的数据，计算速度。你可以处理这个问题使用很快的硬件，通常是GPU,优化代码和一些形式的并行。<br>数据并行性使大型数据集称为碎片并把这些碎片交给神经网络分离，比如每个神经网络都在自己的核心上。Deeplearning4j依靠spark来处理这些，并发训练模型并且迭代平均它们在中心模型所产生的参数。（模型并发，在<a href="https://static.googleusercontent.com/media/research.google.com/en//archive/large_deep_networks_nips2012.pdf" target="_blank" rel="noopener">here</a>被讨论了，允许使用模型在不同的大数据集上使用而无需被平均）<br>注意如果你需要一个参数服务器基础的方法（需要更多的步骤），可以查看<a href="https://deeplearning4j.org/distributed" target="_blank" rel="noopener">分发页面</a>.</p>
-<p>##Overview 概述<br>Deeplearning4j支持在Spark集群上训练神经网络，为了加速网络训练。<br>和DL4J的MultiLayerNetwork和ComputationGraph类相同，DL4J定义了两个类用于在Spark上训练神经网络。  </p>
+        <h1 id="Deep-Learning-on-Apache-Spark"><a href="#Deep-Learning-on-Apache-Spark" class="headerlink" title="Deep Learning on Apache Spark"></a>Deep Learning on Apache Spark</h1><p>翻译自：<a href="https://deeplearning4j.org/spark#locality" target="_blank" rel="noopener">https://deeplearning4j.org/spark#locality</a><br>Deep learning 是计算密集的，所以有非常大的数据，计算速度。你可以处理这个问题使用很快的硬件，通常是GPU,优化代码和一些形式的并行。<br>数据并行性使大型数据集称为碎片并把这些碎片交给神经网络分离，比如每个神经网络都在自己的核心上。Deeplearning4j依靠spark来处理这些，并发训练模型并且迭代平均它们在中心模型所产生的参数。（模型并发，在<a href="https://static.googleusercontent.com/media/research.google.com/en//archive/large_deep_networks_nips2012.pdf" target="_blank" rel="noopener">here</a>被讨论了，允许使用模型在不同的大数据集上使用而无需被平均）<br>注意如果你需要一个参数服务器基础的方法（需要更多的步骤），可以查看<a href="https://deeplearning4j.org/distributed" target="_blank" rel="noopener">分发页面</a>.</p>
+<h2 id="Overview-概述"><a href="#Overview-概述" class="headerlink" title="Overview 概述"></a>Overview 概述</h2><p>Deeplearning4j支持在Spark集群上训练神经网络，为了加速网络训练。<br>和DL4J的MultiLayerNetwork和ComputationGraph类相同，DL4J定义了两个类用于在Spark上训练神经网络。  </p>
 <ol>
 <li>SparkDl4jMultiLayer 一个围绕MultiLayerNetwork的包装类</li>
 <li>SparkComputationGraph 一个围绕ComputationGraph的包装类</li>
@@ -96,7 +107,7 @@
 <li>对于一个单机CPU/GPU系统，使用标准的MultiLayerNetwork或者ComputationGraph训练。  </li>
 <li>对于多个CPU／GPU系统，使用ParallelWrapper. 这个功能上等于运行spark在本地模式，尽管有更低的开销（从而有更好的训练表现）。</li>
 </ol>
-<p>##How Distributed Network Training Occurs with DL4J on Spark<br>分布式神经网络是如何在DL4J上训练的<br>当前的DL4J版本使用的参数平均的过程在训练一个网络的时候。未来的版本可能会加入其他分布式网络训练方法。<br>The process of training a network using parameter averaging is conceptually quite simple:<br>训练一个网络使用参数平均的过程在概念上很简单： </p>
+<h2 id="How-Distributed-Network-Training-Occurs-with-DL4J-on-Spark"><a href="#How-Distributed-Network-Training-Occurs-with-DL4J-on-Spark" class="headerlink" title="How Distributed Network Training Occurs with DL4J on Spark"></a>How Distributed Network Training Occurs with DL4J on Spark</h2><p>分布式神经网络是如何在DL4J上训练的<br>当前的DL4J版本使用的参数平均的过程在训练一个网络的时候。未来的版本可能会加入其他分布式网络训练方法。<br>The process of training a network using parameter averaging is conceptually quite simple:<br>训练一个网络使用参数平均的过程在概念上很简单： </p>
 <ol>
 <li>Master（spark driven）开始一个初始化的网络配置和参数</li>
 <li>数据被切分为很多子集，基于TrainingMaster的配置</li>
@@ -104,9 +115,9 @@
 <li>训练结束，master有一个已经训练好的模型网络。  </li>
 </ol>
 <p>比如，下图展示了5个worker参数平均的过程一个每一个参数均衡频率是1.就像一个离线的训练，一个训练数据集被切割为一系列的数据子集（通常被认为是minibatch，在非分布式设置中）；在每一个split中训练过程，每一个worker获得这个切片的一个子集。在实际中，这个切片的个数是被自动决定的，基于训练配置（基于worker的数量，平均的频率和worker minibatch Size）。<br><a href="https://deeplearning4j.org/img/parameter_averaging.png" target="_blank" rel="noopener"></a></p>
-<p>##A Minimal Example<br>本节展示了你需要在spark上训练的要素的最小部分。关于加载数据的各种方法随后就来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">JavaSparkContext sc = ...;</span><br><span class="line">JavaRDD&lt;DataSet&gt; trainingData = ...;</span><br><span class="line">MultiLayerConfiguration networkConfig = ...;</span><br><span class="line"></span><br><span class="line">//Create the TrainingMaster instance</span><br><span class="line">int examplesPerDataSetObject = 1;</span><br><span class="line">TrainingMaster trainingMaster = new ParameterAveragingTrainingMaster.Builder(examplesPerDataSetObject)</span><br><span class="line">        .(other configuration options)</span><br><span class="line">        .build();</span><br><span class="line"></span><br><span class="line">//Create the SparkDl4jMultiLayer instance</span><br><span class="line">SparkDl4jMultiLayer sparkNetwork = new SparkDl4jMultiLayer(sc, networkConfig, trainingMaster);</span><br><span class="line"></span><br><span class="line">//Fit the network using the training data:</span><br><span class="line">sparkNetwork.fit(trainingData);</span><br></pre></td></tr></table></figure></p>
+<h2 id="A-Minimal-Example"><a href="#A-Minimal-Example" class="headerlink" title="A Minimal Example"></a>A Minimal Example</h2><p>本节展示了你需要在spark上训练的要素的最小部分。关于加载数据的各种方法随后就来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">JavaSparkContext sc = ...;</span><br><span class="line">JavaRDD&lt;DataSet&gt; trainingData = ...;</span><br><span class="line">MultiLayerConfiguration networkConfig = ...;</span><br><span class="line"></span><br><span class="line">//Create the TrainingMaster instance</span><br><span class="line">int examplesPerDataSetObject = 1;</span><br><span class="line">TrainingMaster trainingMaster = new ParameterAveragingTrainingMaster.Builder(examplesPerDataSetObject)</span><br><span class="line">        .(other configuration options)</span><br><span class="line">        .build();</span><br><span class="line"></span><br><span class="line">//Create the SparkDl4jMultiLayer instance</span><br><span class="line">SparkDl4jMultiLayer sparkNetwork = new SparkDl4jMultiLayer(sc, networkConfig, trainingMaster);</span><br><span class="line"></span><br><span class="line">//Fit the network using the training data:</span><br><span class="line">sparkNetwork.fit(trainingData);</span><br></pre></td></tr></table></figure></p>
 <p>##Using the output from SparkDl4jMultiLayer/ComputationGraph<br>由于spark网络作为一个wrapper围绕multi layer 网络和computation graph apis，你需要最终需要从spark神经网络中获取network在训练结束之后。其原因是由于数据平行训练实际上是在训练期间一次对多个网络进行平均。这意味着这里没有一个网络直到你获得了最后的平均参数在多个worker上积累的集合的输出。<br>了解了这些，我们应该获取底层的引用不论在SparkComputationGraph和SparkDl4jMultiLayer上都使用getNetwork方法。<br>你将会注意到合适的输出将会直接返回相同的底层的网络。在这种情况下， 你可以直接使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">JavaSparkContext sc = ...;</span><br><span class="line">JavaRDD&lt;DataSet&gt; trainingData = ...;</span><br><span class="line">MultiLayerConfiguration networkConfig = ...;</span><br><span class="line"></span><br><span class="line">//Create the TrainingMaster instance</span><br><span class="line">int examplesPerDataSetObject = 1;</span><br><span class="line">TrainingMaster trainingMaster = new ParameterAveragingTrainingMaster.Builder(examplesPerDataSetObject)</span><br><span class="line">        .(other configuration options)</span><br><span class="line">        .build();</span><br><span class="line"></span><br><span class="line">//Create the SparkDl4jMultiLayer instance</span><br><span class="line">SparkDl4jMultiLayer sparkNetwork = new SparkDl4jMultiLayer(sc, networkConfig, trainingMaster);</span><br><span class="line"></span><br><span class="line">//Fit the network using the training data:</span><br><span class="line">MultiLayerNetwork outputNetwork = sparkNetwork.fit(trainingData);</span><br></pre></td></tr></table></figure></p>
-<p>##Configuring the TrainingMaster<br>一个在DL4J中的TrainingMaster是一个接口允许多个不同的训练实现在SparkDl4jMultiLayer和SparkComputationGraph使用。<br>目前DL4J有一个实现，ParameterAveragingTrainingMaster。这个参数平均的过程在上面图片中展示了。为了创造一个，使用以下的构建模式：  </p>
+<h2 id="Configuring-the-TrainingMaster"><a href="#Configuring-the-TrainingMaster" class="headerlink" title="Configuring the TrainingMaster"></a>Configuring the TrainingMaster</h2><p>一个在DL4J中的TrainingMaster是一个接口允许多个不同的训练实现在SparkDl4jMultiLayer和SparkComputationGraph使用。<br>目前DL4J有一个实现，ParameterAveragingTrainingMaster。这个参数平均的过程在上面图片中展示了。为了创造一个，使用以下的构建模式：  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TrainingMaster tm = new ParameterAveragingTrainingMaster.Builder(int dataSetObjectSize)</span><br><span class="line">            ... (your configuration here)</span><br><span class="line">            .build();</span><br></pre></td></tr></table></figure>
 <p>这个ParameterAveragingTrainingMaster定义了很多的参数选项用于控制训练的执行：  </p>
 <p><em>dataSetObjectSize：</em>必须值。这个在build构造函数中知名。这个值指明了有多少的列子在每一个数据集对象中。作为一个通用的规则：<br>    如果你在训练一个预处理过的数据集对象，这个将会是这个预处理的数据集的大小<br>    如果你是直接从string中进行训练，比如CSV数据经过一定的步骤后到一个RDD<dataset>那么这个将会是1.<br><em>batchSizePerWorker：</em>这个控制了每一个worker的minibatch 大小。这个和淡季训练的时候使用minibatch size有些类型。换一种方式来说：这个是对每一个参数进行更新所需要的例子数量在每一个worker中。<br><em>averagingFrequency：</em>这个控制了参数平均和重新分发的频率，根据大小为batchSizePerWorker的minibatches数量计算，通常：<br>    低平均周期（比如，averagingFrequency = 1）也许不太有效率（太多的网络通信和初始化开销，相对于计算来说。）<br>    大平均周期（比如，averagingFrequency = 200）可能会导致低性能（不同的worker实例中的参数也许会有很大的差异）<br>    Averaging periods 在5-10个minibatches也许是一个安全的选择。</dataset></p>
@@ -115,9 +126,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/15/Deep Learning on Apache Spark/" data-id="cjn7kdbdi0000g2rrxwy2dkbo" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/15/Deep Learning on Apache Spark/" data-id="cjn7kqa0p0001nkrrlcl9at1v" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li></ul>
+
     </footer>
   </div>
   
@@ -128,15 +141,15 @@
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          (no title)
+          Distributed Training_Gradients Sharing 翻译
         
       </div>
     </a>
   
   
-    <a href="/2018/04/11/Hadoop & Spark/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/04/04/RDDSpark/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title"></div>
+      <div class="article-nav-title">RDD Programming Guide 翻译</div>
     </a>
   
 </nav>
@@ -155,7 +168,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
     </div>
   </div>
 
@@ -165,7 +178,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a>
+      <a href="/tags/deeplearning4j-spark/" style="font-size: 10px;">deeplearning4j; spark</a> <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a>
     </div>
   </div>
 
@@ -174,7 +187,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
     </div>
   </div>
 
@@ -195,15 +208,15 @@
           </li>
         
           <li>
-            <a href="/2018/04/23/Shuffle_翻译自spark_programming_guideline/">(no title)</a>
+            <a href="/2018/04/23/Shuffle_翻译自spark_programming_guideline/">Spark Programming--- Shuffle Operations 翻译</a>
           </li>
         
           <li>
-            <a href="/2018/04/20/Distributed Training- Gradients Sharing/">(no title)</a>
+            <a href="/2018/04/20/Distributed Training- Gradients Sharing/">Distributed Training_Gradients Sharing 翻译</a>
           </li>
         
           <li>
-            <a href="/2018/04/15/Deep Learning on Apache Spark/">(no title)</a>
+            <a href="/2018/04/15/Deep Learning on Apache Spark/">Deep Learning on Apache Spark 翻译</a>
           </li>
         
       </ul>

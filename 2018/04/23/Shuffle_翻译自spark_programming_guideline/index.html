@@ -5,19 +5,19 @@
   
 
   
-  <title>Eden</title>
+  <title>Spark Programming--- Shuffle Operations 翻译 | Eden</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="#Spark Programming— Shuffle operationshttp://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations 一些spark的特定操作将会触发被称为shuffle的事件。Shuffle是Spark用于重新分布数据的机制，这样可以在不同的分区来分组。这通常涉及到在exec">
+  <meta name="description" content="Spark Programming— Shuffle operationsoriginal: http://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations 一些spark的特定操作将会触发被称为shuffle的事件。Shuffle是Spark用于重新分布数据的机制，这样可以在不同的分区来分组。这通">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Eden">
+<meta property="og:title" content="Spark Programming--- Shuffle Operations 翻译">
 <meta property="og:url" content="http://blog.sevenpan.com/2018/04/23/Shuffle_翻译自spark_programming_guideline/index.html">
 <meta property="og:site_name" content="Eden">
-<meta property="og:description" content="#Spark Programming— Shuffle operationshttp://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations 一些spark的特定操作将会触发被称为shuffle的事件。Shuffle是Spark用于重新分布数据的机制，这样可以在不同的分区来分组。这通常涉及到在exec">
+<meta property="og:description" content="Spark Programming— Shuffle operationsoriginal: http://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations 一些spark的特定操作将会触发被称为shuffle的事件。Shuffle是Spark用于重新分布数据的机制，这样可以在不同的分区来分组。这通">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-04-23T10:17:06.000Z">
+<meta property="og:updated_time" content="2018-10-13T15:05:19.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eden">
-<meta name="twitter:description" content="#Spark Programming— Shuffle operationshttp://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations 一些spark的特定操作将会触发被称为shuffle的事件。Shuffle是Spark用于重新分布数据的机制，这样可以在不同的分区来分组。这通常涉及到在exec">
+<meta name="twitter:title" content="Spark Programming--- Shuffle Operations 翻译">
+<meta name="twitter:description" content="Spark Programming— Shuffle operationsoriginal: http://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations 一些spark的特定操作将会触发被称为shuffle的事件。Shuffle是Spark用于重新分布数据的机制，这样可以在不同的分区来分组。这通">
   
     <link rel="alternate" href="/atom.xml" title="Eden" type="application/atom+xml">
   
@@ -74,18 +74,28 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Spark Programming--- Shuffle Operations 翻译
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#Spark Programming— Shuffle operations<br><a href="http://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations" target="_blank" rel="noopener">http://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations</a></p>
+        <h1 id="Spark-Programming—-Shuffle-operations"><a href="#Spark-Programming—-Shuffle-operations" class="headerlink" title="Spark Programming— Shuffle operations"></a>Spark Programming— Shuffle operations</h1><p>original: <a href="http://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations" target="_blank" rel="noopener">http://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations</a></p>
 <p>一些spark的特定操作将会触发被称为shuffle的事件。Shuffle是Spark用于重新分布数据的机制，这样可以在不同的分区来分组。这通常涉及到在executor和机器之间进行拷贝数据，所以shuffle是一个很复杂并且消耗高的操作。  </p>
-<p>##背景<br>为了了解shuffle期间发生了什么，我们可以考虑reduceByKey操作作为例子。reduceByKey操作生成了一个新的RDD通过所有的单个键值组合为一个元组-关键字和针对与该关键字相关的所有值执行reduce函数的结果。这里的挑战不是所有的值对一个单独的键都在同一个分区上或者甚至说在一台机器上，而是它们必须被重新分布来计算结果。<br>在Spark，数据通常不会跨分区分布到特定操作的必要位置。在计算中，一个单独的任务将会在一个单独的分区上操作-然而为了组织所有的数据来被一个的单独reduceByKey 的reduce任务来执行，Spark需要来执行一个all-to-all操作。它必须读取所有分区来找到所有键的值，然后将它们带到一起跨分区来为每一个键计算最终的结果—这个被称为shuffle。<br>尽管在每一个分区中的新的shuffled数据的元素集是很重要的，同样分区自己的顺序也很重要，而元素之间的顺序就不是了。如果一个想要预测shuffle中的顺序数据那么可以使用：  </p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>为了了解shuffle期间发生了什么，我们可以考虑reduceByKey操作作为例子。reduceByKey操作生成了一个新的RDD通过所有的单个键值组合为一个元组-关键字和针对与该关键字相关的所有值执行reduce函数的结果。这里的挑战不是所有的值对一个单独的键都在同一个分区上或者甚至说在一台机器上，而是它们必须被重新分布来计算结果。<br>在Spark，数据通常不会跨分区分布到特定操作的必要位置。在计算中，一个单独的任务将会在一个单独的分区上操作-然而为了组织所有的数据来被一个的单独reduceByKey 的reduce任务来执行，Spark需要来执行一个all-to-all操作。它必须读取所有分区来找到所有键的值，然后将它们带到一起跨分区来为每一个键计算最终的结果—这个被称为shuffle。<br>尽管在每一个分区中的新的shuffled数据的元素集是很重要的，同样分区自己的顺序也很重要，而元素之间的顺序就不是了。如果一个想要预测shuffle中的顺序数据那么可以使用：  </p>
 <ol>
 <li>mapPartitions 来排序每一个分区，比如，.sorted</li>
 <li>repartitionAndSortWithinPartitions 来有效分区同时同步重新分区。  </li>
 <li>sortBy 创造一个全局的排序的RDD</li>
 </ol>
 <p>可以引起一个shuffle 的操作包括：repartition 和 coalesce,ByKey的操作，除了counting之外的比如：groupByKey 和reduceByKey,以及join操作比如cogroup 和 join。</p>
-<p>##性能影响<br>Shuffle是一个昂贵的操作因为它涉及到磁盘I/O，数据序列化和网络I/O。为了给shuffle组织数据，spark生成一系列任务-maps用于组织数据，以及一系列reduce任务来聚集它。这个命名系统来自于MapReduce而且并不直接和SparK的map，reduce操作有关。<br>在内部，单独的map任务的结果会被保存在内存中直到它们不适用。然后这些结果会被根据目标分区排序并且写向单一的文件。在reduce方面，任务读取相关的排序块。<br>一定的shuffle操作会消耗明显的数量的堆内存因为它们使用的是在内存中的数据结构来组织记录在传输之前或者之后。明显的，reduceByKey和AggregateByKey创造了这些结构在map阶段，以及 ‘Bykey的操作生成了它们在reduce阶段。当数据不能放进内存中时，Spark将会将这些表散落到硬盘中，会引起而外的磁盘I/O和增加垃圾回收次数。<br>Shuffle同样会生成大量的中间文件在磁盘中。从Spark1.3开始，这些文件被保存直到对应的RDDs不再被使用以及已经被垃圾回收了。这样做是为了shuffle文件不需要被重新创造如果lineage被重新计算时。垃圾回收也许会发生只有在一段很长时间，如果这个应用保留了对RDD的引用或者如果GC没有频繁的发生。这意味着长期运行的spark任务也许会消耗大量的磁盘空间。这个零时的磁盘目录会被spark.local.dir参数所指定。<br>Shuffle行为可以被调整通过一系列的参数。可以参考<a href="http://spark.apache.org/docs/latest/configuration.html#shuffle-behavior" target="_blank" rel="noopener"> Spark Configuration Guide.</a>‘Shuffle Behavior’章节。</p>
+<h2 id="性能影响"><a href="#性能影响" class="headerlink" title="性能影响"></a>性能影响</h2><p>Shuffle是一个昂贵的操作因为它涉及到磁盘I/O，数据序列化和网络I/O。为了给shuffle组织数据，spark生成一系列任务-maps用于组织数据，以及一系列reduce任务来聚集它。这个命名系统来自于MapReduce而且并不直接和SparK的map，reduce操作有关。<br>在内部，单独的map任务的结果会被保存在内存中直到它们不适用。然后这些结果会被根据目标分区排序并且写向单一的文件。在reduce方面，任务读取相关的排序块。<br>一定的shuffle操作会消耗明显的数量的堆内存因为它们使用的是在内存中的数据结构来组织记录在传输之前或者之后。明显的，reduceByKey和AggregateByKey创造了这些结构在map阶段，以及 ‘Bykey的操作生成了它们在reduce阶段。当数据不能放进内存中时，Spark将会将这些表散落到硬盘中，会引起而外的磁盘I/O和增加垃圾回收次数。<br>Shuffle同样会生成大量的中间文件在磁盘中。从Spark1.3开始，这些文件被保存直到对应的RDDs不再被使用以及已经被垃圾回收了。这样做是为了shuffle文件不需要被重新创造如果lineage被重新计算时。垃圾回收也许会发生只有在一段很长时间，如果这个应用保留了对RDD的引用或者如果GC没有频繁的发生。这意味着长期运行的spark任务也许会消耗大量的磁盘空间。这个零时的磁盘目录会被spark.local.dir参数所指定。<br>Shuffle行为可以被调整通过一系列的参数。可以参考<a href="http://spark.apache.org/docs/latest/configuration.html#shuffle-behavior" target="_blank" rel="noopener"> Spark Configuration Guide.</a>‘Shuffle Behavior’章节。</p>
 <h2 id="Shuffle-Behavior"><a href="#Shuffle-Behavior" class="headerlink" title="Shuffle Behavior"></a>Shuffle Behavior</h2><table>
 <thead>
 <tr>
@@ -233,7 +243,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/23/Shuffle_翻译自spark_programming_guideline/" data-id="cjn7kdbdt0006g2rrxugfm2lr" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/23/Shuffle_翻译自spark_programming_guideline/" data-id="cjn7kqa0r0002nkrr8d4zomqg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -254,7 +264,7 @@
   
     <a href="/2018/04/20/Distributed Training- Gradients Sharing/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title"></div>
+      <div class="article-nav-title">Distributed Training_Gradients Sharing 翻译</div>
     </a>
   
 </nav>
@@ -273,7 +283,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
     </div>
   </div>
 
@@ -283,7 +293,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a>
+      <a href="/tags/deeplearning4j-spark/" style="font-size: 10px;">deeplearning4j; spark</a> <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a>
     </div>
   </div>
 
@@ -292,7 +302,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
     </div>
   </div>
 
@@ -313,15 +323,15 @@
           </li>
         
           <li>
-            <a href="/2018/04/23/Shuffle_翻译自spark_programming_guideline/">(no title)</a>
+            <a href="/2018/04/23/Shuffle_翻译自spark_programming_guideline/">Spark Programming--- Shuffle Operations 翻译</a>
           </li>
         
           <li>
-            <a href="/2018/04/20/Distributed Training- Gradients Sharing/">(no title)</a>
+            <a href="/2018/04/20/Distributed Training- Gradients Sharing/">Distributed Training_Gradients Sharing 翻译</a>
           </li>
         
           <li>
-            <a href="/2018/04/15/Deep Learning on Apache Spark/">(no title)</a>
+            <a href="/2018/04/15/Deep Learning on Apache Spark/">Deep Learning on Apache Spark 翻译</a>
           </li>
         
       </ul>
