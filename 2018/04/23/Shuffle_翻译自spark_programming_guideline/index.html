@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Eden</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="#Spark Programming— Shuffle operationshttp://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations 一些spark的特定操作将会触发被称为shuffle的事件。Shuffle是Spark用于重新分布数据的机制，这样可以在不同的分区来分组。这通常涉及到在exec">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eden">
+<meta property="og:url" content="http://blog.sevenpan.com/2018/04/23/Shuffle_翻译自spark_programming_guideline/index.html">
+<meta property="og:site_name" content="Eden">
+<meta property="og:description" content="#Spark Programming— Shuffle operationshttp://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations 一些spark的特定操作将会触发被称为shuffle的事件。Shuffle是Spark用于重新分布数据的机制，这样可以在不同的分区来分组。这通常涉及到在exec">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-04-23T10:17:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Eden">
+<meta name="twitter:description" content="#Spark Programming— Shuffle operationshttp://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations 一些spark的特定操作将会触发被称为shuffle的事件。Shuffle是Spark用于重新分布数据的机制，这样可以在不同的分区来分组。这通常涉及到在exec">
+  
+    <link rel="alternate" href="/atom.xml" title="Eden" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Eden</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.sevenpan.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Shuffle_翻译自spark_programming_guideline" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/04/23/Shuffle_翻译自spark_programming_guideline/" class="article-date">
+  <time datetime="2018-04-23T10:17:04.000Z" itemprop="datePublished">2018-04-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#Spark Programming— Shuffle operations<br><a href="http://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations" target="_blank" rel="noopener">http://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations</a></p>
+<p>一些spark的特定操作将会触发被称为shuffle的事件。Shuffle是Spark用于重新分布数据的机制，这样可以在不同的分区来分组。这通常涉及到在executor和机器之间进行拷贝数据，所以shuffle是一个很复杂并且消耗高的操作。  </p>
+<p>##背景<br>为了了解shuffle期间发生了什么，我们可以考虑reduceByKey操作作为例子。reduceByKey操作生成了一个新的RDD通过所有的单个键值组合为一个元组-关键字和针对与该关键字相关的所有值执行reduce函数的结果。这里的挑战不是所有的值对一个单独的键都在同一个分区上或者甚至说在一台机器上，而是它们必须被重新分布来计算结果。<br>在Spark，数据通常不会跨分区分布到特定操作的必要位置。在计算中，一个单独的任务将会在一个单独的分区上操作-然而为了组织所有的数据来被一个的单独reduceByKey 的reduce任务来执行，Spark需要来执行一个all-to-all操作。它必须读取所有分区来找到所有键的值，然后将它们带到一起跨分区来为每一个键计算最终的结果—这个被称为shuffle。<br>尽管在每一个分区中的新的shuffled数据的元素集是很重要的，同样分区自己的顺序也很重要，而元素之间的顺序就不是了。如果一个想要预测shuffle中的顺序数据那么可以使用：  </p>
+<ol>
+<li>mapPartitions 来排序每一个分区，比如，.sorted</li>
+<li>repartitionAndSortWithinPartitions 来有效分区同时同步重新分区。  </li>
+<li>sortBy 创造一个全局的排序的RDD</li>
+</ol>
+<p>可以引起一个shuffle 的操作包括：repartition 和 coalesce,ByKey的操作，除了counting之外的比如：groupByKey 和reduceByKey,以及join操作比如cogroup 和 join。</p>
+<p>##性能影响<br>Shuffle是一个昂贵的操作因为它涉及到磁盘I/O，数据序列化和网络I/O。为了给shuffle组织数据，spark生成一系列任务-maps用于组织数据，以及一系列reduce任务来聚集它。这个命名系统来自于MapReduce而且并不直接和SparK的map，reduce操作有关。<br>在内部，单独的map任务的结果会被保存在内存中直到它们不适用。然后这些结果会被根据目标分区排序并且写向单一的文件。在reduce方面，任务读取相关的排序块。<br>一定的shuffle操作会消耗明显的数量的堆内存因为它们使用的是在内存中的数据结构来组织记录在传输之前或者之后。明显的，reduceByKey和AggregateByKey创造了这些结构在map阶段，以及 ‘Bykey的操作生成了它们在reduce阶段。当数据不能放进内存中时，Spark将会将这些表散落到硬盘中，会引起而外的磁盘I/O和增加垃圾回收次数。<br>Shuffle同样会生成大量的中间文件在磁盘中。从Spark1.3开始，这些文件被保存直到对应的RDDs不再被使用以及已经被垃圾回收了。这样做是为了shuffle文件不需要被重新创造如果lineage被重新计算时。垃圾回收也许会发生只有在一段很长时间，如果这个应用保留了对RDD的引用或者如果GC没有频繁的发生。这意味着长期运行的spark任务也许会消耗大量的磁盘空间。这个零时的磁盘目录会被spark.local.dir参数所指定。<br>Shuffle行为可以被调整通过一系列的参数。可以参考<a href="http://spark.apache.org/docs/latest/configuration.html#shuffle-behavior" target="_blank" rel="noopener"> Spark Configuration Guide.</a>‘Shuffle Behavior’章节。</p>
+<h2 id="Shuffle-Behavior"><a href="#Shuffle-Behavior" class="headerlink" title="Shuffle Behavior"></a>Shuffle Behavior</h2><table>
+<thead>
+<tr>
+<th>属性名称Property Name</th>
+<th>默认值Default</th>
+<th>含义Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>spark.reducer.maxSizeInFlight</td>
+<td>48m</td>
+<td>从每一个reduce任务中同步获取的map输出的最大值。由于每一个输出需要我们创造一个缓存来接受它，这个代表了每个任务的固定的内存开销，所以尽量保证它较小除非你有很多内存。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.reducer.maxReqsInFlight</td>
+<td>Int.MaxValue</td>
+<td>这个配置限制了任意给定点远程请求获取块数。当集群中的主机数量增加的时候，它也许会导致一个非常大数量的内部连接到一到多个节点，引起worker在负载下失败。通过允许它来限制获取请求的数量，这个情况也许会缓解</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.reducer.maxBlocksInFlightPerAddress</td>
+<td>Int.MaxValue</td>
+<td>这个配置限制了每一个从给定端口里的的reduce任务可以获取的远程端口数量。当一个大量的block被一个给定的地址在一次单独获取或者同步获取所请求时，可能会冲垮服务的executor或者Node Manager。这个配置对于减少Node Manager的负载尤为有用当外部的shuffle是被允许的。你可以通过设定一个较低值来减轻这个情况。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.maxRemoteBlockSizeFetchToMem</td>
+<td>Long.MaxValue</td>
+<td>远程的块将会被获取到磁盘中，当这个块的大小超过了这个配置的值在byte单位上。这个用于避免一个巨大的请求占据了太多的内存。我们可以将这个配置为一个指定的值（比如，200M）。注意到这个配置将会影响到shuffle的获取以及远程块获取的块管理。对于允许了外部shuffle服务的用户，这个特性只会在外部shuffle服务版本高于Spark2。2时有效。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.compress</td>
+<td>true</td>
+<td>是否压缩map的输出文件，通常是一个好想法。压缩将会使用spark.io.compression.codec.</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.file.buffer</td>
+<td>32k</td>
+<td>对每一个shuffle文件输出流的在内存中的缓存大小，单位是KiB除非有其他的特别指定。这些缓存减少了硬盘查找和系统调用创建中间shuffle文件的过程。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.io.maxRetries</td>
+<td>3</td>
+<td>(Netty only)最大自动重复尝试的次数如果这个值没有被设置为0.这个重试逻辑有助于稳定大型的shuffle在长时间的GC暂停或者暂时的网络连接问题上。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.io.numConnectionsPerPeer</td>
+<td>1</td>
+<td>(Netty only) 节点之间的连接的重复使用为了减少大型集群中重复建立连接的情况。对于有很多硬盘和很少主机的集群，这个将会导致并发行不足以饱和所有硬盘，因此用户可能会考虑增加这个值。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.io.preferDirectBufs</td>
+<td>true</td>
+<td>(Netty only) 堆外缓冲区在shuffle和缓存块转移期间被用于减少垃圾回收。对于对外缓存内存数量有限的环境，用户也许想要关掉这个来强迫所有的来自于Netty的分配都是在堆上。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.io.retryWait</td>
+<td>5s</td>
+<td>(Netty only) 在每一次重试直接需要等待多久。最大的延迟时间默认是15秒，maxRetries * retryWait.</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.service.enabled</td>
+<td>false</td>
+<td>允许外部shuffle服务。这个服务保存了通过executor所写的shuffle文件，这样这个executor可以安全的被移除。这个配置必须被允许如果spark.dynamicAllocation.enabled是“true”。这个外部的shuffle服务必须被启动。查看<a href="http://spark.apache.org/docs/latest/job-scheduling.html#configuration-and-setup" target="_blank" rel="noopener">dynamic allocation configuration and setup documentation </a>来获得更多信息。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.service.port</td>
+<td>7337</td>
+<td>外部shuffle服务将会运行的端口。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.service.index.cache.size</td>
+<td>100m</td>
+<td>缓存条目限制在指定的内存占用空间中，以字节为单位</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.maxChunksBeingTransferred</td>
+<td>Long.MAX_VALUE</td>
+<td>在shuffle服务中同一时间最大允许传输的块数量。注意到新来的连接将会被关闭如果达到了最大数量。这个客户端将会尝试重新连接根据shuffle的重试配置（see spark.shuffle.io.maxRetries and spark.shuffle.io.retryWait），如果这个限制也被达到了，那么这个任务将会失败。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.sort.bypassMergeThreshold</td>
+<td>200</td>
+<td>(Advanced)在基于排序的shuffle管理中，避免合并排序数据如果这里没有map-side的聚合和这里最多有配置的这么多的reduce分区。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.spill.compress</td>
+<td>true</td>
+<td>是否压缩溢出的数据在shuffle期间</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.accurateBlockThreshold</td>
+<td>100 <em> 1024 </em> 1024</td>
+<td>阀值是以bytes为单位，高于此值将准确记录HighlyCompressedMapStatus中的shuffle块的大小。这个用于帮助阻止OOM通过避免错误估计了shuffle块大小当获取了shuffle块时。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.registration.timeout</td>
+<td>5000</td>
+<td>注册外部shuffle服务的超时时间，单位是毫秒</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.registration.maxAttempts</td>
+<td>3</td>
+<td>当注册外部shuffle服务失败的时候，我们会重复尝试的最大次数</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.io.encryption.enabled</td>
+<td>false</td>
+<td>允许IO编码。目前支持所有的模式除了Mesos。当使用这个特性的时候，我们推荐RPC编码。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.io.encryption.keySizeBits</td>
+<td>128</td>
+<td>IO编码的值大小单位为bit。支持的值有128，192和256.</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.io.encryption.keygen.algorithm</td>
+<td>HmacSHA1</td>
+<td>当生成一个IO编码键值时使用的算法。被支持的算法在Java Cryptography Architecture Standard Algorithm Name 文档的KeyGenerator章节中被描述。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sevenpan.com/2018/04/23/Shuffle_翻译自spark_programming_guideline/" data-id="cjn7kdbdt0006g2rrxugfm2lr" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/13/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/20/Distributed Training- Gradients Sharing/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/10/13/hexoWithGit/">Hexo With Git</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/13/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/23/Shuffle_翻译自spark_programming_guideline/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/20/Distributed Training- Gradients Sharing/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/15/Deep Learning on Apache Spark/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Pan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

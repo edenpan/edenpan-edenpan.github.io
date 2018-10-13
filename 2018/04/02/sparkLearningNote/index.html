@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Eden</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="#Some terms with Sparkhttps://spark.apache.org/docs/latest/cluster-overview.html excutorA process launched for an application on a worker node, that runs tasks and keeps data in memory or disk storage">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eden">
+<meta property="og:url" content="http://blog.sevenpan.com/2018/04/02/sparkLearningNote/index.html">
+<meta property="og:site_name" content="Eden">
+<meta property="og:description" content="#Some terms with Sparkhttps://spark.apache.org/docs/latest/cluster-overview.html excutorA process launched for an application on a worker node, that runs tasks and keeps data in memory or disk storage">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-04-02T14:34:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Eden">
+<meta name="twitter:description" content="#Some terms with Sparkhttps://spark.apache.org/docs/latest/cluster-overview.html excutorA process launched for an application on a worker node, that runs tasks and keeps data in memory or disk storage">
+  
+    <link rel="alternate" href="/atom.xml" title="Eden" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Eden</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.sevenpan.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-sparkLearningNote" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/04/02/sparkLearningNote/" class="article-date">
+  <time datetime="2018-04-02T13:57:35.000Z" itemprop="datePublished">2018-04-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#Some terms with Spark<br><a href="https://spark.apache.org/docs/latest/cluster-overview.html" target="_blank" rel="noopener">https://spark.apache.org/docs/latest/cluster-overview.html</a></p>
+<h3 id="excutor"><a href="#excutor" class="headerlink" title="excutor"></a>excutor</h3><p>A process launched for an application on a worker node, that runs tasks and keeps data in memory or disk storage across them. Each application has its own executors.<br>在一个工作节点运行的一个进程，用来运行任务，保存数据在内存或者硬盘中。每一个应用有自己的executors。</p>
+<p>###Application<br>User program built on Spark. Consists of a driver program and executors on the cluster.<br>在Spark上的用户程序。有一个驱动程序和executor在集群中组成。  </p>
+<p>###Application jar<br>A jar containing the user’s Spark application. In some cases users will want to create an “uber jar” containing their application along with its dependencies. The user’s jar should never include Hadoop or Spark libraries, however, these will be added at runtime.  </p>
+<p><b>一个包含了用户spark应用的程序。在有的地方用户将会创造一个“混合jar”将她们的应用和依赖一起包含。这个用户的jar不应该包含hadoop或者spark的包，它们将会在运行时被添加。 ？？？ 这段没看懂</b></p>
+<h3 id="Driver-program"><a href="#Driver-program" class="headerlink" title="Driver program"></a>Driver program</h3><p>The process running the main() function of the application and creating the SparkContext<br>创造应用的main()函数并且创造SparkContext</p>
+<h3 id="Cluster-manager"><a href="#Cluster-manager" class="headerlink" title="Cluster manager"></a>Cluster manager</h3><p>An external service for acquiring resources on the cluster (e.g. standalone manager, Mesos, YARN)<br>一个外部的服务用于获取集群的资源。（比如standalone manager，Mesos， YARN）</p>
+<h3 id="Deploy-mode"><a href="#Deploy-mode" class="headerlink" title="Deploy mode"></a>Deploy mode</h3><p>Distinguishes where the driver process runs. In “cluster” mode, the framework launches the driver inside of the cluster. In “client” mode, the submitter launches the driver outside of the cluster.<br>区分驱动进程在哪运行。在“cluster”模式下，这个框架启动驱动在集群内部。在“client”模式下，submitter在集群外启动进程。  </p>
+<h3 id="Worker-node"><a href="#Worker-node" class="headerlink" title="Worker node"></a>Worker node</h3><p>Any node that can run application code in the cluster<br>在集群中任意节点可以运行应用代码。</p>
+<h3 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h3><p>A unit of work that will be sent to one executor<br>一组会被发送到一个executor的工作。</p>
+<h3 id="Job"><a href="#Job" class="headerlink" title="Job"></a>Job</h3><p>A parallel computation consisting of multiple tasks that gets spawned in response to a Spark action (e.g. save, collect); you’ll see this term used in the driver’s logs.<br>一个包含了多个任务的并行计算用来响应一个Spark action。</p>
+<h3 id="Stage"><a href="#Stage" class="headerlink" title="Stage"></a>Stage</h3><p>Each job gets divided into smaller sets of tasks called stages that depend on each other (similar to the map and reduce stages in MapReduce); you’ll see this term used in the driver’s logs.<br>每一个工作被分为很小的任务集被称为stages；你可以在driver的日志中看到它们。</p>
+<h2 id="组成部分"><a href="#组成部分" class="headerlink" title="组成部分"></a>组成部分</h2><p>Spark application是作为一个独立的进程集合在集群上运行，通过你的主程序（称为driver program）中的SparkContext来协调工作。<br>特别的，在集群上运行，SparkContext可以链接不同的集群管理（either Spark’s own standalone cluster manager, Mesos or YARN），用来在应用中分配资源。一旦连接，Spark获取集群中节点上的executors，是你应用中的进程用于计算和存储数据。下一步它会发送你的应用程序（通过JAR或者Python文件定义的传递给SparkContext）到executors。最终，SparkContext发送任务到exexutor来运行。<br>在这个架构中有以下一些事情需要注意：  </p>
+<ol>
+<li>每一个应用获取它自己的executor进程，那些进程会在整个应用中启动，并且运行任务在多个线程里。<br> 这有利于对每一个应用进行隔离，在调度方面（每一个驱动调度自己的任务）和执行方面（不同的应用在不同的JVM中运行）。这也意味着数据不能在不同的Spart 应用中共享（SparkContext的实例）除非将它们写到一个另外的存储系统中。</li>
+<li>Spark对于底层的集群管理是不可知的。只要它可以获取到处理器的进程，以及它们之间的通讯，它可以很容易的在支持其他的应用的集群管理器上运行。  </li>
+<li>Driver程序在它的生命周期必须监听并且从它的executor中接受会来的连接。所以driven程序必须网络可达对于worker节点。  </li>
+<li>由于driver 在集群中调度task，它应该在接近worker节点的地方运行，偏向于在同一个网络。如果你想要远程发送请求，那么最好对driver打开RPC并且从附近提交操作而不是运行一个很遥远的driver。  </li>
+</ol>
+<p><b>When running Spark on YARN, each Spark executor runs as a YARN container.<br>Where MapReduce schedules a container and starts a JVM for each task, Spark hosts multiple tasks within the same container.</b><br>所以executor就是对应的container，然后原来MapReduce是一个Container运行一个任务，Spark可以在一个Container中运行多任务。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sevenpan.com/2018/04/02/sparkLearningNote/" data-id="cjn7kdbdv0008g2rrfp95ozhn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/04/RDDSpark/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/02/LSTM/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/10/13/hexoWithGit/">Hexo With Git</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/13/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/23/Shuffle_翻译自spark_programming_guideline/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/20/Distributed Training- Gradients Sharing/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/15/Deep Learning on Apache Spark/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Pan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
