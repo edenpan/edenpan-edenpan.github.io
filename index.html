@@ -65,6 +65,107 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Somethings About Pyalgotrade" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/17/Somethings About Pyalgotrade/" class="article-date">
+  <time datetime="2018-10-17T05:27:39.000Z" itemprop="datePublished">2018-10-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Somethings-About-Pyalgotrade-The-optimizing"><a href="#Somethings-About-Pyalgotrade-The-optimizing" class="headerlink" title="Somethings About Pyalgotrade  - The optimizing"></a>Somethings About Pyalgotrade  - The optimizing</h1><p><a href="http://gbeced.github.io/pyalgotrade/docs/v0.20/html/tutorial.html#optimizing" target="_blank" rel="noopener">http://gbeced.github.io/pyalgotrade/docs/v0.20/html/tutorial.html#optimizing</a></p>
+<h2 id="The-optimizing"><a href="#The-optimizing" class="headerlink" title="The optimizing"></a>The optimizing</h2><p>优化，💡很简单：</p>
+<pre><code>一台server用于：
+    1. 提供bars用来运行策略
+    2. 提供参数用来运行策略
+    3. 记录每一个worker的运行策略的结果
+很多worker用来：
+    使用server提供的参数和数据来运行策略
+</code></pre><p>为了展示这个，我们将会使用一个称为RSI2的策略，该策略需要以下的参数：</p>
+<pre><code>一个SMA时间段用于区分趋势。我们将会将这个参数称为entrySMA，并且范围选取在150和250之间。  
+一个小一些的SMA时间段用于退出参数。我们称之为exitSMA，范围在5到15之间。  
+一个RSI时间段用于进入买或者卖，我们称之为rsiPeriod，范围在2到10之间。  
+一个RSI超卖阀值用于进入买入点位，我们称之为overSoldThreshold，并且范围在5和25之间。  
+一个RSI超买阀值用于进入卖出点位，我们称之为overBoughtThreshold，范围将在75和95之间。
+</code></pre><p><b>所以这里一共有：101 <em> 11 </em> 9 <em> 21 </em> 21 = 4409559</b><br>如果一个策略需要运行0.16秒，那么一共需要8.5天才能算出所有的策略。(4409559 <em> 0.16/3600/24 ～ 8.16 Days)<br>如果是利用上了10台八核的机器，时间将会缩短到2.5个小时。（4409559 </em> 0.16/3600/24/8/10 * 24(h) ~ 2.44 h) 所以我们需要并发。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">from pyalgotrade import strategy</span><br><span class="line">from pyalgotrade.technical import ma</span><br><span class="line">from pyalgotrade.technical import rsi</span><br><span class="line">from pyalgotrade.technical import cross</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class RSI2(strategy.BacktestingStrategy):</span><br><span class="line">    def __init__(self, feed, instrument, entrySMA, exitSMA, rsiPeriod, overBoughtThreshold, overSoldThreshold):</span><br><span class="line">        super(RSI2, self).__init__(feed)</span><br><span class="line">        self.__instrument = instrument</span><br><span class="line">        # We&apos;ll use adjusted close values, if available, instead of regular close values.</span><br><span class="line">        if feed.barsHaveAdjClose():</span><br><span class="line">            self.setUseAdjustedValues(True)</span><br><span class="line">        self.__priceDS = feed[instrument].getPriceDataSeries()</span><br><span class="line">        self.__entrySMA = ma.SMA(self.__priceDS, entrySMA)</span><br><span class="line">        self.__exitSMA = ma.SMA(self.__priceDS, exitSMA)</span><br><span class="line">        self.__rsi = rsi.RSI(self.__priceDS, rsiPeriod)</span><br><span class="line">        self.__overBoughtThreshold = overBoughtThreshold</span><br><span class="line">        self.__overSoldThreshold = overSoldThreshold</span><br><span class="line">        self.__longPos = None</span><br><span class="line">        self.__shortPos = None</span><br><span class="line"></span><br><span class="line">    def getEntrySMA(self):</span><br><span class="line">        return self.__entrySMA</span><br><span class="line"></span><br><span class="line">    def getExitSMA(self):</span><br><span class="line">        return self.__exitSMA</span><br><span class="line"></span><br><span class="line">    def getRSI(self):</span><br><span class="line">        return self.__rsi</span><br><span class="line"></span><br><span class="line">    def onEnterCanceled(self, position):</span><br><span class="line">        if self.__longPos == position:</span><br><span class="line">            self.__longPos = None</span><br><span class="line">        elif self.__shortPos == position:</span><br><span class="line">            self.__shortPos = None</span><br><span class="line">        else:</span><br><span class="line">            assert(False)</span><br><span class="line"></span><br><span class="line">    def onExitOk(self, position):</span><br><span class="line">        if self.__longPos == position:</span><br><span class="line">            self.__longPos = None</span><br><span class="line">        elif self.__shortPos == position:</span><br><span class="line">            self.__shortPos = None</span><br><span class="line">        else:</span><br><span class="line">            assert(False)</span><br><span class="line"></span><br><span class="line">    def onExitCanceled(self, position):</span><br><span class="line">        # If the exit was canceled, re-submit it.</span><br><span class="line">        position.exitMarket()</span><br><span class="line"></span><br><span class="line">    def onBars(self, bars):</span><br><span class="line">        # Wait for enough bars to be available to calculate SMA and RSI.</span><br><span class="line">        if self.__exitSMA[-1] is None or self.__entrySMA[-1] is None or self.__rsi[-1] is None:</span><br><span class="line">            return</span><br><span class="line"></span><br><span class="line">        bar = bars[self.__instrument]</span><br><span class="line">        if self.__longPos is not None:</span><br><span class="line">            if self.exitLongSignal():</span><br><span class="line">                self.__longPos.exitMarket()</span><br><span class="line">        elif self.__shortPos is not None:</span><br><span class="line">            if self.exitShortSignal():</span><br><span class="line">                self.__shortPos.exitMarket()</span><br><span class="line">        else:</span><br><span class="line">            if self.enterLongSignal(bar):</span><br><span class="line">                shares = int(self.getBroker().getCash() * 0.9 / bars[self.__instrument].getPrice())</span><br><span class="line">                self.__longPos = self.enterLong(self.__instrument, shares, True)</span><br><span class="line">            elif self.enterShortSignal(bar):</span><br><span class="line">                shares = int(self.getBroker().getCash() * 0.9 / bars[self.__instrument].getPrice())</span><br><span class="line">                self.__shortPos = self.enterShort(self.__instrument, shares, True)</span><br><span class="line"></span><br><span class="line">    def enterLongSignal(self, bar):</span><br><span class="line">        return bar.getPrice() &gt; self.__entrySMA[-1] and self.__rsi[-1] &lt;= self.__overSoldThreshold</span><br><span class="line"></span><br><span class="line">    def exitLongSignal(self):</span><br><span class="line">        return cross.cross_above(self.__priceDS, self.__exitSMA) and not self.__longPos.exitActive()</span><br><span class="line"></span><br><span class="line">    def enterShortSignal(self, bar):</span><br><span class="line">        return bar.getPrice() &lt; self.__entrySMA[-1] and self.__rsi[-1] &gt;= self.__overBoughtThreshold</span><br><span class="line"></span><br><span class="line">    def exitShortSignal(self):</span><br><span class="line">        return cross.cross_below(self.__priceDS, self.__exitSMA) and not self.__shortPos.exitActive()</span><br></pre></td></tr></table></figure>
+<p>有以下的函数被定义：</p>
+<pre><code>#获取进入SMA的值，range从150到250
+getEntrySMA(self)
+#获取退出SMA的值，range从5到16
+getExitSMA(self)
+#获取rsi 时段的值，range从2到10
+getRSI(self)
+#取消建仓逻辑 --- 这里不太明白为什么要增加
+onEnterCanceled(self, position)
+#平仓逻辑 --- 这里不太明白为什么要增加    
+onExitOk(self, position)
+#平仓取消逻辑 --- 这里不太明白为什么要增加    
+onExitCanceled(self, position)
+#策略执行逻辑
+onBars(self, bars)
+#做多信号
+enterLongSignal(self, bar)
+#退出做多信号
+exitLongSignal(self)
+#做空信号
+enterShortSignal(self, bar)
+#退出做空信号
+exitShortSignal(self)
+</code></pre><p>其中，onBars(self, bars)函数用于执行策略逻辑，在onBars中，如果目前有仓位，调用了exitLongSignal() 和 exitShortSignal 用于判断是非要执行平仓操作。如果目前空仓，则调用了enterLongSignal()和enterShortSignal()来决定是否建仓。其中，getBroker().getCash()可以获取当前的现金，0.9应该是估算了交易费用。而其中的enterShort()和enterLong()函数应该是BacktestingStrategy类所含有的函数。  </p>
+<p>从上面一段函数基本逻辑可以分析出，Pyalgotrade 有两个基本的类，我需要关注：</p>
+<pre><code>from pyalgotrade import strategy
+strategy.BacktestingStrategy
+position
+pyalgotrade.technical
+</code></pre><p>然后还有旁枝但是不用太过关心的类：</p>
+<pre><code>feed
+from pyalgotrade.barfeed import quandlfeed
+feed = quandlfeed.Feed()
+</code></pre><p>回到优化这个主题上来，server的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import itertools</span><br><span class="line">from pyalgotrade.optimizer import server</span><br><span class="line">from pyalgotrade.barfeed import quandlfeed</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def parameters_generator():</span><br><span class="line">    instrument = [&quot;ibm&quot;]</span><br><span class="line">    entrySMA = range(150, 251)</span><br><span class="line">    exitSMA = range(5, 16)</span><br><span class="line">    rsiPeriod = range(2, 11)</span><br><span class="line">    overBoughtThreshold = range(75, 96)</span><br><span class="line">    overSoldThreshold = range(5, 26)</span><br><span class="line">    return itertools.product(instrument, entrySMA, exitSMA, rsiPeriod, overBoughtThreshold, overSoldThreshold)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># The if __name__ == &apos;__main__&apos; part is necessary if running on Windows.</span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    # Load the bar feed from the CSV files.</span><br><span class="line">    feed = quandlfeed.Feed()</span><br><span class="line">    feed.addBarsFromCSV(&quot;ibm&quot;, &quot;WIKI-IBM-2009-quandl.csv&quot;)</span><br><span class="line">    feed.addBarsFromCSV(&quot;ibm&quot;, &quot;WIKI-IBM-2010-quandl.csv&quot;)</span><br><span class="line">    feed.addBarsFromCSV(&quot;ibm&quot;, &quot;WIKI-IBM-2011-quandl.csv&quot;)</span><br><span class="line"></span><br><span class="line">    # Run the server.</span><br><span class="line">    server.serve(feed, parameters_generator(), &quot;localhost&quot;, 5000)</span><br></pre></td></tr></table></figure>
+<p>这个代码处理了三个事情：</p>
+<ol>
+<li>声明了一个生成器函数根据范围产生不同的参数。</li>
+<li>加载csv文件到feed中。</li>
+<li>运行server监听5000端口来获取到来的链接。</li>
+</ol>
+<p>worker 脚本使用了 <code>pyalgotrade.optimizer.worker</code> 模块来并行运行策略，并且使用了server提供的数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from pyalgotrade.optimizer import worker</span><br><span class="line">import rsi2</span><br><span class="line"></span><br><span class="line"># The if __name__ == &apos;__main__&apos; part is necessary if running on Windows.</span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    worker.run(rsi2.RSI2, &quot;localhost&quot;, 5000, workerName=&quot;localworker&quot;)</span><br></pre></td></tr></table></figure>
+<p><b>注意你应该在一台server和大于等于一个worker的情况下运行</b><br>如果你只是想要在你的台式机上并发运行策略，那么可以利用<code>pyalgotrade.optimizer.local</code>模块来处理如下：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import itertools</span><br><span class="line">from pyalgotrade.optimizer import local</span><br><span class="line">from pyalgotrade.barfeed import quandlfeed</span><br><span class="line">import rsi2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def parameters_generator():</span><br><span class="line">    instrument = [&quot;ibm&quot;]</span><br><span class="line">    entrySMA = range(150, 251)</span><br><span class="line">    exitSMA = range(5, 16)</span><br><span class="line">    rsiPeriod = range(2, 11)</span><br><span class="line">    overBoughtThreshold = range(75, 96)</span><br><span class="line">    overSoldThreshold = range(5, 26)</span><br><span class="line">    return itertools.product(instrument, entrySMA, exitSMA, rsiPeriod, overBoughtThreshold, overSoldThreshold)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># The if __name__ == &apos;__main__&apos; part is necessary if running on Windows.</span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    # Load the bar feed from the CSV files.</span><br><span class="line">    feed = quandlfeed.Feed()</span><br><span class="line">    feed.addBarsFromCSV(&quot;ibm&quot;, &quot;WIKI-IBM-2009-quandl.csv&quot;)</span><br><span class="line">    feed.addBarsFromCSV(&quot;ibm&quot;, &quot;WIKI-IBM-2010-quandl.csv&quot;)</span><br><span class="line">    feed.addBarsFromCSV(&quot;ibm&quot;, &quot;WIKI-IBM-2011-quandl.csv&quot;)</span><br><span class="line"></span><br><span class="line">    local.run(rsi2.RSI2, feed, parameters_generator())</span><br></pre></td></tr></table></figure>
+<p>这段代码做了3件事情：</p>
+<ol>
+<li>声明了一个生成函数用来产出不同的参数组合</li>
+<li>从csv中加载到feed中</li>
+<li>使用<code>pyalgotrade.optimizer.local</code>来并发运行策略，并且找到最好的组合。  </li>
+</ol>
+<p>上面一段并发的演示说明如果我想要并发运行，也许我需要看看：  </p>
+<pre><code>#单机本地并发代码
+from pyalgotrade.optimizer import local
+local.run(rsi2.RSI2, feed, parameters_generator())
+#多台机器并发的代码
+from pyalgotrade.optimizer import worker
+worker.run(rsi2.RSI2, &quot;localhost&quot;, 5000, workerName=&quot;localworker&quot;)
+</code></pre><p><b>以及说明pyalgotrade的优化部分应该是利用了并发来加速。</b><br>对于我自己的处理，可以考虑加入PSO 优化用于处理。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sevenpan.com/2018/10/17/Somethings About Pyalgotrade/" data-id="cjncto6po0007rfrr53qx1817" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-hexoWithGit" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/13/hexoWithGit/" class="article-date">
@@ -136,7 +237,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/10/13/hexoWithGit/" data-id="cjn7l5vcd0007f0rr2x0eva6w" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/10/13/hexoWithGit/" data-id="cjncto6pr0009rfrrvfkg2gv8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
@@ -327,7 +428,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/23/Shuffle_翻译自spark_programming_guideline/" data-id="cjn7l5vcc0006f0rr06q8srta" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/23/Shuffle_翻译自spark_programming_guideline/" data-id="cjncto6pm0006rfrrr7w2a6n4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -377,7 +478,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/20/Distributed Training- Gradients Sharing/" data-id="cjn7l5vc00001f0rr6say7y12" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/20/Distributed Training- Gradients Sharing/" data-id="cjncto6pj0003rfrrh7zcaqm9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -448,7 +549,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/15/Deep Learning on Apache Spark/" data-id="cjn7l5vbu0000f0rryclggkto" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/15/Deep Learning on Apache Spark/" data-id="cjncto6p10000rfrr3x4tizz3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li></ul>
@@ -514,7 +615,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/04/RDDSpark/" data-id="cjn7l5vcb0004f0rr9cvl2jql" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/04/RDDSpark/" data-id="cjncto6pk0004rfrrkxih8p6h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -570,7 +671,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/02/sparkLearningNote/" data-id="cjn7l5vce0008f0rrbtiba90l" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/02/sparkLearningNote/" data-id="cjncto6pq0008rfrrc8ij2mwu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -615,7 +716,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/02/LSTM/" data-id="cjn7l5vcc0005f0rr5dl2uojx" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/02/LSTM/" data-id="cjncto6pl0005rfrrrf3tdcog" class="article-share-link">Share</a>
       
       
     </footer>
@@ -670,6 +771,10 @@ hexo deploy
       <ul>
         
           <li>
+            <a href="/2018/10/17/Somethings About Pyalgotrade/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2018/10/13/hexoWithGit/">Hexo With Git</a>
           </li>
         
@@ -683,10 +788,6 @@ hexo deploy
         
           <li>
             <a href="/2018/04/15/Deep Learning on Apache Spark/">Deep Learning on Apache Spark 翻译</a>
-          </li>
-        
-          <li>
-            <a href="/2018/04/04/RDDSpark/">RDD Programming Guide 翻译</a>
           </li>
         
       </ul>
