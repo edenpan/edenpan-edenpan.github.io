@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Eden</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="#配对交易策略 - 初1又名搬砖策略https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c几个基本的问题： 1. 如何找到股票相关性高的股票？ 2. 怎么确定股票比较之间的长期稳定关系 3. 怎么依据长期稳定关系来建立策略 另外一个pariTrading的介绍https://medium.com/auquan/pairs-tradin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eden">
+<meta property="og:url" content="http://blog.sevenpan.com/2018/11/07/配对交易策略RQ/index.html">
+<meta property="og:site_name" content="Eden">
+<meta property="og:description" content="#配对交易策略 - 初1又名搬砖策略https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c几个基本的问题： 1. 如何找到股票相关性高的股票？ 2. 怎么确定股票比较之间的长期稳定关系 3. 怎么依据长期稳定关系来建立策略 另外一个pariTrading的介绍https://medium.com/auquan/pairs-tradin">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-07T08:21:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Eden">
+<meta name="twitter:description" content="#配对交易策略 - 初1又名搬砖策略https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c几个基本的问题： 1. 如何找到股票相关性高的股票？ 2. 怎么确定股票比较之间的长期稳定关系 3. 怎么依据长期稳定关系来建立策略 另外一个pariTrading的介绍https://medium.com/auquan/pairs-tradin">
+  
+    <link rel="alternate" href="/atom.xml" title="Eden" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Eden</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.sevenpan.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-配对交易策略RQ" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/07/配对交易策略RQ/" class="article-date">
+  <time datetime="2018-11-07T08:21:17.000Z" itemprop="datePublished">2018-11-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#配对交易策略 - 初1<br>又名搬砖策略<br><a href="https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c" target="_blank" rel="noopener">https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c</a><br>几个基本的问题：</p>
+<pre><code>1. 如何找到股票相关性高的股票？
+2. 怎么确定股票比较之间的长期稳定关系
+3. 怎么依据长期稳定关系来建立策略
+</code></pre><h2 id="另外一个pariTrading的介绍"><a href="#另外一个pariTrading的介绍" class="headerlink" title="另外一个pariTrading的介绍"></a>另外一个pariTrading的介绍</h2><p><a href="https://medium.com/auquan/pairs-trading-data-science-7dbedafcfe5a" target="_blank" rel="noopener">https://medium.com/auquan/pairs-trading-data-science-7dbedafcfe5a</a><br>多重比较偏差：会有增加的错误生成一个明显的p-value的可能性当有太多的测试在运行的时候。 如果100个测试运行在随机数据上，我们应该期望看到5个p-value低于0.05.如果你比较n个证券，你将会执行n((n-1)/2次比较，你将会希望看到很多不正确的p-valus,他们将会随着你增加比较次数而增加。为了避免这个问题，你应该选择小数量的对来测试可能协整并且测试单独测试每一个。<br><b>？？？ 为啥测的多了可能会产生过多的错误的结果？还是不太懂。然后比较小的数量，这个数量应该怎么确定了？</b><br>接下来文章中介绍的是使用标普500的股票数据来产生交易对。文章提到：<br><b>This method is prone to multiple comparison bias and in practice the securities should be subject to a second verification step.</b><br>这里面的二次验证是指？  </p>
+<p>Z Score(Value) = (Value - Mean)/Standard Deviation<br>在实际操作中，常常试图对数据做一定的扩展，但是这是在假设了一个底部的分布时候。 通常是正太分布。然而，很多金融数据并不是正太分布的，我们必须很小心，而不是简单的假设为正太分布或者特定的分布，当生成统计时。真正的比率分布可能会十分的肥尾，倾向于极端的价值弄乱了我们的模型，并且产生很大的损失。  </p>
+<p><b>fat-tailed distribution</b><br>    <a href="https://en.wikipedia.org/wiki/Fat-tailed_distribution" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Fat-tailed_distribution</a></p>
+<pre><code>A fat-tailed distribution is a probability distribution that exhibits a large skewness or kurtosis, relative to that of either a normal distribution or an exponential distribution.  
+长尾分布是一个概率分布展示了很大的偏差或者峰度相对于一个正太分布或者一个预期内的分布而说。  
+</code></pre><p>产生一个交易信号有以下的几个步骤：  </p>
+<ol>
+<li>收集可靠的数据，清理数据</li>
+<li>从数据中创造特征来识别一个交易信号或者逻辑</li>
+<li>特征可以是Moving Average 或者价格数据的比例，相关性或者更多复杂的信号 — 将它们联合起来创造更多的特征。  </li>
+<li>通过这些特征来生成信号，比如交易品应该买，买或者中性。  </li>
+</ol>
+<p>在这篇文章中，产生一个配对交易策略的步骤可以如下：</p>
+<ol>
+<li>我们试图创造一个信号来告诉我们是否这个比例应买或者卖 在下一个时间里。比如这个ratio是Y<br> Y(t) = Sign(Ratio(t+1) - Ratio(t))</li>
+<li>获取数据，此处广告省略了。</li>
+<li>分割数据，70%用于训练，30%用于测试。</li>
+<li>特征构建<br> 相关特征应该是哪些？我们想要预测ratio的移动方向。我们已经看到两个证券是协整的，所以这个ratio将会在mean值之间上下运动。当前值和mean的差将会用于生成交易信号。<br> 我们使用以下的特征：  <ol>
+<li>60天移动平均线：滚动平均值的测量</li>
+<li>5天移动平均线： 测量的当前均值</li>
+<li>60天的标准偏差</li>
+<li>z score： (5d MA — 60d MA) /60d SD</li>
+</ol>
+</li>
+<li><p>模型的选择<br> 研究z-score的图表可以看出来，无论这个值太大或者太小它都将会回复到均值的水平。我们使用+1/-1作为阀值来代表过高或者太低，然后我们可以采用以下模型来生成一个交易信号：<br> Ratio 是buy(1)当z-score低于-1.0时，因为我们期望z score将会回到0，也就是增加.<br> Ratio 是sell(-1)当z-score高于1.0时，因为我们期望z score将会回到0，也就是降低.</p>
+</li>
+<li><p>训练，校验和优化  </p>
+<h3 id="避免过度拟合"><a href="#避免过度拟合" class="headerlink" title="避免过度拟合"></a>避免过度拟合</h3><p>在上述模型中，使用了rolling参数来创建而且也许希望来优化窗口大小。我们也许可以使用一个简单的迭代来计算全部的可能的窗口大小，然后使用最好的表现的窗口大小。但是就是会有过度拟合的问题。为了解决这个问题，这个文章里提到的是使用经济学的解释或者使用算法的特性来选择窗口长度。当然还有一个方法： Kalman filter，这个据说不需要制定一个特定的长度，我准备接下来看下这个。  </p>
+</li>
+</ol>
+<h3 id="更多信息"><a href="#更多信息" class="headerlink" title="更多信息"></a>更多信息</h3><p>上述只是一个简单的开发pairtrading策略的过程，在现实中，我们应该使用更复杂的统计学方式，比如：</p>
+<pre><code>1. Hurst Exponent
+2. Half-life of mean reversion inferred from an Ornstein-Uhlenbeck process
+3. Kalman filters
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sevenpan.com/2018/11/07/配对交易策略RQ/" data-id="cjo6wai4z000edcrrzi1sr3sp" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/17/Somethings About Pyalgotrade/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Somethings About Pyalgotrade  - the Optimizing</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algotrading-pyalgotrade/">Algotrading, pyalgotrade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Algotrading-pyalgotrade/" style="font-size: 10px;">Algotrading, pyalgotrade</a> <a href="/tags/deeplearning4j-spark/" style="font-size: 10px;">deeplearning4j; spark</a> <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/11/07/配对交易策略RQ/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/17/Somethings About Pyalgotrade/">Somethings About Pyalgotrade  - the Optimizing</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/13/hexoWithGit/">Hexo With Git</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/23/Shuffle_翻译自spark_programming_guideline/">Spark Programming--- Shuffle Operations 翻译</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/20/Distributed Training- Gradients Sharing/">Distributed Training_Gradients Sharing 翻译</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Pan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -65,6 +65,70 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-配对交易策略RQ" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/07/配对交易策略RQ/" class="article-date">
+  <time datetime="2018-11-07T08:21:17.000Z" itemprop="datePublished">2018-11-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#配对交易策略 - 初1<br>又名搬砖策略<br><a href="https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c" target="_blank" rel="noopener">https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c</a><br>几个基本的问题：</p>
+<pre><code>1. 如何找到股票相关性高的股票？
+2. 怎么确定股票比较之间的长期稳定关系
+3. 怎么依据长期稳定关系来建立策略
+</code></pre><h2 id="另外一个pariTrading的介绍"><a href="#另外一个pariTrading的介绍" class="headerlink" title="另外一个pariTrading的介绍"></a>另外一个pariTrading的介绍</h2><p><a href="https://medium.com/auquan/pairs-trading-data-science-7dbedafcfe5a" target="_blank" rel="noopener">https://medium.com/auquan/pairs-trading-data-science-7dbedafcfe5a</a><br>多重比较偏差：会有增加的错误生成一个明显的p-value的可能性当有太多的测试在运行的时候。 如果100个测试运行在随机数据上，我们应该期望看到5个p-value低于0.05.如果你比较n个证券，你将会执行n((n-1)/2次比较，你将会希望看到很多不正确的p-valus,他们将会随着你增加比较次数而增加。为了避免这个问题，你应该选择小数量的对来测试可能协整并且测试单独测试每一个。<br><b>？？？ 为啥测的多了可能会产生过多的错误的结果？还是不太懂。然后比较小的数量，这个数量应该怎么确定了？</b><br>接下来文章中介绍的是使用标普500的股票数据来产生交易对。文章提到：<br><b>This method is prone to multiple comparison bias and in practice the securities should be subject to a second verification step.</b><br>这里面的二次验证是指？  </p>
+<p>Z Score(Value) = (Value - Mean)/Standard Deviation<br>在实际操作中，常常试图对数据做一定的扩展，但是这是在假设了一个底部的分布时候。 通常是正太分布。然而，很多金融数据并不是正太分布的，我们必须很小心，而不是简单的假设为正太分布或者特定的分布，当生成统计时。真正的比率分布可能会十分的肥尾，倾向于极端的价值弄乱了我们的模型，并且产生很大的损失。  </p>
+<p><b>fat-tailed distribution</b><br>    <a href="https://en.wikipedia.org/wiki/Fat-tailed_distribution" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Fat-tailed_distribution</a></p>
+<pre><code>A fat-tailed distribution is a probability distribution that exhibits a large skewness or kurtosis, relative to that of either a normal distribution or an exponential distribution.  
+长尾分布是一个概率分布展示了很大的偏差或者峰度相对于一个正太分布或者一个预期内的分布而说。  
+</code></pre><p>产生一个交易信号有以下的几个步骤：  </p>
+<ol>
+<li>收集可靠的数据，清理数据</li>
+<li>从数据中创造特征来识别一个交易信号或者逻辑</li>
+<li>特征可以是Moving Average 或者价格数据的比例，相关性或者更多复杂的信号 — 将它们联合起来创造更多的特征。  </li>
+<li>通过这些特征来生成信号，比如交易品应该买，买或者中性。  </li>
+</ol>
+<p>在这篇文章中，产生一个配对交易策略的步骤可以如下：</p>
+<ol>
+<li>我们试图创造一个信号来告诉我们是否这个比例应买或者卖 在下一个时间里。比如这个ratio是Y<br> Y(t) = Sign(Ratio(t+1) - Ratio(t))</li>
+<li>获取数据，此处广告省略了。</li>
+<li>分割数据，70%用于训练，30%用于测试。</li>
+<li>特征构建<br> 相关特征应该是哪些？我们想要预测ratio的移动方向。我们已经看到两个证券是协整的，所以这个ratio将会在mean值之间上下运动。当前值和mean的差将会用于生成交易信号。<br> 我们使用以下的特征：  <ol>
+<li>60天移动平均线：滚动平均值的测量</li>
+<li>5天移动平均线： 测量的当前均值</li>
+<li>60天的标准偏差</li>
+<li>z score： (5d MA — 60d MA) /60d SD</li>
+</ol>
+</li>
+<li><p>模型的选择<br> 研究z-score的图表可以看出来，无论这个值太大或者太小它都将会回复到均值的水平。我们使用+1/-1作为阀值来代表过高或者太低，然后我们可以采用以下模型来生成一个交易信号：<br> Ratio 是buy(1)当z-score低于-1.0时，因为我们期望z score将会回到0，也就是增加.<br> Ratio 是sell(-1)当z-score高于1.0时，因为我们期望z score将会回到0，也就是降低.</p>
+</li>
+<li><p>训练，校验和优化  </p>
+<h3 id="避免过度拟合"><a href="#避免过度拟合" class="headerlink" title="避免过度拟合"></a>避免过度拟合</h3><p>在上述模型中，使用了rolling参数来创建而且也许希望来优化窗口大小。我们也许可以使用一个简单的迭代来计算全部的可能的窗口大小，然后使用最好的表现的窗口大小。但是就是会有过度拟合的问题。为了解决这个问题，这个文章里提到的是使用经济学的解释或者使用算法的特性来选择窗口长度。当然还有一个方法： Kalman filter，这个据说不需要制定一个特定的长度，我准备接下来看下这个。  </p>
+</li>
+</ol>
+<h3 id="更多信息"><a href="#更多信息" class="headerlink" title="更多信息"></a>更多信息</h3><p>上述只是一个简单的开发pairtrading策略的过程，在现实中，我们应该使用更复杂的统计学方式，比如：</p>
+<pre><code>1. Hurst Exponent
+2. Half-life of mean reversion inferred from an Ornstein-Uhlenbeck process
+3. Kalman filters
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sevenpan.com/2018/11/07/配对交易策略RQ/" data-id="cjo6wai4z000edcrrzi1sr3sp" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Somethings About Pyalgotrade" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/17/Somethings About Pyalgotrade/" class="article-date">
@@ -162,11 +226,12 @@ local.run(rsi2.RSI2, feed, parameters_generator())
 from pyalgotrade.optimizer import worker
 worker.run(rsi2.RSI2, &quot;localhost&quot;, 5000, workerName=&quot;localworker&quot;)
 </code></pre><p><b>以及说明pyalgotrade的优化部分应该是利用了并发来加速。</b><br>对于我自己的处理，可以考虑加入PSO 优化用于处理。</p>
+<p>##</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/10/17/Somethings About Pyalgotrade/" data-id="cjnctrw1h0002u8rrvskef47h" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/10/17/Somethings About Pyalgotrade/" data-id="cjo6wai4m0006dcrru629r95t" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algotrading-pyalgotrade/">Algotrading, pyalgotrade</a></li></ul>
@@ -249,7 +314,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/10/13/hexoWithGit/" data-id="cjnctrw1s000au8rr4lyq7qrd" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/10/13/hexoWithGit/" data-id="cjo6wai4n0007dcrr3y8hxcgu" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
@@ -440,7 +505,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/23/Shuffle_翻译自spark_programming_guideline/" data-id="cjnctrw1f0001u8rrj5ede3m6" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/23/Shuffle_翻译自spark_programming_guideline/" data-id="cjo6wai4l0005dcrrlx9i2ra7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -490,7 +555,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/20/Distributed Training- Gradients Sharing/" data-id="cjnctrw1b0000u8rra8il544z" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/20/Distributed Training- Gradients Sharing/" data-id="cjo6wai4e0001dcrrozev80rw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -561,7 +626,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/15/Deep Learning on Apache Spark/" data-id="cjnctrw1o0006u8rrloedf8hq" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/15/Deep Learning on Apache Spark/" data-id="cjo6wai4g0002dcrryx5lrwqd" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li></ul>
@@ -627,7 +692,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/04/RDDSpark/" data-id="cjnctrw1i0003u8rrokdw3dpf" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/04/RDDSpark/" data-id="cjo6wai4h0003dcrrd8r2ejly" class="article-share-link">Share</a>
       
       
     </footer>
@@ -683,7 +748,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/02/sparkLearningNote/" data-id="cjnctrw1q0007u8rrist87ky3" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/02/sparkLearningNote/" data-id="cjo6wai4p000adcrrorfotppk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -728,7 +793,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/02/LSTM/" data-id="cjnctrw1n0005u8rrkf4h9wc4" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/02/LSTM/" data-id="cjo6wai490000dcrrqf85bq7r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -770,7 +835,7 @@ hexo deploy
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
     </div>
   </div>
 
@@ -781,6 +846,10 @@ hexo deploy
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/11/07/配对交易策略RQ/">(no title)</a>
+          </li>
         
           <li>
             <a href="/2018/10/17/Somethings About Pyalgotrade/">Somethings About Pyalgotrade  - the Optimizing</a>
@@ -796,10 +865,6 @@ hexo deploy
         
           <li>
             <a href="/2018/04/20/Distributed Training- Gradients Sharing/">Distributed Training_Gradients Sharing 翻译</a>
-          </li>
-        
-          <li>
-            <a href="/2018/04/15/Deep Learning on Apache Spark/">Deep Learning on Apache Spark 翻译</a>
           </li>
         
       </ul>

@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="Eden">
 <meta property="og:description" content="http://gbeced.github.io/pyalgotrade/docs/v0.20/html/tutorial.html#optimizing The optimizing优化，💡很简单： 一台server用于：     1. 提供bars用来运行策略     2. 提供参数用来运行策略     3. 记录每一个worker的运行策略的结果 很多worker用来：     使用serv">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-17T07:18:25.000Z">
+<meta property="og:updated_time" content="2018-10-17T11:28:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Somethings About Pyalgotrade  - the Optimizing">
 <meta name="twitter:description" content="http://gbeced.github.io/pyalgotrade/docs/v0.20/html/tutorial.html#optimizing The optimizing优化，💡很简单： 一台server用于：     1. 提供bars用来运行策略     2. 提供参数用来运行策略     3. 记录每一个worker的运行策略的结果 很多worker用来：     使用serv">
@@ -162,11 +162,12 @@ local.run(rsi2.RSI2, feed, parameters_generator())
 from pyalgotrade.optimizer import worker
 worker.run(rsi2.RSI2, &quot;localhost&quot;, 5000, workerName=&quot;localworker&quot;)
 </code></pre><p><b>以及说明pyalgotrade的优化部分应该是利用了并发来加速。</b><br>对于我自己的处理，可以考虑加入PSO 优化用于处理。</p>
+<p>##</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/10/17/Somethings About Pyalgotrade/" data-id="cjnctrw1h0002u8rrvskef47h" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/10/17/Somethings About Pyalgotrade/" data-id="cjo6wai4m0006dcrru629r95t" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algotrading-pyalgotrade/">Algotrading, pyalgotrade</a></li></ul>
@@ -176,6 +177,15 @@ worker.run(rsi2.RSI2, &quot;localhost&quot;, 5000, workerName=&quot;localworker&
   
     
 <nav id="article-nav">
+  
+    <a href="/2018/11/07/配对交易策略RQ/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
   
   
     <a href="/2018/10/13/hexoWithGit/" id="article-nav-older" class="article-nav-link-wrap">
@@ -218,7 +228,7 @@ worker.run(rsi2.RSI2, &quot;localhost&quot;, 5000, workerName=&quot;localworker&
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
     </div>
   </div>
 
@@ -229,6 +239,10 @@ worker.run(rsi2.RSI2, &quot;localhost&quot;, 5000, workerName=&quot;localworker&
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/11/07/配对交易策略RQ/">(no title)</a>
+          </li>
         
           <li>
             <a href="/2018/10/17/Somethings About Pyalgotrade/">Somethings About Pyalgotrade  - the Optimizing</a>
@@ -244,10 +258,6 @@ worker.run(rsi2.RSI2, &quot;localhost&quot;, 5000, workerName=&quot;localworker&
         
           <li>
             <a href="/2018/04/20/Distributed Training- Gradients Sharing/">Distributed Training_Gradients Sharing 翻译</a>
-          </li>
-        
-          <li>
-            <a href="/2018/04/15/Deep Learning on Apache Spark/">Deep Learning on Apache Spark 翻译</a>
           </li>
         
       </ul>
