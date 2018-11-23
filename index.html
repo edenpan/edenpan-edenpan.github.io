@@ -65,6 +65,69 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-RPC,REST,SOAP" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/23/RPC,REST,SOAP/" class="article-date">
+  <time datetime="2018-11-23T05:58:11.000Z" itemprop="datePublished">2018-11-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="RPC，-REST-SOAP"><a href="#RPC，-REST-SOAP" class="headerlink" title="RPC， REST, SOAP"></a>RPC， REST, SOAP</h2><p><a href="https://blog.apisyouwonthate.com/understanding-rpc-rest-and-graphql-2f959aadebe7" target="_blank" rel="noopener">https://blog.apisyouwonthate.com/understanding-rpc-rest-and-graphql-2f959aadebe7</a>  </p>
+<h3 id="RPC-Remote-Procedure-Call-RPC"><a href="#RPC-Remote-Procedure-Call-RPC" class="headerlink" title="RPC Remote Procedure Call (RPC)"></a>RPC Remote Procedure Call (RPC)</h3><p>RPC 是最简单最早的一种API交互。它可以执行其他服务器上的代码，并且当用http或者AMQP实现的时候，它就是一个web API.  RPC只是很多的函数但是是在HTTP API 的上下文中， 导致需要将方法放到URL中并且参数放到查询的字符串或者请求中。<br>当被用来执行CRUD操作的时候，RPC只是用来发送和下载数据字段，但是有一个很不好的地方是客户端需要负责很多东西。客户端为了构造它自己的工作流，需要知道哪个方法在什么时候调用。<br>RPC只是一个概念，但是这个概念有很多的要求，这些要求都有对应的实现:</p>
+<ol>
+<li><a href="https://en.wikipedia.org/wiki/XML-RPC" target="_blank" rel="noopener">XML-RPC</a></li>
+<li><a href="https://en.wikipedia.org/wiki/JSON-RPC" target="_blank" rel="noopener">JSON-RPC</a></li>
+<li><a href="https://en.wikipedia.org/wiki/SOAP" target="_blank" rel="noopener">Simple Object Access Protocol(SOAP)</a></li>
+</ol>
+<p>XML-RPC 和JSON-RPC被使用的并不多，而SOAP被使用在大部分的金融和企业系统中，比如Salesforce，其实我之前的公司也是使用的SOAP。<br>XML-RPC在使用的时候由于XML的数据类型无法完全满足，所以会有一些问题。在XML中，很多东西只是字符串而已， JSON对此有一些改进，但是对于区分不同的数据格式比如整形和小数还是有问题。(<b>似乎这里可以看下，是否xml和json有这两个问题</b>)<br>你需要将元数据放到最顶层用于描述字段对应的数据类型。这就是SOAP的一部分基础，使用<a href="https://en.wikipedia.org/wiki/XML_schema" target="_blank" rel="noopener">XML Schema</a>和一个<a href="https://en.wikipedia.org/wiki/Web_Services_Description_Language" target="_blank" rel="noopener">Web Services Description Language(WSDL)</a> 来解释去到哪和包含了什么。<br>插播下什么是XML Schema 和WSDL吧，毕竟以前接触的还比较多，但是一直不太明白它们。  </p>
+<pre><code>XML schema 是一个用于描述XML文件类型的东西。通常表示结构的约束和这个文档的内容的类型，是在XML基础之上的一种约束。这些约束通常被表述为语法条件的组合来治理元素的顺序，内容需要满足布尔预测， 数据类型治理元素的内容和状态，以及更多的特殊规则比如唯一性和参照完整性约束。 咳咳，通俗易懂的说，这个文件用于指定一些约束，比如，这个字段是否可以为可选的，还是必须的，如果一个字段有是否也需要另外的字段的存在。也就是可以将一些业务约束或者说是接口约束写入这个文件中，让其进行检查，而不需要在业务代码中进行检查。比较精致的做法是这样，但是在之前的工作中，一般会弃用这个约束，因为该文件的修改设计到外系统的同步，修改比较麻烦，不如完全放松，接口先通，自己进行内部调整。  
+WSDL（网络服务描述语言 Web Services Description Language）是一个基于XML的接口定义语言用来描述一个web服务提供的功能。这个缩写也用来表示一个web服务的WSDL描述，提供一个机器可读的描述来告知这个服务可以被调用，它期望的参数是什么，它将返回什么数据结构。所以，WSDL的目的和一个编程语言的类型签名有一些相似。WSDL将服务描述为网络endpoints或者端口的集合。WSDL说明书提供一个XML格式的文档来达到这个目的。抽象定义的端口和信息被从它们的具体使用或者实例中抽离出来，从而允许定义的复用。端口是通过关联一个网络地址的可重复绑定来定义，端口的集合定义了一个服务。这个对于一个端口具体的协议和数据格式规格组成了一个可复用的绑定，而操作和信息会绑定到具体的网络协议和消息格式。通过这样，WSDL描述了这个Web service的公共接口。上面这段描述有些抽象，后续我考虑补充点例子进来。  
+</code></pre><p>这些元数据就像是单位。比如是分还是元，很重要咯。<br>一个现代的RPC实现是<a href="https://grpc.io/" target="_blank" rel="noopener">gRPC</a>，可以被简单的考虑为更好的SOAP。它使用了一个数据类型称为<a href="https://developers.google.com/protocol-buffers/" target="_blank" rel="noopener">ProtoBuff</a>,既需要模式也需要数据实例，非常像是SOAP中的WSDL。<br>GRPC专注于使单次交互尽可能的快，它利用了HTTP/2和Protobuff包要小于JSON的特点。但是JSon也可以很容易的使用。  </p>
+<h3 id="Representation-State-Transfer-REST"><a href="#Representation-State-Transfer-REST" class="headerlink" title="Representation State Transfer (REST)"></a>Representation State Transfer (REST)</h3><p>REST 是一个网络范式在2000年被Roy Fielding 提出。REST 是关于客户端和服务器端关系的，服务端的数据通过表达数据为简单的格式来达到可用性。这个格式可以是JSON或者XML或者任何东西。<br>这些表达从不同的来源中描述数据，简单称为资源或者资源的集合，它们都是可以通过称为超媒体控件(HATEOAS)的概念使action和关系变得可发现而潜在地可修改。<br>Hypermedia 是REST的基础，本质上是提供接下来可用的操作，这些操作可以是和数据有关，或者一个”Invoice”资源的例子，它可能被链接到一个支付尝试集合，这样这个用户可以尝试支付订单。<br>这些动作只是链接，但是这里的重点是这个客户知道这里有一个订单是可以支付的通过展示一个”支付”链接，并且如果这个链接不存在，那么这个选项也不应该展示给终端用户。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;data&quot;&quot;: &#123;</span><br><span class="line">    &quot;type&quot;: &quot;invoice&quot;,</span><br><span class="line">    &quot;id&quot;: &quot;093b941d&quot;,</span><br><span class="line">    &quot;attributes&quot;: &#123;</span><br><span class="line">      &quot;created_at&quot;: &quot;2017–06–15 12:31:01Z&quot;,</span><br><span class="line">      &quot;sent_at&quot;: &quot;2017–06–15 12:34:29Z&quot;,</span><br><span class="line">      &quot;paid_at&quot;: &quot;2017–06–16 09:05:00Z&quot;,</span><br><span class="line">      &quot;status&quot;: &quot;published&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;links&quot;: &#123;</span><br><span class="line">    &quot;pay&quot;: &quot;https://api.acme.com/invoices/093b941d/payment_attempts&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这就和RPC不太一样了。下面两个列子可以说明：</p>
+<pre><code>客户：我可以和Dr.A说话么，他在么？
+RPC：不行
+客户： 我检查了他的日程，看起来今天他不在。我想和其他的医生聊聊，看起来Dr.B下午三点有空，我可以那时见到她么？
+RPC：可以。
+</code></pre><p>可以看到，客户承担大部分需要做的事情，它需要知道所有的数据，然后自己决定，然后才能弄清楚下一步应该做什么。而REST告诉你下一步应该做什么：</p>
+<pre><code>客户：我可以和Dr.A说话么，他在么？
+REST: Dr.A 现在不在，他明天会回来，但是你有以下的选项。如果你不急，可以留下信息我明天告诉他或者我可以给你预定今天其他的医生，你想要知道今天谁有空么？  
+客户：是的，请告诉我今天有谁。
+REST:医生B和C，这是他们的介绍。
+客户:医生B看起来像是我需要的，请帮我做预约。
+REST：预约已经成功，这是详细的预约内容。
+</code></pre><p>REST提供了所有相关的信息在回应中，然后这个客户可以选择想要的选项。<br>在服务器中集中状态对于系统为不同的客户提供相同的工作流程很有用。不同于分布式处理全部逻辑，检查数据字段，展示Action的列表等等，对于不同的用户展示不同的结果，REST将他们都统一了。<br>对于更多超媒体控制，可以查看：<a href="https://blog.apisyouwonthate.com/representing-state-in-rest-and-graphql-9194b291d127" target="_blank" rel="noopener">Representing State in REST and GraphQL</a>和 <a href="http://apibusters.com/003-why-hypermedia" target="_blank" rel="noopener">API busters podcast- Episode 3:Why Hypermedia</a>.<br>除了超媒体(最有用但是也是最容易忽视的特点)对于一个系统拥有REST API还有其他的要求：</p>
+<ol>
+<li>REST必须是无状态的：请求之间没有持续的session。</li>
+<li>回应应该是可缓存的：这样可以帮助你的API进行扩展，如果客户遵守这些规则。</li>
+<li>REST 关注一致性：如果使用HTTP，应该尽可能使用HTTP特性，而不是创造约定。</li>
+</ol>
+<p>这些约束的目标是使REST架构可以帮助API持续使用。<br>REST同样也不需要使用模式元数据，那些API开发员最讨厌SOAP的东西。很长一段时间没人构建REST APIs通过schema，但是现在这个变的比较普遍由于<a href="http://json-schema.org/" target="_blank" rel="noopener">JSON Schema</a>。<br>JSON Schema是从XML Schema激发出来的，不是完全的功能一致，但是是HTTP API这些年中最重要的事情之一。<br>很不幸的是，REST变成了一个营销词语在2006-2014之间。它变成了程序员渴望的一种质量衡量方式，而不是去理解，然后就到处使用REST，所以很多系统说他们是REST但是只是RPC加上HTTP词语以及漂亮的URLs。你可能并不能获取任何缓存的东西，也许它只是一堆奇怪的对话，并且你并不能发现任何可以进行下一步的链接。<br>在另外一个方面，一个REST API可以被用为RPC风格的，如果客户端的开发忽略这些链接的话。这是不可取的，但是这是可能的。<br>很多人对于REST的困惑在于他们无法理解“所有额外的烦恼”，比如超媒体控制和HTTP缓存。他们没有看到这点，并且很多觉得RPC是全能的。对于他们来说，最重要的是尽可能快的执行远程代码，但是REST(同样是是高性能的)专注于longevity 和减少客户的耦合。<br>REST理论上可以使用任何的传输协议来提供满足约束的功能，但是没有传输协议可以像HTTP一样有功能性。为了使AMQP符合RET，你需要定义超媒体来控制(可能是下一个你可能调用的信息列表)，一个标准的用来声明AMQP信息的缓存性等， 并且创造很多并不存在的工具。<br>REST没有固定的规格所以导致有这些困惑，并且它也没有具体的实现。目前这有两个很受欢迎的规格提供给REST APIs来使用：  </p>
+<ol>
+<li><a href="http://www.odata.org/" target="_blank" rel="noopener">OData</a></li>
+<li><a href="http://jsonapi.org/" target="_blank" rel="noopener">JSON-API</a></li>
+</ol>
+<p>如果有API宣传它自己使用了这两，它有可能是一个不错的api。你可以使用这两个作为你的客户端或者你使用一个普通的http客户端，并且自己添加一些润滑油。  </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sevenpan.com/2018/11/23/RPC,REST,SOAP/" data-id="cjotm8kla00072xrrtvk1h3kr" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-配对交易策略RQ" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/11/07/配对交易策略RQ/" class="article-date">
@@ -119,7 +182,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/11/07/配对交易策略RQ/" data-id="cjo6wai4z000edcrrzi1sr3sp" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/11/07/配对交易策略RQ/" data-id="cjotm8kli000e2xrrbh98ujno" class="article-share-link">Share</a>
       
       
     </footer>
@@ -231,7 +294,7 @@ worker.run(rsi2.RSI2, &quot;localhost&quot;, 5000, workerName=&quot;localworker&
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/10/17/Somethings About Pyalgotrade/" data-id="cjo6wai4m0006dcrru629r95t" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/10/17/Somethings About Pyalgotrade/" data-id="cjotm8kle00092xrr9b5qcpyd" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algotrading-pyalgotrade/">Algotrading, pyalgotrade</a></li></ul>
@@ -314,7 +377,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/10/13/hexoWithGit/" data-id="cjo6wai4n0007dcrr3y8hxcgu" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/10/13/hexoWithGit/" data-id="cjotm8kl800052xrrspyv9flo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
@@ -505,7 +568,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/23/Shuffle_翻译自spark_programming_guideline/" data-id="cjo6wai4l0005dcrrlx9i2ra7" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/23/Shuffle_翻译自spark_programming_guideline/" data-id="cjotm8klg000a2xrrs25620mv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -555,7 +618,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/20/Distributed Training- Gradients Sharing/" data-id="cjo6wai4e0001dcrrozev80rw" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/20/Distributed Training- Gradients Sharing/" data-id="cjotm8kl400032xrrmwzhhivp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -626,7 +689,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/15/Deep Learning on Apache Spark/" data-id="cjo6wai4g0002dcrryx5lrwqd" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/15/Deep Learning on Apache Spark/" data-id="cjotm8kkw00002xrrndcsl5dc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li></ul>
@@ -692,7 +755,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/04/RDDSpark/" data-id="cjo6wai4h0003dcrrd8r2ejly" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/04/RDDSpark/" data-id="cjotm8kl600042xrr14emfy08" class="article-share-link">Share</a>
       
       
     </footer>
@@ -748,7 +811,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/02/sparkLearningNote/" data-id="cjo6wai4p000adcrrorfotppk" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/02/sparkLearningNote/" data-id="cjotm8klh000b2xrrpq4y0bch" class="article-share-link">Share</a>
       
       
     </footer>
@@ -793,7 +856,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/02/LSTM/" data-id="cjo6wai490000dcrrqf85bq7r" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/02/LSTM/" data-id="cjotm8kkz00012xrrd0s55pif" class="article-share-link">Share</a>
       
       
     </footer>
@@ -848,6 +911,10 @@ hexo deploy
       <ul>
         
           <li>
+            <a href="/2018/11/23/RPC,REST,SOAP/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2018/11/07/配对交易策略RQ/">(no title)</a>
           </li>
         
@@ -861,10 +928,6 @@ hexo deploy
         
           <li>
             <a href="/2018/04/23/Shuffle_翻译自spark_programming_guideline/">Spark Programming--- Shuffle Operations 翻译</a>
-          </li>
-        
-          <li>
-            <a href="/2018/04/20/Distributed Training- Gradients Sharing/">Distributed Training_Gradients Sharing 翻译</a>
           </li>
         
       </ul>
