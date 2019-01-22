@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="Eden">
 <meta property="og:description" content="一台VPS所需要的操作又弄了一台VPS，记录下我需要的下载的工具作为一个列表。免得每次都没啥头绪。  创建自己的用户 创建SSH SSR转发 将自己的blog网站迁移 安装Python，Java，Docker，git, PGSQL…  创建自己的用户https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-01-22T08:40:15.000Z">
+<meta property="og:updated_time" content="2019-01-22T08:47:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一台VPS所需要的操作">
 <meta name="twitter:description" content="一台VPS所需要的操作又弄了一台VPS，记录下我需要的下载的工具作为一个列表。免得每次都没啥头绪。  创建自己的用户 创建SSH SSR转发 将自己的blog网站迁移 安装Python，Java，Docker，git, PGSQL…  创建自己的用户https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-">
@@ -128,32 +128,81 @@ ExecStart=/usr/bin/ssserver -c /etc/shadowsocks/config.json
 
 [Install]
 WantedBy=multi-user.target
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行以下的命令：</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line">	运行以下的命令：  </span><br><span class="line"></span><br><span class="line">```	</span><br><span class="line">systemctl enable shadowsocks</span><br><span class="line">systemctl start shadowsocks</span><br><span class="line">systemctl status shadowsocks -l</span><br></pre></td></tr></table></figure>
+</code></pre><ol start="3">
+<li>远程测试一下<br> telnet ip 443</li>
+</ol>
+<p>有一个不错的写了安装脚本的，可以看下，学习下:<br>install-shadowsocks.sh:</p>
+<pre><code>#!/bin/bash
+# Install Shadowsocks on CentOS 7
 
+echo &quot;Installing Shadowsocks...&quot;
+
+random-string()
+{
+    cat /dev/urandom | tr -dc &apos;a-zA-Z0-9&apos; | fold -w ${1:-32} | head -n 1
+}
+
+CONFIG_FILE=/etc/shadowsocks.json
+SERVICE_FILE=/etc/systemd/system/shadowsocks.service
+SS_PASSWORD=$(random-string 32)
+SS_PORT=8388
+SS_METHOD=aes-256-cfb
+SS_IP=`ip route get 1 | awk &apos;{print $NF;exit}&apos;`
+GET_PIP_FILE=/tmp/get-pip.py
+
+# install pip
+curl &quot;https://bootstrap.pypa.io/get-pip.py&quot; -o &quot;${GET_PIP_FILE}&quot;
+python ${GET_PIP_FILE}
+
+# install shadowsocks
+pip install --upgrade pip
+pip install shadowsocks
+
+# create shadowsocls config
+cat &lt;&lt;EOF | sudo tee ${CONFIG_FILE}
+{
+  &quot;server&quot;: &quot;0.0.0.0&quot;,
+  &quot;server_port&quot;: ${SS_PORT},
+  &quot;password&quot;: &quot;${SS_PASSWORD}&quot;,
+  &quot;method&quot;: &quot;${SS_METHOD}&quot;
+}
+EOF
+
+# create service
+cat &lt;&lt;EOF | sudo tee ${SERVICE_FILE}
+[Unit]
+Description=Shadowsocks
+
+[Service]
+TimeoutStartSec=0
+ExecStart=/usr/bin/ssserver -c ${CONFIG_FILE}
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# start service
 systemctl enable shadowsocks
 systemctl start shadowsocks
+
+# view service status
+sleep 5
 systemctl status shadowsocks -l
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line">3. 远程测试一下  </span><br><span class="line">	telnet ip 443</span><br><span class="line"></span><br><span class="line">有一个不错的写了安装脚本的，可以看下，学习下:  </span><br><span class="line">install-shadowsocks.sh:</span><br></pre></td></tr></table></figure>
-</code></pre><p>#!/bin/bash</p>
-<h1 id="Install-Shadowsocks-on-CentOS-7"><a href="#Install-Shadowsocks-on-CentOS-7" class="headerlink" title="Install Shadowsocks on CentOS 7"></a>Install Shadowsocks on CentOS 7</h1><p>echo “Installing Shadowsocks…”</p>
-<p>random-string()<br>{<br>    cat /dev/urandom | tr -dc ‘a-zA-Z0-9’ | fold -w ${1:-32} | head -n 1<br>}</p>
-<p>CONFIG_FILE=/etc/shadowsocks.json<br>SERVICE_FILE=/etc/systemd/system/shadowsocks.service<br>SS_PASSWORD=$(random-string 32)<br>SS_PORT=8388<br>SS_METHOD=aes-256-cfb<br>SS_IP=<code>ip route get 1 | awk &#39;{print $NF;exit}&#39;</code><br>GET_PIP_FILE=/tmp/get-pip.py</p>
-<h1 id="install-pip"><a href="#install-pip" class="headerlink" title="install pip"></a>install pip</h1><p>curl “<a href="https://bootstrap.pypa.io/get-pip.py&quot;" target="_blank" rel="noopener">https://bootstrap.pypa.io/get-pip.py&quot;</a> -o “${GET_PIP_FILE}”<br>python ${GET_PIP_FILE}</p>
-<h1 id="install-shadowsocks"><a href="#install-shadowsocks" class="headerlink" title="install shadowsocks"></a>install shadowsocks</h1><p>pip install –upgrade pip<br>pip install shadowsocks</p>
-<h1 id="create-shadowsocls-config"><a href="#create-shadowsocls-config" class="headerlink" title="create shadowsocls config"></a>create shadowsocls config</h1><p>cat &lt;&lt;EOF | sudo tee ${CONFIG_FILE}<br>{<br>  “server”: “0.0.0.0”,<br>  “server_port”: ${SS_PORT},<br>  “password”: “${SS_PASSWORD}”,<br>  “method”: “${SS_METHOD}”<br>}<br>EOF</p>
-<h1 id="create-service"><a href="#create-service" class="headerlink" title="create service"></a>create service</h1><p>cat &lt;&lt;EOF | sudo tee ${SERVICE_FILE}<br>[Unit]<br>Description=Shadowsocks</p>
-<p>[Service]<br>TimeoutStartSec=0<br>ExecStart=/usr/bin/ssserver -c ${CONFIG_FILE}</p>
-<p>[Install]<br>WantedBy=multi-user.target<br>EOF</p>
-<h1 id="start-service"><a href="#start-service" class="headerlink" title="start service"></a>start service</h1><p>systemctl enable shadowsocks<br>systemctl start shadowsocks</p>
-<h1 id="view-service-status"><a href="#view-service-status" class="headerlink" title="view service status"></a>view service status</h1><p>sleep 5<br>systemctl status shadowsocks -l</p>
-<p>echo “================================”<br>echo “”<br>echo “Congratulations! Shadowsocks has been installed on your system.”<br>echo “You shadowsocks connection info:”<br>echo “——————————–”<br>echo “server:      ${SS_IP}”<br>echo “server_port: ${SS_PORT}”<br>echo “password:    ${SS_PASSWORD}”<br>echo “method:      ${SS_METHOD}”<br>echo “——————————–”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 将自己的个人博客转到这个服务器上</span><br><span class="line"></span><br><span class="line">#### 安装Nginx</span><br></pre></td></tr></table></figure></p>
-<p>yum -y update<br>rpm -ivh <a href="http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm" target="_blank" rel="noopener">http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm</a><br>yum install nginx</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 将hexo配置上</span><br><span class="line"></span><br><span class="line">##### server端的修改</span><br></pre></td></tr></table></figure>
-<p>#设置hexo到服务器上<br>mkdir -p code/gitLibrary/blog/hexo</p>
-<p>#设置nginx配置，主要是目录：<br>sudo vi /etc/nginx/nginx.conf</p>
-<p>#在配置中添加以下内容<br>    http{<br>            gzip on;<br>            server {<br>                      listen       80 default_server;<br>                      listen       [::]:80 default_server;<br>                      server_name  blog.domain.com; # 填写个人域名<br>                      root         /home/user/code/gitLibrary/blog/hexo;<br>              }<br>    }</p>
-<p>#修改hexo git配置<br>cd /home/user/code/gitLibrary/hexo.git/hooks<br>vi post-update</p>
-<p>#添加一下的内容到文件中。 前面是需要上传的地址路径，后面是git的目录地址<br>git –work-tree=/home/user/code/gitLibrary/blog/hexo –git-dir=/home/user/code/gitLibrary/hexo.git checkout -f<br><code>`</code><br>启动nginx：</p>
+
+echo &quot;================================&quot;
+echo &quot;&quot;
+echo &quot;Congratulations! Shadowsocks has been installed on your system.&quot;
+echo &quot;You shadowsocks connection info:&quot;
+echo &quot;--------------------------------&quot;
+echo &quot;server:      ${SS_IP}&quot;
+echo &quot;server_port: ${SS_PORT}&quot;
+echo &quot;password:    ${SS_PASSWORD}&quot;
+echo &quot;method:      ${SS_METHOD}&quot;
+echo &quot;--------------------------------&quot;
+</code></pre><h3 id="将自己的个人博客转到这个服务器上"><a href="#将自己的个人博客转到这个服务器上" class="headerlink" title="将自己的个人博客转到这个服务器上"></a>将自己的个人博客转到这个服务器上</h3><h4 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y update</span><br><span class="line">rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm</span><br><span class="line">yum install nginx</span><br></pre></td></tr></table></figure>
+<h4 id="将hexo配置上"><a href="#将hexo配置上" class="headerlink" title="将hexo配置上"></a>将hexo配置上</h4><h5 id="server端的修改"><a href="#server端的修改" class="headerlink" title="server端的修改"></a>server端的修改</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#设置hexo到服务器上</span><br><span class="line">mkdir -p code/gitLibrary/blog/hexo</span><br><span class="line">#设置nginx配置，主要是目录：</span><br><span class="line">sudo vi /etc/nginx/nginx.conf</span><br><span class="line">#在配置中添加以下内容</span><br><span class="line">	http&#123;</span><br><span class="line">			gzip on;</span><br><span class="line">			server &#123;</span><br><span class="line">		      		listen       80 default_server;</span><br><span class="line">		      		listen       [::]:80 default_server;</span><br><span class="line">		      		server_name  blog.domain.com; # 填写个人域名</span><br><span class="line">		      		root         /home/user/code/gitLibrary/blog/hexo;</span><br><span class="line">		 	 &#125;</span><br><span class="line">	&#125;</span><br><span class="line">#修改hexo git配置</span><br><span class="line">cd /home/user/code/gitLibrary/hexo.git/hooks</span><br><span class="line">vi post-update</span><br><span class="line">#添加一下的内容到文件中。 前面是需要上传的地址路径，后面是git的目录地址</span><br><span class="line">git --work-tree=/home/user/code/gitLibrary/blog/hexo --git-dir=/home/user/code/gitLibrary/hexo.git checkout -f</span><br></pre></td></tr></table></figure>
+<p>启动nginx：</p>
 <pre><code>sudo nginx -t
 systemctl start nginx
 systemctl status nginx
@@ -170,7 +219,7 @@ deploy:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2019/01/22/基础建设和杂项比较/一台VPS所需要的安装/" data-id="cjr7ieoqm000ftmrrpz0c85k2" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2019/01/22/基础建设和杂项比较/一台VPS所需要的安装/" data-id="cjr7ioxeu000fy4rr49jh11kz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo-git-nginx-ssh/">hexo,git,nginx,ssh,</a></li></ul>
