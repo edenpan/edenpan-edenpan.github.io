@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Eden</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一台VPS所需要的操作又弄了一台VPS，记录下我需要的下载的工具作为一个列表。免得每次都没啥头绪。  创建自己的用户 创建SSH SSR转发 将自己的blog网站迁移以下。 安装Python，Java，Docker，PGSQL。。。。。  创建自己的用户https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-use">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eden">
+<meta property="og:url" content="http://blog.sevenpan.com/2019/01/21/基础建设和杂项比较/一台VPS所需要的安装/index.html">
+<meta property="og:site_name" content="Eden">
+<meta property="og:description" content="一台VPS所需要的操作又弄了一台VPS，记录下我需要的下载的工具作为一个列表。免得每次都没啥头绪。  创建自己的用户 创建SSH SSR转发 将自己的blog网站迁移以下。 安装Python，Java，Docker，PGSQL。。。。。  创建自己的用户https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-use">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-01-22T08:20:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Eden">
+<meta name="twitter:description" content="一台VPS所需要的操作又弄了一台VPS，记录下我需要的下载的工具作为一个列表。免得每次都没啥头绪。  创建自己的用户 创建SSH SSR转发 将自己的blog网站迁移以下。 安装Python，Java，Docker，PGSQL。。。。。  创建自己的用户https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-use">
+  
+    <link rel="alternate" href="/atom.xml" title="Eden" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Eden</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.sevenpan.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-基础建设和杂项比较/一台VPS所需要的安装" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/21/基础建设和杂项比较/一台VPS所需要的安装/" class="article-date">
+  <time datetime="2019-01-21T08:11:33.000Z" itemprop="datePublished">2019-01-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一台VPS所需要的操作"><a href="#一台VPS所需要的操作" class="headerlink" title="一台VPS所需要的操作"></a>一台VPS所需要的操作</h1><p>又弄了一台VPS，记录下我需要的下载的工具作为一个列表。免得每次都没啥头绪。</p>
+<ol>
+<li>创建自己的用户</li>
+<li>创建SSH</li>
+<li>SSR转发</li>
+<li>将自己的blog网站迁移以下。</li>
+<li>安装Python，Java，Docker，PGSQL。。。。。</li>
+</ol>
+<h2 id="创建自己的用户"><a href="#创建自己的用户" class="headerlink" title="创建自己的用户"></a>创建自己的用户</h2><p><a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-on-centos-quickstart" target="_blank" rel="noopener">https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-on-centos-quickstart</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">adduser -p password -Um user</span><br><span class="line">#检查用户是否创建成功</span><br><span class="line">id user</span><br><span class="line">&gt;uid=500(user) gid=500(user) groups=500(user)</span><br><span class="line"># 添加它到root和wheel组</span><br><span class="line">usermod -aG wheel user</span><br><span class="line">usermod -aG root user</span><br><span class="line"># 运行sudo操作</span><br><span class="line">more sudoers</span><br><span class="line">visudoers</span><br><span class="line">#将其中的	# 这里注释掉就好了。</span><br><span class="line">## Allows people in group wheel to run all commands</span><br><span class="line"># %wheel	ALL=(ALL)	ALL</span><br></pre></td></tr></table></figure>
+<h2 id="创建SSH-以及无密码登陆"><a href="#创建SSH-以及无密码登陆" class="headerlink" title="创建SSH 以及无密码登陆"></a>创建SSH 以及无密码登陆</h2><p>搬瓦工自带了ssh，我配置下无须密码输入的登陆就好了，修改本机的.bash_profiles：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">	ssh user@ip -p port mkdir -p .ssh</span><br><span class="line">	cat .ssh/id_rsa.pub | ssh  user@ip -p port &apos;cat &gt;&gt; .ssh/authorized_keys&apos;</span><br><span class="line"></span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line">结果这般操作后还是不能无密码登陆，还有一些东西需要确认。</span><br></pre></td></tr></table></figure>
+<pre><code>chmod 750 ~  
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">以及ssh的配置文件中的：</span><br><span class="line">/etc/ssh/sshd_config  </span><br><span class="line">	</span><br><span class="line">	RSAAuthentication yes</span><br><span class="line">	PubkeyAuthentication yes</span><br><span class="line">需要解开注释。  </span><br><span class="line">	</span><br><span class="line">## 安装Python，git以及Shadowsock</span><br></pre></td></tr></table></figure>
+<h1 id="install-git"><a href="#install-git" class="headerlink" title="install git"></a>install git</h1><p>yum install git</p>
+<h1 id="install-python-2-7-and-pip"><a href="#install-python-2-7-and-pip" class="headerlink" title="install python 2.7 and pip"></a>install python 2.7 and pip</h1><p>sudo yum install -y python-setuptools<br>sudo easy_install pip</p>
+<h1 id="install-ssr"><a href="#install-ssr" class="headerlink" title="install ssr:"></a>install ssr:</h1><p>sudo pip install git+<a href="https://github.com/shadowsocks/shadowsocks.git@master" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks.git@master</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">接下来就是在服务器里面进行配置了：</span><br><span class="line"></span><br><span class="line">1. 设置配置文件：vi /etc/shadowsocks/config.json</span><br></pre></td></tr></table></figure>
+<pre><code>{
+&quot;server&quot;: &quot;0.0.0.0&quot;,
+&quot;server_port&quot;: 443,
+&quot;local_address&quot;: &quot;127.0.0.1&quot;,
+&quot;local_port&quot;: 21080,
+&quot;password&quot;: &quot;password&quot;,
+&quot;timeout&quot;: 300,
+&quot;method&quot;: &quot;aes-256-cfb&quot;,
+&quot;fast_open&quot;: false,
+&quot;workers&quot;: 1
+}
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2. 设置ssr服务为开机启动服务：</span><br><span class="line">增加一个开机启动服务service：</span><br></pre></td></tr></table></figure>
+
+[Unit]
+Description=Shadowsocks
+
+[Service]
+TimeoutStartSec=0
+ExecStart=/usr/bin/ssserver -c /etc/shadowsocks/config.json
+
+[Install]
+WantedBy=multi-user.target
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">运行以下的命令：</span><br></pre></td></tr></table></figure>
+
+systemctl enable shadowsocks
+systemctl start shadowsocks
+systemctl status shadowsocks -l
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line">3. 远程测试一下  </span><br><span class="line">	telnet ip 443</span><br><span class="line"></span><br><span class="line">有一个不错的写了安装脚本的，可以看下，学习下:  </span><br><span class="line">install-shadowsocks.sh:</span><br></pre></td></tr></table></figure>
+</code></pre><p>#!/bin/bash</p>
+<h1 id="Install-Shadowsocks-on-CentOS-7"><a href="#Install-Shadowsocks-on-CentOS-7" class="headerlink" title="Install Shadowsocks on CentOS 7"></a>Install Shadowsocks on CentOS 7</h1><p>echo “Installing Shadowsocks…”</p>
+<p>random-string()<br>{<br>    cat /dev/urandom | tr -dc ‘a-zA-Z0-9’ | fold -w ${1:-32} | head -n 1<br>}</p>
+<p>CONFIG_FILE=/etc/shadowsocks.json<br>SERVICE_FILE=/etc/systemd/system/shadowsocks.service<br>SS_PASSWORD=$(random-string 32)<br>SS_PORT=8388<br>SS_METHOD=aes-256-cfb<br>SS_IP=<code>ip route get 1 | awk &#39;{print $NF;exit}&#39;</code><br>GET_PIP_FILE=/tmp/get-pip.py</p>
+<h1 id="install-pip"><a href="#install-pip" class="headerlink" title="install pip"></a>install pip</h1><p>curl “<a href="https://bootstrap.pypa.io/get-pip.py&quot;" target="_blank" rel="noopener">https://bootstrap.pypa.io/get-pip.py&quot;</a> -o “${GET_PIP_FILE}”<br>python ${GET_PIP_FILE}</p>
+<h1 id="install-shadowsocks"><a href="#install-shadowsocks" class="headerlink" title="install shadowsocks"></a>install shadowsocks</h1><p>pip install –upgrade pip<br>pip install shadowsocks</p>
+<h1 id="create-shadowsocls-config"><a href="#create-shadowsocls-config" class="headerlink" title="create shadowsocls config"></a>create shadowsocls config</h1><p>cat &lt;&lt;EOF | sudo tee ${CONFIG_FILE}<br>{<br>  “server”: “0.0.0.0”,<br>  “server_port”: ${SS_PORT},<br>  “password”: “${SS_PASSWORD}”,<br>  “method”: “${SS_METHOD}”<br>}<br>EOF</p>
+<h1 id="create-service"><a href="#create-service" class="headerlink" title="create service"></a>create service</h1><p>cat &lt;&lt;EOF | sudo tee ${SERVICE_FILE}<br>[Unit]<br>Description=Shadowsocks</p>
+<p>[Service]<br>TimeoutStartSec=0<br>ExecStart=/usr/bin/ssserver -c ${CONFIG_FILE}</p>
+<p>[Install]<br>WantedBy=multi-user.target<br>EOF</p>
+<h1 id="start-service"><a href="#start-service" class="headerlink" title="start service"></a>start service</h1><p>systemctl enable shadowsocks<br>systemctl start shadowsocks</p>
+<h1 id="view-service-status"><a href="#view-service-status" class="headerlink" title="view service status"></a>view service status</h1><p>sleep 5<br>systemctl status shadowsocks -l</p>
+<p>echo “================================”<br>echo “”<br>echo “Congratulations! Shadowsocks has been installed on your system.”<br>echo “You shadowsocks connection info:”<br>echo “——————————–”<br>echo “server:      ${SS_IP}”<br>echo “server_port: ${SS_PORT}”<br>echo “password:    ${SS_PASSWORD}”<br>echo “method:      ${SS_METHOD}”<br>echo “——————————–”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">## 将自己的个人博客转到这个服务器上</span><br><span class="line"></span><br><span class="line">### 安装Nginx</span><br></pre></td></tr></table></figure></p>
+<p>yum -y update<br>rpm -ivh <a href="http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm" target="_blank" rel="noopener">http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm</a><br>yum install nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 将hexo配置上</span><br><span class="line"></span><br><span class="line">#### server端的修改</span><br></pre></td></tr></table></figure>
+<p>#设置hexo到服务器上<br>mkdir -p code/gitLibrary/blog/hexo</p>
+<p>#设置nginx配置，主要是目录：<br>sudo vi /etc/nginx/nginx.conf</p>
+<p>#在配置中添加以下内容<br>    http{<br>            gzip on;<br>            server {<br>                      listen       80 default_server;<br>                      listen       [::]:80 default_server;<br>                      server_name  blog.domain.com; # 填写个人域名<br>                      root         /home/user/code/gitLibrary/blog/hexo;<br>              }<br>    }</p>
+<p>#修改hexo git配置<br>cd /home/user/code/gitLibrary/hexo.git/hooks<br>vi post-update</p>
+<p>#添加一下的内容到文件中。 前面是需要上传的地址路径，后面是git的目录地址<br>git –work-tree=/home/user/code/gitLibrary/blog/hexo –git-dir=/home/user/code/gitLibrary/hexo.git checkout -f<br><code>`</code><br>启动nginx：</p>
+<pre><code>sudo nginx -t
+systemctl start nginx
+systemctl status nginx
+</code></pre><p><strong>踩了一个坑，nginx老是无法访问对应的文件，然后我检查的时候看到相应的文件都以及设置了可读的权限，但是仍然无法访问。后面自己在建立了一个用户来测试，才发现，对于目录文件来说，权限要设置为可读且可执行的才能被读取里面的文件，也就是755的权限了。</strong>    </p>
+<h4 id="本地机器的修改"><a href="#本地机器的修改" class="headerlink" title="本地机器的修改"></a>本地机器的修改</h4><p>修改deploy的git远程机器：</p>
+<pre><code>vi /Users/user/code/blog/_config.yml
+#deploy中需要改为如下：
+deploy:
+  type: git
+  repo: ssh://user@ip:port/home/user/code/gitLibrary/hexo
+  brach: master
+</code></pre><h4 id="域名转换"><a href="#域名转换" class="headerlink" title="域名转换"></a>域名转换</h4><p>IP变了，所以要去域名服务商改下ip。<br>比如我这个是在name    上，进入<a href="https://www.name.com/zh-cn/account/domain/details/sevenpan.com#dns" target="_blank" rel="noopener">DNS</a>设置自己的ip就可以进行转发了。      </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sevenpan.com/2019/01/21/基础建设和杂项比较/一台VPS所需要的安装/" data-id="cjr7hrwhg000fj3rr453c7nsg" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/11/23/基础建设和杂项比较/RPC,REST,SOAP/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algotrading-pyalgotrade/">Algotrading, pyalgotrade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Algotrading-pyalgotrade/" style="font-size: 10px;">Algotrading, pyalgotrade</a> <a href="/tags/deeplearning4j-spark/" style="font-size: 10px;">deeplearning4j; spark</a> <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/01/21/基础建设和杂项比较/一台VPS所需要的安装/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/23/基础建设和杂项比较/RPC,REST,SOAP/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/07/Algo/配对交易策略RQ/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/17/Algo/Somethings About Pyalgotrade/">Somethings About Pyalgotrade  - the Optimizing</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/13/基础建设和杂项比较/hexoWithGit/">Hexo With Git</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Pan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -65,9 +65,116 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-RPC,REST,SOAP" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-基础建设和杂项比较/一台VPS所需要的安装" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/11/23/RPC,REST,SOAP/" class="article-date">
+    <a href="/2019/01/21/基础建设和杂项比较/一台VPS所需要的安装/" class="article-date">
+  <time datetime="2019-01-21T08:11:33.000Z" itemprop="datePublished">2019-01-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一台VPS所需要的操作"><a href="#一台VPS所需要的操作" class="headerlink" title="一台VPS所需要的操作"></a>一台VPS所需要的操作</h1><p>又弄了一台VPS，记录下我需要的下载的工具作为一个列表。免得每次都没啥头绪。</p>
+<ol>
+<li>创建自己的用户</li>
+<li>创建SSH</li>
+<li>SSR转发</li>
+<li>将自己的blog网站迁移以下。</li>
+<li>安装Python，Java，Docker，PGSQL。。。。。</li>
+</ol>
+<h2 id="创建自己的用户"><a href="#创建自己的用户" class="headerlink" title="创建自己的用户"></a>创建自己的用户</h2><p><a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-on-centos-quickstart" target="_blank" rel="noopener">https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-on-centos-quickstart</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">adduser -p password -Um user</span><br><span class="line">#检查用户是否创建成功</span><br><span class="line">id user</span><br><span class="line">&gt;uid=500(user) gid=500(user) groups=500(user)</span><br><span class="line"># 添加它到root和wheel组</span><br><span class="line">usermod -aG wheel user</span><br><span class="line">usermod -aG root user</span><br><span class="line"># 运行sudo操作</span><br><span class="line">more sudoers</span><br><span class="line">visudoers</span><br><span class="line">#将其中的	# 这里注释掉就好了。</span><br><span class="line">## Allows people in group wheel to run all commands</span><br><span class="line"># %wheel	ALL=(ALL)	ALL</span><br></pre></td></tr></table></figure>
+<h2 id="创建SSH-以及无密码登陆"><a href="#创建SSH-以及无密码登陆" class="headerlink" title="创建SSH 以及无密码登陆"></a>创建SSH 以及无密码登陆</h2><p>搬瓦工自带了ssh，我配置下无须密码输入的登陆就好了，修改本机的.bash_profiles：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">	ssh user@ip -p port mkdir -p .ssh</span><br><span class="line">	cat .ssh/id_rsa.pub | ssh  user@ip -p port &apos;cat &gt;&gt; .ssh/authorized_keys&apos;</span><br><span class="line"></span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line">结果这般操作后还是不能无密码登陆，还有一些东西需要确认。</span><br></pre></td></tr></table></figure>
+<pre><code>chmod 750 ~  
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">以及ssh的配置文件中的：</span><br><span class="line">/etc/ssh/sshd_config  </span><br><span class="line">	</span><br><span class="line">	RSAAuthentication yes</span><br><span class="line">	PubkeyAuthentication yes</span><br><span class="line">需要解开注释。  </span><br><span class="line">	</span><br><span class="line">## 安装Python，git以及Shadowsock</span><br></pre></td></tr></table></figure>
+<h1 id="install-git"><a href="#install-git" class="headerlink" title="install git"></a>install git</h1><p>yum install git</p>
+<h1 id="install-python-2-7-and-pip"><a href="#install-python-2-7-and-pip" class="headerlink" title="install python 2.7 and pip"></a>install python 2.7 and pip</h1><p>sudo yum install -y python-setuptools<br>sudo easy_install pip</p>
+<h1 id="install-ssr"><a href="#install-ssr" class="headerlink" title="install ssr:"></a>install ssr:</h1><p>sudo pip install git+<a href="https://github.com/shadowsocks/shadowsocks.git@master" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks.git@master</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">接下来就是在服务器里面进行配置了：</span><br><span class="line"></span><br><span class="line">1. 设置配置文件：vi /etc/shadowsocks/config.json</span><br></pre></td></tr></table></figure>
+<pre><code>{
+&quot;server&quot;: &quot;0.0.0.0&quot;,
+&quot;server_port&quot;: 443,
+&quot;local_address&quot;: &quot;127.0.0.1&quot;,
+&quot;local_port&quot;: 21080,
+&quot;password&quot;: &quot;password&quot;,
+&quot;timeout&quot;: 300,
+&quot;method&quot;: &quot;aes-256-cfb&quot;,
+&quot;fast_open&quot;: false,
+&quot;workers&quot;: 1
+}
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2. 设置ssr服务为开机启动服务：</span><br><span class="line">增加一个开机启动服务service：</span><br></pre></td></tr></table></figure>
+
+[Unit]
+Description=Shadowsocks
+
+[Service]
+TimeoutStartSec=0
+ExecStart=/usr/bin/ssserver -c /etc/shadowsocks/config.json
+
+[Install]
+WantedBy=multi-user.target
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">运行以下的命令：</span><br></pre></td></tr></table></figure>
+
+systemctl enable shadowsocks
+systemctl start shadowsocks
+systemctl status shadowsocks -l
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line">3. 远程测试一下  </span><br><span class="line">	telnet ip 443</span><br><span class="line"></span><br><span class="line">有一个不错的写了安装脚本的，可以看下，学习下:  </span><br><span class="line">install-shadowsocks.sh:</span><br></pre></td></tr></table></figure>
+</code></pre><p>#!/bin/bash</p>
+<h1 id="Install-Shadowsocks-on-CentOS-7"><a href="#Install-Shadowsocks-on-CentOS-7" class="headerlink" title="Install Shadowsocks on CentOS 7"></a>Install Shadowsocks on CentOS 7</h1><p>echo “Installing Shadowsocks…”</p>
+<p>random-string()<br>{<br>    cat /dev/urandom | tr -dc ‘a-zA-Z0-9’ | fold -w ${1:-32} | head -n 1<br>}</p>
+<p>CONFIG_FILE=/etc/shadowsocks.json<br>SERVICE_FILE=/etc/systemd/system/shadowsocks.service<br>SS_PASSWORD=$(random-string 32)<br>SS_PORT=8388<br>SS_METHOD=aes-256-cfb<br>SS_IP=<code>ip route get 1 | awk &#39;{print $NF;exit}&#39;</code><br>GET_PIP_FILE=/tmp/get-pip.py</p>
+<h1 id="install-pip"><a href="#install-pip" class="headerlink" title="install pip"></a>install pip</h1><p>curl “<a href="https://bootstrap.pypa.io/get-pip.py&quot;" target="_blank" rel="noopener">https://bootstrap.pypa.io/get-pip.py&quot;</a> -o “${GET_PIP_FILE}”<br>python ${GET_PIP_FILE}</p>
+<h1 id="install-shadowsocks"><a href="#install-shadowsocks" class="headerlink" title="install shadowsocks"></a>install shadowsocks</h1><p>pip install –upgrade pip<br>pip install shadowsocks</p>
+<h1 id="create-shadowsocls-config"><a href="#create-shadowsocls-config" class="headerlink" title="create shadowsocls config"></a>create shadowsocls config</h1><p>cat &lt;&lt;EOF | sudo tee ${CONFIG_FILE}<br>{<br>  “server”: “0.0.0.0”,<br>  “server_port”: ${SS_PORT},<br>  “password”: “${SS_PASSWORD}”,<br>  “method”: “${SS_METHOD}”<br>}<br>EOF</p>
+<h1 id="create-service"><a href="#create-service" class="headerlink" title="create service"></a>create service</h1><p>cat &lt;&lt;EOF | sudo tee ${SERVICE_FILE}<br>[Unit]<br>Description=Shadowsocks</p>
+<p>[Service]<br>TimeoutStartSec=0<br>ExecStart=/usr/bin/ssserver -c ${CONFIG_FILE}</p>
+<p>[Install]<br>WantedBy=multi-user.target<br>EOF</p>
+<h1 id="start-service"><a href="#start-service" class="headerlink" title="start service"></a>start service</h1><p>systemctl enable shadowsocks<br>systemctl start shadowsocks</p>
+<h1 id="view-service-status"><a href="#view-service-status" class="headerlink" title="view service status"></a>view service status</h1><p>sleep 5<br>systemctl status shadowsocks -l</p>
+<p>echo “================================”<br>echo “”<br>echo “Congratulations! Shadowsocks has been installed on your system.”<br>echo “You shadowsocks connection info:”<br>echo “——————————–”<br>echo “server:      ${SS_IP}”<br>echo “server_port: ${SS_PORT}”<br>echo “password:    ${SS_PASSWORD}”<br>echo “method:      ${SS_METHOD}”<br>echo “——————————–”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">## 将自己的个人博客转到这个服务器上</span><br><span class="line"></span><br><span class="line">### 安装Nginx</span><br></pre></td></tr></table></figure></p>
+<p>yum -y update<br>rpm -ivh <a href="http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm" target="_blank" rel="noopener">http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm</a><br>yum install nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 将hexo配置上</span><br><span class="line"></span><br><span class="line">#### server端的修改</span><br></pre></td></tr></table></figure>
+<p>#设置hexo到服务器上<br>mkdir -p code/gitLibrary/blog/hexo</p>
+<p>#设置nginx配置，主要是目录：<br>sudo vi /etc/nginx/nginx.conf</p>
+<p>#在配置中添加以下内容<br>    http{<br>            gzip on;<br>            server {<br>                      listen       80 default_server;<br>                      listen       [::]:80 default_server;<br>                      server_name  blog.domain.com; # 填写个人域名<br>                      root         /home/user/code/gitLibrary/blog/hexo;<br>              }<br>    }</p>
+<p>#修改hexo git配置<br>cd /home/user/code/gitLibrary/hexo.git/hooks<br>vi post-update</p>
+<p>#添加一下的内容到文件中。 前面是需要上传的地址路径，后面是git的目录地址<br>git –work-tree=/home/user/code/gitLibrary/blog/hexo –git-dir=/home/user/code/gitLibrary/hexo.git checkout -f<br><code>`</code><br>启动nginx：</p>
+<pre><code>sudo nginx -t
+systemctl start nginx
+systemctl status nginx
+</code></pre><p><strong>踩了一个坑，nginx老是无法访问对应的文件，然后我检查的时候看到相应的文件都以及设置了可读的权限，但是仍然无法访问。后面自己在建立了一个用户来测试，才发现，对于目录文件来说，权限要设置为可读且可执行的才能被读取里面的文件，也就是755的权限了。</strong>    </p>
+<h4 id="本地机器的修改"><a href="#本地机器的修改" class="headerlink" title="本地机器的修改"></a>本地机器的修改</h4><p>修改deploy的git远程机器：</p>
+<pre><code>vi /Users/user/code/blog/_config.yml
+#deploy中需要改为如下：
+deploy:
+  type: git
+  repo: ssh://user@ip:port/home/user/code/gitLibrary/hexo
+  brach: master
+</code></pre><h4 id="域名转换"><a href="#域名转换" class="headerlink" title="域名转换"></a>域名转换</h4><p>IP变了，所以要去域名服务商改下ip。<br>比如我这个是在name    上，进入<a href="https://www.name.com/zh-cn/account/domain/details/sevenpan.com#dns" target="_blank" rel="noopener">DNS</a>设置自己的ip就可以进行转发了。      </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sevenpan.com/2019/01/21/基础建设和杂项比较/一台VPS所需要的安装/" data-id="cjr7hrwhg000fj3rr453c7nsg" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-基础建设和杂项比较/RPC,REST,SOAP" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/23/基础建设和杂项比较/RPC,REST,SOAP/" class="article-date">
   <time datetime="2018-11-23T05:58:11.000Z" itemprop="datePublished">2018-11-23</time>
 </a>
     
@@ -118,7 +225,7 @@ REST：预约已经成功，这是详细的预约内容。
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/11/23/RPC,REST,SOAP/" data-id="cjr7cz26l0005cgrre3j1x43r" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/11/23/基础建设和杂项比较/RPC,REST,SOAP/" data-id="cjr7hrwhf000dj3rr5jbntler" class="article-share-link">Share</a>
       
       
     </footer>
@@ -128,9 +235,9 @@ REST：预约已经成功，这是详细的预约内容。
 
 
   
-    <article id="post-配对交易策略RQ" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Algo/配对交易策略RQ" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/11/07/配对交易策略RQ/" class="article-date">
+    <a href="/2018/11/07/Algo/配对交易策略RQ/" class="article-date">
   <time datetime="2018-11-07T08:21:17.000Z" itemprop="datePublished">2018-11-07</time>
 </a>
     
@@ -182,7 +289,7 @@ REST：预约已经成功，这是详细的预约内容。
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/11/07/配对交易策略RQ/" data-id="cjr7cz26r000ccgrr6lbuvvdz" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/11/07/Algo/配对交易策略RQ/" data-id="cjr7hrwgy0000j3rrmamkt7gy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -192,9 +299,9 @@ REST：预约已经成功，这是详细的预约内容。
 
 
   
-    <article id="post-Somethings About Pyalgotrade" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Algo/Somethings About Pyalgotrade" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/10/17/Somethings About Pyalgotrade/" class="article-date">
+    <a href="/2018/10/17/Algo/Somethings About Pyalgotrade/" class="article-date">
   <time datetime="2018-10-17T05:27:39.000Z" itemprop="datePublished">2018-10-17</time>
 </a>
     
@@ -206,7 +313,7 @@ REST：预约已经成功，这是详细的预约内容。
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/17/Somethings About Pyalgotrade/">Somethings About Pyalgotrade  - the Optimizing</a>
+      <a class="article-title" href="/2018/10/17/Algo/Somethings About Pyalgotrade/">Somethings About Pyalgotrade  - the Optimizing</a>
     </h1>
   
 
@@ -294,7 +401,7 @@ worker.run(rsi2.RSI2, &quot;localhost&quot;, 5000, workerName=&quot;localworker&
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/10/17/Somethings About Pyalgotrade/" data-id="cjr7cz26o0008cgrrk6ew1q7o" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/10/17/Algo/Somethings About Pyalgotrade/" data-id="cjr7hrwh10001j3rrj51hazju" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algotrading-pyalgotrade/">Algotrading, pyalgotrade</a></li></ul>
@@ -306,9 +413,9 @@ worker.run(rsi2.RSI2, &quot;localhost&quot;, 5000, workerName=&quot;localworker&
 
 
   
-    <article id="post-hexoWithGit" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-基础建设和杂项比较/hexoWithGit" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/10/13/hexoWithGit/" class="article-date">
+    <a href="/2018/10/13/基础建设和杂项比较/hexoWithGit/" class="article-date">
   <time datetime="2018-10-13T14:18:38.000Z" itemprop="datePublished">2018-10-13</time>
 </a>
     
@@ -320,7 +427,7 @@ worker.run(rsi2.RSI2, &quot;localhost&quot;, 5000, workerName=&quot;localworker&
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/13/hexoWithGit/">Hexo With Git</a>
+      <a class="article-title" href="/2018/10/13/基础建设和杂项比较/hexoWithGit/">Hexo With Git</a>
     </h1>
   
 
@@ -377,7 +484,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/10/13/hexoWithGit/" data-id="cjr7cz26p0009cgrrn0wn60ct" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/10/13/基础建设和杂项比较/hexoWithGit/" data-id="cjr7hrwhd000bj3rr3rnu3p1y" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
@@ -389,9 +496,9 @@ hexo deploy
 
 
   
-    <article id="post-Shuffle_翻译自spark_programming_guideline" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-SparkAndDeepLearning/Shuffle_翻译自spark_programming_guideline" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/04/23/Shuffle_翻译自spark_programming_guideline/" class="article-date">
+    <a href="/2018/04/23/SparkAndDeepLearning/Shuffle_翻译自spark_programming_guideline/" class="article-date">
   <time datetime="2018-04-23T10:17:04.000Z" itemprop="datePublished">2018-04-23</time>
 </a>
     
@@ -403,7 +510,7 @@ hexo deploy
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/23/Shuffle_翻译自spark_programming_guideline/">Spark Programming--- Shuffle Operations 翻译</a>
+      <a class="article-title" href="/2018/04/23/SparkAndDeepLearning/Shuffle_翻译自spark_programming_guideline/">Spark Programming--- Shuffle Operations 翻译</a>
     </h1>
   
 
@@ -568,7 +675,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/23/Shuffle_翻译自spark_programming_guideline/" data-id="cjr7cz26m0007cgrrjjrt34f0" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/23/SparkAndDeepLearning/Shuffle_翻译自spark_programming_guideline/" data-id="cjr7hrwha0009j3rrbejj0s5h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -578,9 +685,9 @@ hexo deploy
 
 
   
-    <article id="post-Distributed Training- Gradients Sharing" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-SparkAndDeepLearning/Distributed Training- Gradients Sharing" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/04/20/Distributed Training- Gradients Sharing/" class="article-date">
+    <a href="/2018/04/20/SparkAndDeepLearning/Distributed Training- Gradients Sharing/" class="article-date">
   <time datetime="2018-04-20T06:30:54.000Z" itemprop="datePublished">2018-04-20</time>
 </a>
     
@@ -592,7 +699,7 @@ hexo deploy
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/20/Distributed Training- Gradients Sharing/">Distributed Training_Gradients Sharing 翻译</a>
+      <a class="article-title" href="/2018/04/20/SparkAndDeepLearning/Distributed Training- Gradients Sharing/">Distributed Training_Gradients Sharing 翻译</a>
     </h1>
   
 
@@ -618,7 +725,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/20/Distributed Training- Gradients Sharing/" data-id="cjr7cz26i0003cgrrtjg688fd" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/20/SparkAndDeepLearning/Distributed Training- Gradients Sharing/" data-id="cjr7hrwh70004j3rrr5iaztl6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -628,9 +735,9 @@ hexo deploy
 
 
   
-    <article id="post-Deep Learning on Apache Spark" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-SparkAndDeepLearning/Deep Learning on Apache Spark" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/04/15/Deep Learning on Apache Spark/" class="article-date">
+    <a href="/2018/04/15/SparkAndDeepLearning/Deep Learning on Apache Spark/" class="article-date">
   <time datetime="2018-04-15T04:41:12.000Z" itemprop="datePublished">2018-04-15</time>
 </a>
     
@@ -642,7 +749,7 @@ hexo deploy
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/15/Deep Learning on Apache Spark/">Deep Learning on Apache Spark 翻译</a>
+      <a class="article-title" href="/2018/04/15/SparkAndDeepLearning/Deep Learning on Apache Spark/">Deep Learning on Apache Spark 翻译</a>
     </h1>
   
 
@@ -689,7 +796,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/15/Deep Learning on Apache Spark/" data-id="cjr7cz26b0000cgrrqolwu3zc" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/15/SparkAndDeepLearning/Deep Learning on Apache Spark/" data-id="cjr7hrwh40002j3rr8bt06mq3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li></ul>
@@ -701,9 +808,9 @@ hexo deploy
 
 
   
-    <article id="post-RDDSpark" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-SparkAndDeepLearning/RDDSpark" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/04/04/RDDSpark/" class="article-date">
+    <a href="/2018/04/04/SparkAndDeepLearning/RDDSpark/" class="article-date">
   <time datetime="2018-04-04T06:31:10.000Z" itemprop="datePublished">2018-04-04</time>
 </a>
     
@@ -715,7 +822,7 @@ hexo deploy
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/04/RDDSpark/">RDD Programming Guide 翻译</a>
+      <a class="article-title" href="/2018/04/04/SparkAndDeepLearning/RDDSpark/">RDD Programming Guide 翻译</a>
     </h1>
   
 
@@ -755,7 +862,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/04/RDDSpark/" data-id="cjr7cz26k0004cgrro127god7" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/04/SparkAndDeepLearning/RDDSpark/" data-id="cjr7hrwh90006j3rrcjjtadol" class="article-share-link">Share</a>
       
       
     </footer>
@@ -765,9 +872,9 @@ hexo deploy
 
 
   
-    <article id="post-sparkLearningNote" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-SparkAndDeepLearning/sparkLearningNote" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/04/02/sparkLearningNote/" class="article-date">
+    <a href="/2018/04/02/SparkAndDeepLearning/sparkLearningNote/" class="article-date">
   <time datetime="2018-04-02T13:57:35.000Z" itemprop="datePublished">2018-04-02</time>
 </a>
     
@@ -779,7 +886,7 @@ hexo deploy
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/02/sparkLearningNote/">Sparks 的一些名词</a>
+      <a class="article-title" href="/2018/04/02/SparkAndDeepLearning/sparkLearningNote/">Sparks 的一些名词</a>
     </h1>
   
 
@@ -811,52 +918,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/02/sparkLearningNote/" data-id="cjr7cz26q000bcgrrkvq5l1lc" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-LSTM" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/04/02/LSTM/" class="article-date">
-  <time datetime="2018-04-02T06:05:05.000Z" itemprop="datePublished">2018-04-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/02/LSTM/">LSTM Walk Through 翻译</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="LSTM-Walk-Through"><a href="#LSTM-Walk-Through" class="headerlink" title="LSTM Walk Through"></a>LSTM Walk Through</h1><p>reference: <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank" rel="noopener">http://colah.github.io/posts/2015-08-Understanding-LSTMs/</a></p>
-<p>在下面这个LSTM模型中，需要决定的第一点就是我们将要丢掉什么从cell 状态中。<br>这个决定是被一个称为：“forget gate layer” 的sigmoid 层来决定的。它将 \( h_{t-1}\) 和 \(x_t\)作为输入，并且输出一个介于0到1之间的值在cell state \(C_{t-1}\). 1代表完全的保存而0代表完全丢掉。<br>接下来我们看回之前的语言模型，试图根据前一个值来预测下一个值。在这个问题中，这个Cell state可能包括包括当前客体的性别，所以正确的代词才会被使用。当我们看到一个新的客体时，我们想要忘掉老的客体。<br><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-focus-f.png" alt=""><br>下一步是决定哪些新的信息我们想要存储到cell state中。这里有两个部分：  </p>
-<pre><code>1. 一个sigmoid层，称为“input gate layer”，决定哪些值，我们将会更新。
-2. 一个tanh层，创造一个新的候选值的向量，\\( C_t^~ \\),将会用来加入到状态中。在下一步，我们将会组合这两个然后来在状态里创造一个升级。
-</code></pre><p>在我们的语言模型中，我们想要增加新客体的性别到cell state中，来替换我们忘掉的老的。</p>
-<p><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-focus-i.png" alt=""><br>现在是时候升级老的cell state，\(C_{t-1} \)到新的cell state \( C_t\).前一个步骤已经实际决定了怎么做，我们只需要真正实施就好。<br>我们对老的state乘 \( f_t\),来忘记我们之前决定忘记的。然后我们加上 \( i_t * C_t^{~} \). 这是新的候选值，通过我们决定升级多少的状态来扩展。<br>在这个语言模型中，这是我们实际丢掉老客体的性别和添加它们新的信息的地方。<br><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-focus-C.png" alt=""></p>
-<p>最终我们需要决定我们想要输出什么。这个输出将会基于我们的cell state，但是将会是一个filtered 版本。首先我们运行一个sigmoid 层级，来决定cell state哪一部分我们将会输出，然后我们将这个cell state进行tanh处理（将这个值输出为-1 到 1 之间）然后和sigmoid gate的输出相乘，这样我们只输出我们想要的部分。  </p>
-<p>对于语言模型例子，由于它只是看到一个客体，也许想要输出信息和动词相关。比如它可能输出是否这个客体是单数或者复数，这样我们知道接下来应该使用什么形式的动词。<br><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-focus-o.png" alt=""></p>
-<h2 id="Variances-in-Code"><a href="#Variances-in-Code" class="headerlink" title="Variances in Code"></a>Variances in Code</h2><p><b>batch_size:</b>denotes the subset size of your training sample (e.g. 100 out of 1000) which is going to be used in order to train the network during its learning process. Each batch trains network in a successive order, taking into account the updated weights coming from the appliance of the previous batch.<br>在学习过程中将会用来训练你的模型的数量。每一个batch训练network在一个连续的顺序，会不断的更新权重。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/02/LSTM/" data-id="cjr7cz26f0001cgrrwjhaytas" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/02/SparkAndDeepLearning/sparkLearningNote/" data-id="cjr7hrwhc000aj3rr0cc5u4g7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -867,6 +929,11 @@ hexo deploy
 
   
 
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
 
 </section>
         
@@ -898,7 +965,7 @@ hexo deploy
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
     </div>
   </div>
 
@@ -911,23 +978,23 @@ hexo deploy
       <ul>
         
           <li>
-            <a href="/2018/11/23/RPC,REST,SOAP/">(no title)</a>
+            <a href="/2019/01/21/基础建设和杂项比较/一台VPS所需要的安装/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2018/11/07/配对交易策略RQ/">(no title)</a>
+            <a href="/2018/11/23/基础建设和杂项比较/RPC,REST,SOAP/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2018/10/17/Somethings About Pyalgotrade/">Somethings About Pyalgotrade  - the Optimizing</a>
+            <a href="/2018/11/07/Algo/配对交易策略RQ/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2018/10/13/hexoWithGit/">Hexo With Git</a>
+            <a href="/2018/10/17/Algo/Somethings About Pyalgotrade/">Somethings About Pyalgotrade  - the Optimizing</a>
           </li>
         
           <li>
-            <a href="/2018/04/23/Shuffle_翻译自spark_programming_guideline/">Spark Programming--- Shuffle Operations 翻译</a>
+            <a href="/2018/10/13/基础建设和杂项比较/hexoWithGit/">Hexo With Git</a>
           </li>
         
       </ul>
