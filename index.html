@@ -98,15 +98,14 @@
 <h3 id="创建自己的用户"><a href="#创建自己的用户" class="headerlink" title="创建自己的用户"></a>创建自己的用户</h3><p><a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-on-centos-quickstart" target="_blank" rel="noopener">https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-on-centos-quickstart</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">adduser -p password -Um user</span><br><span class="line">#检查用户是否创建成功</span><br><span class="line">id user</span><br><span class="line">&gt;uid=500(user) gid=500(user) groups=500(user)</span><br><span class="line"># 添加它到root和wheel组</span><br><span class="line">usermod -aG wheel user</span><br><span class="line">usermod -aG root user</span><br><span class="line"># 运行sudo操作</span><br><span class="line">more sudoers</span><br><span class="line">visudoers</span><br><span class="line">#将其中的	# 这里注释掉就好了。</span><br><span class="line">## Allows people in group wheel to run all commands</span><br><span class="line"># %wheel	ALL=(ALL)	ALL</span><br></pre></td></tr></table></figure>
 <h3 id="创建SSH-以及无密码登陆"><a href="#创建SSH-以及无密码登陆" class="headerlink" title="创建SSH 以及无密码登陆"></a>创建SSH 以及无密码登陆</h3><p>搬瓦工自带了ssh，我配置下无须密码输入的登陆就好了，修改本机的.bash_profiles：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">	ssh user@ip -p port mkdir -p .ssh</span><br><span class="line">	cat .ssh/id_rsa.pub | ssh  user@ip -p port &apos;cat &gt;&gt; .ssh/authorized_keys&apos;</span><br><span class="line"></span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line">结果这般操作后还是不能无密码登陆，还有一些东西需要确认。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">	ssh user@ip -p port mkdir -p .ssh</span><br><span class="line">	cat .ssh/id_rsa.pub | ssh  user@ip -p port &apos;cat &gt;&gt; .ssh/authorized_keys&apos;</span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line">结果这般操作后还是不能无密码登陆，还有一些东西需要确认。</span><br></pre></td></tr></table></figure>
 <pre><code>chmod 750 ~  
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/authorized_keys
 </code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">以及ssh的配置文件中的：</span><br><span class="line">/etc/ssh/sshd_config  </span><br><span class="line">	</span><br><span class="line">	RSAAuthentication yes</span><br><span class="line">	PubkeyAuthentication yes</span><br><span class="line">需要解开注释。  </span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">### 安装Python，git以及Shadowsock</span><br></pre></td></tr></table></figure>
 <h1 id="install-git"><a href="#install-git" class="headerlink" title="install git"></a>install git</h1><p>yum install git</p>
 <h1 id="install-python-2-7-and-pip"><a href="#install-python-2-7-and-pip" class="headerlink" title="install python 2.7 and pip"></a>install python 2.7 and pip</h1><p>sudo yum install -y python-setuptools<br>sudo easy_install pip</p>
-<h1 id="install-ssr"><a href="#install-ssr" class="headerlink" title="install ssr:"></a>install ssr:</h1><p>sudo pip install git+<a href="https://github.com/shadowsocks/shadowsocks.git@master" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks.git@master</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">接下来就是在服务器里面进行配置了：</span><br><span class="line"></span><br><span class="line">1. 设置配置文件：vi /etc/shadowsocks/config.json</span><br></pre></td></tr></table></figure>
+<h1 id="install-ssr"><a href="#install-ssr" class="headerlink" title="install ssr:"></a>install ssr:</h1><p>sudo pip install git+<a href="https://github.com/shadowsocks/shadowsocks.git@master" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks.git@master</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">接下来就是在服务器里面进行配置了：</span><br><span class="line"></span><br><span class="line">1. 设置配置文件：vi /etc/shadowsocks/config.json</span><br></pre></td></tr></table></figure></p>
 <pre><code>{
 &quot;server&quot;: &quot;0.0.0.0&quot;,
 &quot;server_port&quot;: 443,
@@ -118,7 +117,6 @@ chmod 600 ~/.ssh/authorized_keys
 &quot;fast_open&quot;: false,
 &quot;workers&quot;: 1
 }
-
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2. 设置ssr服务为开机启动服务：</span><br><span class="line">增加一个开机启动服务service：</span><br></pre></td></tr></table></figure>
 
 [Unit]
@@ -130,7 +128,7 @@ ExecStart=/usr/bin/ssserver -c /etc/shadowsocks/config.json
 
 [Install]
 WantedBy=multi-user.target
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">运行以下的命令：</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行以下的命令：</span><br></pre></td></tr></table></figure>
 
 systemctl enable shadowsocks
 systemctl start shadowsocks
@@ -172,7 +170,7 @@ deploy:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2019/01/22/基础建设和杂项比较/一台VPS所需要的安装/" data-id="cjr7i0r1d000bnlrrh9gtr8rb" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2019/01/22/基础建设和杂项比较/一台VPS所需要的安装/" data-id="cjr7ieoqm000ftmrrpz0c85k2" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo-git-nginx-ssh/">hexo,git,nginx,ssh,</a></li></ul>
@@ -237,7 +235,7 @@ REST：预约已经成功，这是详细的预约内容。
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/11/23/基础建设和杂项比较/RPC,REST,SOAP/" data-id="cjr7i0r1n000inlrrdn432ryd" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/11/23/基础建设和杂项比较/RPC,REST,SOAP/" data-id="cjr7ieoqj000dtmrrlqbbf2jo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -301,7 +299,7 @@ REST：预约已经成功，这是详细的预约内容。
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/11/07/Algo/配对交易策略RQ/" data-id="cjr7i0r0z0000nlrrskhnth3c" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/11/07/Algo/配对交易策略RQ/" data-id="cjr7ieoq70001tmrreunffxjv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -413,7 +411,7 @@ worker.run(rsi2.RSI2, &quot;localhost&quot;, 5000, workerName=&quot;localworker&
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/10/17/Algo/Somethings About Pyalgotrade/" data-id="cjr7i0r160003nlrrkgizcmu9" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/10/17/Algo/Somethings About Pyalgotrade/" data-id="cjr7ieoq30000tmrr7vqmw3sq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algotrading-pyalgotrade/">Algotrading, pyalgotrade</a></li></ul>
@@ -496,7 +494,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/10/13/基础建设和杂项比较/hexoWithGit/" data-id="cjr7i0r1c000anlrrk9bpvr6q" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/10/13/基础建设和杂项比较/hexoWithGit/" data-id="cjr7ieoqi000ctmrr06rur1k3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li></ul>
@@ -687,7 +685,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/23/SparkAndDeepLearning/Shuffle_翻译自spark_programming_guideline/" data-id="cjr7i0r1f000dnlrr3snxxn17" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/23/SparkAndDeepLearning/Shuffle_翻译自spark_programming_guideline/" data-id="cjr7ieoqh000atmrrmlx0h4xy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -737,7 +735,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/20/SparkAndDeepLearning/Distributed Training- Gradients Sharing/" data-id="cjr7i0r130001nlrrec1jl97l" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/20/SparkAndDeepLearning/Distributed Training- Gradients Sharing/" data-id="cjr7ieoqe0008tmrrz59tdm46" class="article-share-link">Share</a>
       
       
     </footer>
@@ -808,7 +806,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/15/SparkAndDeepLearning/Deep Learning on Apache Spark/" data-id="cjr7i0r140002nlrrso9765rz" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/15/SparkAndDeepLearning/Deep Learning on Apache Spark/" data-id="cjr7ieoqa0003tmrrsz4zwnqf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li></ul>
@@ -874,7 +872,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/04/SparkAndDeepLearning/RDDSpark/" data-id="cjr7i0r1a0007nlrrgxrk9970" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/04/SparkAndDeepLearning/RDDSpark/" data-id="cjr7ieoqc0004tmrrkv2ojv59" class="article-share-link">Share</a>
       
       
     </footer>
@@ -930,7 +928,7 @@ hexo deploy
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/02/SparkAndDeepLearning/sparkLearningNote/" data-id="cjr7i0r180005nlrrgw14w6h2" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/02/SparkAndDeepLearning/sparkLearningNote/" data-id="cjr7ieoqg0009tmrrb22mys1f" class="article-share-link">Share</a>
       
       
     </footer>
