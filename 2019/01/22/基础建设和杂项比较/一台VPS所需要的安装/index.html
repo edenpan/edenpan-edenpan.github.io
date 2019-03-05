@@ -7,18 +7,18 @@
   
   <title>一台VPS所需要的操作 | Eden</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一台VPS所需要的操作又弄了一台VPS，记录下我需要的下载的工具作为一个列表。免得每次都没啥头绪。  创建自己的用户 创建SSH SSR转发 将自己的blog网站迁移 安装Python，Java，Docker，git, PGSQL…  创建自己的用户https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-">
+  <meta name="description" content="一台VPS所需要的操作又弄了一台VPS，记录下我需要的下载的工具作为一个列表。免得每次都没啥头绪。  创建自己的用户 创建SSH SSR转发 将自己的blog网站迁移 安装FTP 自行安装简单的防火墙 安装Python，Java，Docker，git, PGSQL…  创建自己的用户https://www.digitalocean.com/community/tutorials/how-to-cr">
 <meta name="keywords" content="hexo,git,nginx,ssh,">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一台VPS所需要的操作">
 <meta property="og:url" content="http://blog.sevenpan.com/2019/01/22/基础建设和杂项比较/一台VPS所需要的安装/index.html">
 <meta property="og:site_name" content="Eden">
-<meta property="og:description" content="一台VPS所需要的操作又弄了一台VPS，记录下我需要的下载的工具作为一个列表。免得每次都没啥头绪。  创建自己的用户 创建SSH SSR转发 将自己的blog网站迁移 安装Python，Java，Docker，git, PGSQL…  创建自己的用户https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-">
+<meta property="og:description" content="一台VPS所需要的操作又弄了一台VPS，记录下我需要的下载的工具作为一个列表。免得每次都没啥头绪。  创建自己的用户 创建SSH SSR转发 将自己的blog网站迁移 安装FTP 自行安装简单的防火墙 安装Python，Java，Docker，git, PGSQL…  创建自己的用户https://www.digitalocean.com/community/tutorials/how-to-cr">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-01-22T08:47:45.000Z">
+<meta property="og:updated_time" content="2019-03-01T16:02:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一台VPS所需要的操作">
-<meta name="twitter:description" content="一台VPS所需要的操作又弄了一台VPS，记录下我需要的下载的工具作为一个列表。免得每次都没啥头绪。  创建自己的用户 创建SSH SSR转发 将自己的blog网站迁移 安装Python，Java，Docker，git, PGSQL…  创建自己的用户https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-">
+<meta name="twitter:description" content="一台VPS所需要的操作又弄了一台VPS，记录下我需要的下载的工具作为一个列表。免得每次都没啥头绪。  创建自己的用户 创建SSH SSR转发 将自己的blog网站迁移 安装FTP 自行安装简单的防火墙 安装Python，Java，Docker，git, PGSQL…  创建自己的用户https://www.digitalocean.com/community/tutorials/how-to-cr">
   
     <link rel="alternate" href="/atom.xml" title="Eden" type="application/atom+xml">
   
@@ -93,16 +93,26 @@
 <li>创建SSH</li>
 <li>SSR转发</li>
 <li>将自己的blog网站迁移</li>
+<li>安装FTP</li>
+<li>自行安装简单的防火墙</li>
 <li>安装Python，Java，Docker，git, PGSQL…</li>
 </ol>
 <h3 id="创建自己的用户"><a href="#创建自己的用户" class="headerlink" title="创建自己的用户"></a>创建自己的用户</h3><p><a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-on-centos-quickstart" target="_blank" rel="noopener">https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-on-centos-quickstart</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">adduser -p password -Um user</span><br><span class="line">#检查用户是否创建成功</span><br><span class="line">id user</span><br><span class="line">&gt;uid=500(user) gid=500(user) groups=500(user)</span><br><span class="line"># 添加它到root和wheel组</span><br><span class="line">usermod -aG wheel user</span><br><span class="line">usermod -aG root user</span><br><span class="line"># 运行sudo操作</span><br><span class="line">more sudoers</span><br><span class="line">visudoers</span><br><span class="line">#将其中的	# 这里注释掉就好了。</span><br><span class="line">## Allows people in group wheel to run all commands</span><br><span class="line"># %wheel	ALL=(ALL)	ALL</span><br></pre></td></tr></table></figure>
-<h3 id="创建SSH-以及无密码登陆"><a href="#创建SSH-以及无密码登陆" class="headerlink" title="创建SSH 以及无密码登陆"></a>创建SSH 以及无密码登陆</h3><p>搬瓦工自带了ssh，我配置下无须密码输入的登陆就好了，修改本机的.bash_profiles：</p>
+<p>git 用户：</p>
+<pre><code>sudo adduser git
+su git
+cd
+mkdir .ssh &amp;&amp; chmod 700 .ssh
+touch .ssh/authorized_keys &amp;&amp; chmod 600 .ssh/authorized_keys
+</code></pre><h3 id="创建SSH-以及无密码登陆"><a href="#创建SSH-以及无密码登陆" class="headerlink" title="创建SSH 以及无密码登陆"></a>创建SSH 以及无密码登陆</h3><p>搬瓦工自带了ssh，我配置下无须密码输入的登陆就好了，修改本机的.bash_profiles：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">	ssh user@ip -p port mkdir -p .ssh</span><br><span class="line">	cat .ssh/id_rsa.pub | ssh  user@ip -p port &apos;cat &gt;&gt; .ssh/authorized_keys&apos;</span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line">结果这般操作后还是不能无密码登陆，还有一些东西需要确认。</span><br></pre></td></tr></table></figure>
 <pre><code>chmod 750 ~  
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/authorized_keys
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">以及ssh的配置文件中的：</span><br><span class="line">/etc/ssh/sshd_config  </span><br><span class="line">	</span><br><span class="line">	RSAAuthentication yes</span><br><span class="line">	PubkeyAuthentication yes</span><br><span class="line">需要解开注释。  </span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">### 安装Python，git以及Shadowsock</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">以及ssh的配置文件中的：</span><br><span class="line">/etc/ssh/sshd_config  </span><br><span class="line">	</span><br><span class="line">	RSAAuthentication yes</span><br><span class="line">	PubkeyAuthentication yes</span><br><span class="line"></span><br><span class="line">需要解开注释。  </span><br><span class="line"></span><br><span class="line">### 安装FTP服务器</span><br><span class="line">[https://www.unixmen.com/install-configure-ftp-server-centos-7/](https://www.unixmen.com/install-configure-ftp-server-centos-7/)  </span><br><span class="line">在centos上安装ftp</span><br><span class="line">	</span><br><span class="line">	yum install vsftpd ftp -y</span><br><span class="line">编辑修改/etc/vsftpd/vsftpd.conf文件：</span><br><span class="line">	</span><br><span class="line">	 [...]</span><br><span class="line">	## Disable anonymous login ##</span><br><span class="line">	anonymous_enable=NO</span><br><span class="line">	</span><br><span class="line">	## Uncomment ##</span><br><span class="line">	ascii_upload_enable=YES</span><br><span class="line">	ascii_download_enable=YES</span><br><span class="line">	</span><br><span class="line">	## Uncomment - Enter your Welcome message - This is optional ##</span><br><span class="line">	ftpd_banner=Welcome to UNIXMEN FTP service.</span><br><span class="line">	</span><br><span class="line">	## Add at the end of this  file ##</span><br><span class="line">	use_localtime=YES	</span><br><span class="line">运行并且开启vsftpd命令：</span><br><span class="line"></span><br><span class="line">	systemctl enable vsftpd</span><br><span class="line">	systemctl start vsftpd</span><br><span class="line">创建ftp用户：</span><br><span class="line">	</span><br><span class="line">	useradd ftpuser</span><br><span class="line">	passwd ftpuser</span><br><span class="line">连接ftp用户：</span><br><span class="line"></span><br><span class="line">	ftp ftpuser@192.168.1.101	</span><br><span class="line">	</span><br><span class="line">### firewall 建立防火墙</span><br><span class="line">[https://www.linode.com/docs/security/firewalls/introduction-to-firewalld-on-centos/](https://www.linode.com/docs/security/firewalls/introduction-to-firewalld-on-centos/)</span><br><span class="line">FirewallD 是iptables的前端控制器用来实现网络交通规则。和iptables相比有两个不同：</span><br><span class="line">	</span><br><span class="line">	1. FirewallD 使用 zones 和services 而不是chain和rules</span><br><span class="line">	2. 它动态的管理规则，运行在不破坏当前sessions和链接的情况下升级。</span><br><span class="line"></span><br><span class="line">*FirewallD是一个iptables的wrapper来更加简单的管理iptables的规则。它不是iptables的替代品。所以iptables命令仍然可以在FirewallD上使用，但是只推荐在FirewallD上运行FirewallD的命令。*</span><br><span class="line">#### 在Firewalld中基本的观点</span><br><span class="line">##### Zones 区</span><br><span class="line">firewalld后台进程管理规则组称为 zones。 Zones基本上是一个规则集合支配交通应该被允许基于你相信的网络的信任级别。网络接口被分配一个区域用来治理防火墙允许的行为。    </span><br><span class="line">对于需要移动频繁的电脑，这类灵活性提供了一个很行的方式来根据网络修改你的规则。你也许有严格的规则组织大部分的网络当在一个公共WIFI网络上，当在家庭网络时会有比较宽松的限制。对于一个服务器这些区并不是特别重要，因为服务器的网络不常改变。  </span><br><span class="line">无视你的网络环境有多动态，熟悉预设区域背后的规则也会有帮助。  </span><br><span class="line">从不信任到最信任，在firewalld中预设区如下：  </span><br><span class="line"></span><br><span class="line">1. drop: 对低级别信任。所有的连接将会被丢掉并不会回复并且只有出去的网络是允许的。</span><br><span class="line">2. block:同上，但是除了简单的丢弃连接，进来的请求将会收到icmp-host-prohibited or icmp6-adm-prohibited的拒绝信息。</span><br><span class="line">3. public公共：代表公共，不信任的网络。你也许不信任其他的电脑，但是也许会允许满足一定条件的连接。</span><br><span class="line">4. external外部的：在这个情况下你使用firewall作为你的网关。这个是用来配置NAT伪装这样你的内部网络可以保存私密同时可达。</span><br><span class="line">5. internal内部的：外部区的反面，用来作为内部网关的一部分。这里的电脑是可以信任的并且一些另外的服务是可以使用的。</span><br><span class="line">6. dmz:用于给位于DMZ的计算机(对计算器进行隔离使其不能访问你的网络其他的部分)。只有确定的请求才能被允许。 </span><br><span class="line">7. work:工作的计算器。信任这个网络中的大部分计算器。可能会允许更多的服务。</span><br><span class="line">8. home:一个家庭网络。通常它中是大部分你信任的机器并且大部分的服务将会被接受。</span><br><span class="line">9. trusted：信任这个网络中的所有的机器。最开放的可用选项，应谨慎使用。</span><br><span class="line"></span><br><span class="line">##### Rule Permanence 规则的持久性</span><br><span class="line">在firewalld中，规程可以是持久的或者是暂时的。如果一个规则是被添加或者修改的，默认的，当前运行的防火墙的行为将会改变。在下一次启动的时候，旧的规则将会被reverted。  </span><br><span class="line">大部分的firewall-cmd选项可以允许 --permanent 标志来指示应针对非临时防火墙。这个将会影响重载的规则。这意味着你可以测试规则在你活跃的防火墙实例中，并且如果有任何问题可以进行重载。随着时间你可以使用--permanent标识来构建一个完整的规则。</span><br><span class="line"></span><br><span class="line">#### 安装并且启动防火墙</span><br></pre></td></tr></table></figure>
+<p>sudo yum install firewalld<br>sudo systemctl enable firewalld<br>sudo reboot<br>sudo firewall-cmd –state</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">*重启以后，防火墙就启动了，这个时候，所有都连不进去了，所以。。再重新登录控制面板来操作吧。*</span><br><span class="line">一些命令：</span><br><span class="line">	</span><br><span class="line">	firewall-cmd --get-default-zone</span><br><span class="line">	output</span><br><span class="line">	public</span><br><span class="line">	firewall-cmd --get-active-zones</span><br><span class="line">	output</span><br><span class="line">	public</span><br><span class="line">	  interfaces: eth0</span><br><span class="line">	firewall-cmd --list-all</span><br><span class="line">	output</span><br><span class="line">	public (default, active)</span><br><span class="line">	  target: default</span><br><span class="line">	  icmp-block-inversion: no</span><br><span class="line">	  interfaces: eth0 eth1</span><br><span class="line">	  sources: </span><br><span class="line">	  services: ssh dhcpv6-client</span><br><span class="line">	  ports: </span><br><span class="line">	  protocols: </span><br><span class="line">	  masquerade: no</span><br><span class="line">	  forward-ports: </span><br><span class="line">	  source-ports: </span><br><span class="line">	  icmp-blocks: </span><br><span class="line">	  rich rules: </span><br><span class="line">	firewall-cmd --get-zones</span><br><span class="line">我主要运行的命令：</span><br><span class="line"></span><br><span class="line">	firewall-cmd --zone=public --list-all</span><br><span class="line">	firewall-cmd --zone=public --permanent --add-service=http</span><br><span class="line">	firewall-cmd --zone=public --permanent --add-service=ssh</span><br><span class="line">	firewall-cmd --zone=public --permanent --add-service=https</span><br><span class="line">	firewall-cmd --zone=public --permanent --add-service=ftp  </span><br><span class="line">	firewall-cmd --zone=public --permanent --add-port=21443/tcp</span><br><span class="line">	firewall-cmd --zone=public --permanent --add-port=28517/tcp</span><br><span class="line">	output</span><br><span class="line">	public (active)</span><br><span class="line">	  target: default</span><br><span class="line">	  icmp-block-inversion: no</span><br><span class="line">	  interfaces: eth0</span><br><span class="line">	  sources:</span><br><span class="line">	  services: dhcpv6-client ssh http https ftp</span><br><span class="line">	  ports: 21443/tcp 28517/tcp</span><br><span class="line">	  protocols:</span><br><span class="line">	  masquerade: no</span><br><span class="line">	  forward-ports:</span><br><span class="line">	  source-ports:</span><br><span class="line">	  icmp-blocks:</span><br><span class="line">	  rich rules:	</span><br><span class="line">	</span><br><span class="line">其实还有很多，都在文章中，可以看看，不过暂时不需要。只要port限制就好.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 安装Python，git以及Shadowsock</span><br></pre></td></tr></table></figure>
 <h1 id="install-git"><a href="#install-git" class="headerlink" title="install git"></a>install git</h1><p>yum install git</p>
 <h1 id="install-python-2-7-and-pip"><a href="#install-python-2-7-and-pip" class="headerlink" title="install python 2.7 and pip"></a>install python 2.7 and pip</h1><p>sudo yum install -y python-setuptools<br>sudo easy_install pip</p>
 <h1 id="install-ssr"><a href="#install-ssr" class="headerlink" title="install ssr:"></a>install ssr:</h1><p>sudo pip install git+<a href="https://github.com/shadowsocks/shadowsocks.git@master" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks.git@master</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">接下来就是在服务器里面进行配置了：</span><br><span class="line"></span><br><span class="line">1. 设置配置文件：vi /etc/shadowsocks/config.json</span><br></pre></td></tr></table></figure></p>
@@ -117,7 +127,7 @@ chmod 600 ~/.ssh/authorized_keys
 &quot;fast_open&quot;: false,
 &quot;workers&quot;: 1
 }
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2. 设置ssr服务为开机启动服务：</span><br><span class="line">增加一个开机启动服务service：</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2. 设置ssr服务为开机启动服务：</span><br><span class="line">增加一个开机启动服务service：在/usr/lib/systemd/system中。</span><br></pre></td></tr></table></figure>
 
 [Unit]
 Description=Shadowsocks
@@ -219,7 +229,7 @@ deploy:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2019/01/22/基础建设和杂项比较/一台VPS所需要的安装/" data-id="cjr7ioxeu000fy4rr49jh11kz" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2019/01/22/基础建设和杂项比较/一台VPS所需要的安装/" data-id="cjsv63lz3000i2crri9dgvf1t" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo-git-nginx-ssh/">hexo,git,nginx,ssh,</a></li></ul>
@@ -229,6 +239,15 @@ deploy:
   
     
 <nav id="article-nav">
+  
+    <a href="/2019/02/03/基础建设和杂项比较/DevOps 笔记/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
   
   
     <a href="/2018/11/23/基础建设和杂项比较/RPC,REST,SOAP/" id="article-nav-older" class="article-nav-link-wrap">
@@ -271,7 +290,7 @@ deploy:
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
     </div>
   </div>
 
@@ -284,6 +303,14 @@ deploy:
       <ul>
         
           <li>
+            <a href="/2019/03/04/Core_java/Java8 并发指南：线程和执行者 Threads and Executors/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/03/基础建设和杂项比较/DevOps 笔记/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/01/22/基础建设和杂项比较/一台VPS所需要的安装/">一台VPS所需要的操作</a>
           </li>
         
@@ -293,14 +320,6 @@ deploy:
         
           <li>
             <a href="/2018/11/07/Algo/配对交易策略RQ/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/17/Algo/Somethings About Pyalgotrade/">Somethings About Pyalgotrade  - the Optimizing</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/13/基础建设和杂项比较/hexoWithGit/">Hexo With Git</a>
           </li>
         
       </ul>

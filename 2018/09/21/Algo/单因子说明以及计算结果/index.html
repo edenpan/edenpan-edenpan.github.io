@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Eden</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="单因子说明以及计算结果本笔记是参考了报告：新兴市场第二季度因子收益报告 以及 https://cloud.tencent.com/developer/article/1174165 所写增加RiceQuant获取基本面数据的方法https://www.ricequant.com/doc/rqdata-institutional#research-API-get_fundamentalshttps:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eden">
+<meta property="og:url" content="http://blog.sevenpan.com/2018/09/21/Algo/单因子说明以及计算结果/index.html">
+<meta property="og:site_name" content="Eden">
+<meta property="og:description" content="单因子说明以及计算结果本笔记是参考了报告：新兴市场第二季度因子收益报告 以及 https://cloud.tencent.com/developer/article/1174165 所写增加RiceQuant获取基本面数据的方法https://www.ricequant.com/doc/rqdata-institutional#research-API-get_fundamentalshttps:">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-28T05:46:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Eden">
+<meta name="twitter:description" content="单因子说明以及计算结果本笔记是参考了报告：新兴市场第二季度因子收益报告 以及 https://cloud.tencent.com/developer/article/1174165 所写增加RiceQuant获取基本面数据的方法https://www.ricequant.com/doc/rqdata-institutional#research-API-get_fundamentalshttps:">
+  
+    <link rel="alternate" href="/atom.xml" title="Eden" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Eden</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.sevenpan.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Algo/单因子说明以及计算结果" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/21/Algo/单因子说明以及计算结果/" class="article-date">
+  <time datetime="2018-09-21T13:02:03.000Z" itemprop="datePublished">2018-09-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="单因子说明以及计算结果"><a href="#单因子说明以及计算结果" class="headerlink" title="单因子说明以及计算结果"></a>单因子说明以及计算结果</h1><p><em>本笔记是参考了报告：新兴市场第二季度因子收益报告 以及 <a href="https://cloud.tencent.com/developer/article/1174165" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1174165</a> 所写</em><br><em>增加RiceQuant获取基本面数据的方法</em><br><a href="https://www.ricequant.com/doc/rqdata-institutional#research-API-get_fundamentals" target="_blank" rel="noopener">https://www.ricequant.com/doc/rqdata-institutional#research-API-get_fundamentals</a><br><a href="https://www.ricequant.com/fundamentals" target="_blank" rel="noopener">https://www.ricequant.com/fundamentals</a></p>
+<pre><code>初始化使用 riceQuant的方式如下：
+1.进入之前系统预装的rq python虚拟机中
+2.运行如下的命令：
+    import rqdatac as rq
+    from rqdatac import *
+    rq.init()
+</code></pre><h2 id="计算方式"><a href="#计算方式" class="headerlink" title="计算方式"></a>计算方式</h2><p>报告中一共包含23中单独的因子。每一个小节包括了一个定义的时间段内每个因子的表现。</p>
+<p>为了计算每一个单独因子的对应回报率，将会创建一个单因子投资组合。为了创造这个单因子投资组合，在选择的区域中的实体证券根据一个单独的实体因子被降序排列。 </p>
+<p>在一个日历月最开始时，我们从这个排序的列表中选择证券并且不断累积直到积累的市场份额达到全部的地区的市场份额的50%来作为我们的单因子投资组合。然后我们将会持有这些证券直到这个日历月最后。这一个月的单因子投资组合然后会被用来和整个市场进行比较。  </p>
+<p>同样的构建过程在每个月都会进行，并且这个连续不断的每月回报率会被联系到一起来提供一个积累因子表现来衡量不同的时间帧。<br>这个过程被不断的重复只是使用不同的因子并且这些结果被聚合在一起。应用这个一致的过程可以来比较因子间的超额表现活underperformance在同一个区域间。  </p>
+<p><strong>关于调整（Adjustments）</strong><br>一个区域表示一个国家比如美国，在产业证券级别市场和基础数据被使用了 sector-average 相关数据调整了。<br>对于区域代表多个国家的，比如Asia Pacific，市场和基础数据也被调整了通过行业和国家来调整（Country and Sector Adjusted）。  </p>
+<h2 id="因子定义"><a href="#因子定义" class="headerlink" title="因子定义"></a>因子定义</h2><table>
+<thead>
+<tr>
+<th>价值因子</th>
+<th>收益率因子</th>
+<th>增长因子</th>
+<th>质量因子</th>
+<th>大小因子</th>
+<th>波动因子</th>
+<th>动量因子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Book to Price(市净率)</td>
+<td>Dividend Yield(股息收益率)</td>
+<td>Earnings Growth 5Y(五年盈利增长)</td>
+<td>Return on Equity(股东权益回报率)</td>
+<td>Market Cap (市值)</td>
+<td>Market Beta(市场Beta值)</td>
+<td>Momentum ST()</td>
+</tr>
+<tr>
+<td> Earning Yield(收益率)</td>
+<td>Shareholder Yield(股东收益率)</td>
+<td>Sales Growth 5Y(五年销售增长)</td>
+<td>Net Profit Margin(净利润率)</td>
+<td></td>
+<td>Daily Volatility 1Y(1年日均波动率)</td>
+<td>Momentum 12-1()</td>
+</tr>
+<tr>
+<td> Cash Flow Yield(现金流量收益率)</td>
+<td></td>
+<td>Forecast Growth 12M(12月预测增长率)</td>
+<td>Low Gearing (低资本负债比率)</td>
+<td></td>
+<td>Volatility 3Y(3年波动率)</td>
+<td>Forecast 12M Revisions(预测12月的反转)</td>
+</tr>
+<tr>
+<td> Sales to Price(市销率)</td>
+<td></td>
+<td>Dividend Growth 5Y(5年股息增长)</td>
+<td>Earnings Growth Stability(收益增长稳定性)</td>
+<td></td>
+</tr>
+<tr>
+<td> EBITA to EV(企业倍数估值)</td>
+<td></td>
+<td></td>
+<td>Sales Growth Stability(销售增长稳定性)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="价值因子"><a href="#价值因子" class="headerlink" title="价值因子"></a>价值因子</h2><h3 id="Book-to-Price-市净率"><a href="#Book-to-Price-市净率" class="headerlink" title="Book to Price(市净率)"></a>Book to Price(市净率)</h3><pre><code>The ratio of the company’s book value (the sum of shareholders’ equity plus accumulated retained earnings from the P &amp; L Account) to its share price.
+
+This factor has been one of the most successful measures of the intrinsic value of company shares. 
+</code></pre><p>市净率等于这个公司的账本价值(股东权益与保证金账户累计留存收益之和)／股票价格<br><em>这个因子是最有效的衡量这个公司股票的原始价值的方法。</em></p>
+<h4 id="RiceQuant-字段及获取方法"><a href="#RiceQuant-字段及获取方法" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：pe_ratio</strong><br>代码</p>
+<pre><code>dp = get_fundamentals(query(fundamentals.eod_derivative_indicator.pe_ratio).filter(fundamentals.stockcode == &apos;000001.XSHE&apos;), &apos;2018-08-01&apos;,&apos;4q&apos; ,report_quarter = True)
+dp.minor_xs(&apos;000001.XSHE&apos;)
+report_quarter pe_ratio
+2018-08-01         2018q1   6.5443
+2018-04-27         2018q1   7.9041
+2018-01-26         2017q3  10.4034
+2017-10-26         2017q3   8.3344
+</code></pre><h3 id="Earning-Yield-收益率"><a href="#Earning-Yield-收益率" class="headerlink" title="Earning Yield(收益率)"></a>Earning Yield(收益率)</h3><pre><code>Annual earnings (adjusted for amortizations of intangibles, extraordinary charges and credits) per share divided by the share price.
+
+This factor measures the worth of a company’s shares according to the company’s ability to support each share with after tax earnings.
+</code></pre><p>每一股年收益除以每一股的价格。<br><em>这个因子用于衡量一个公司的股票通过公司税后每一股可以赚多少</em></p>
+<h4 id="RiceQuant-字段及获取方法-1"><a href="#RiceQuant-字段及获取方法-1" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>earnings_per_share</code></strong><br>说明： 基本每股收益<br>指企业应当按照属于普通股股东的当期净利润<br>除以发行在外普通股的加权平均数从而计算出的每股收益<br><strong>代码：</strong> </p>
+<pre><code>dp = get_fundamentals(query(fundamentals.financial_indicator.earnings_per_share).filter(fundamentals.stockcode == &apos;000001.XSHE&apos;), &apos;2018-08-01&apos;,&apos;4q&apos; ,report_quarter = True)
+dp.minor_xs(&apos;000001.XSHE&apos;)
+ report_quarter earnings_per_share
+2018-08-01         2018q1               0.33
+2018-04-27         2018q1               0.33
+2018-01-26         2017q3               1.06
+2017-10-26         2017q3               1.06
+</code></pre><h3 id="Cash-Flow-Yield-现金流量收益率"><a href="#Cash-Flow-Yield-现金流量收益率" class="headerlink" title="Cash Flow Yield(现金流量收益率)"></a>Cash Flow Yield(现金流量收益率)</h3><pre><code>Annual cash flow per share divided by the share price.
+
+This factor is related to earnings yield but also includes other items, 
+specifically: depreciation, amortizations, and provisions for deferred 
+liabilities. It is intended to capture the cash availability of the 
+company as a multiple of the share price, and offers a value criteria 
+based on the stream of accessible cash earnings
+</code></pre><p>每一股的年现金流除以每一股的价格<br><em>这个因子和回报收益率有关同时也包含了其他的东西，明确的：货币贬值， 摊销 以及延期债务的规定。这个因子试图抓取公司的现金可用性作为股票的倍数，同时提供一个基于可以获得的现金收入流价值标准</em></p>
+<h4 id="RiceQuant-字段及获取方法-2"><a href="#RiceQuant-字段及获取方法-2" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>1/pcf_ratio</code></strong><br>说明： 市现率： 市现率是股票价格与每股现金流量的比率，所以在这里我需要获取的是这个pcf_ratio的倒数才是年现金流除以每一股的价格。<br>总市值/去年经营现金流量净额</p>
+<p><strong>代码：</strong> </p>
+<pre><code>dp = get_fundamentals(query(fundamentals.eod_derivative_indicator.pcf_ratio).filter(fundamentals.stockcode == &apos;000001.XSHE&apos;), &apos;2018-08-01&apos;,&apos;4q&apos; ,report_quarter = True)
+
+dp.minor_xs(&apos;000001.XSHE&apos;)
+
+report_quarter pcf_ratio
+2018-08-01         2018q1   -1.3227
+2018-04-27         2018q1   -1.5684
+2018-01-26         2017q3    -2.031
+2017-10-26         2017q3   17.4689
+</code></pre><h3 id="Sales-to-Price-市销率"><a href="#Sales-to-Price-市销率" class="headerlink" title="Sales to Price(市销率)"></a>Sales to Price(市销率)</h3><pre><code>Net sales per share divided by the share price.
+This factor measures the worth of a company’s shares according to the annual sales volume supporting the company business. The item is considered by many analysts to be less susceptible to manipulation than other valuation criteria; it is however, a less comprehensive measure of a company’s range of activities.
+</code></pre><p>每一股的净销售额除以每一股的价格<br><em>这个因子通过年销售量来衡量这个公司的价值。这个因子被很多的分析师认为更加不容易操纵比起其他的因子；无论如何这是一个不很复杂的衡量一个公司活动范围的方式。</em></p>
+<h4 id="RiceQuant-字段及获取方法-3"><a href="#RiceQuant-字段及获取方法-3" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>1/ps_ratio</code></strong><br>说明： 市销率： 市销率为股票价格与每股销售收入之比，市销率越小，通常被认为投资价值越高，所以在这里我需要获取的是这个ps_ratio的倒数才是每一股的净销售额除以每一股的价格。   </p>
+<p><strong>代码：</strong> </p>
+<pre><code>dp = get_fundamentals(query(fundamentals.eod_derivative_indicator.ps_ratio).filter(fundamentals.stockcode == &apos;000001.XSHE&apos;), &apos;2017-12-31&apos;,&apos;4q&apos; ,report_quarter = True)
+
+dp.minor_xs(&apos;000001.XSHE&apos;)
+report_quarter ps_ratio
+2017-12-29         2017q3   2.1629
+2017-09-29         2017q2   1.7825
+2017-06-29         2017q1   1.5004
+2017-03-29         2016q4   1.4521    
+</code></pre><h3 id="EBITA-to-EV-企业倍数估值"><a href="#EBITA-to-EV-企业倍数估值" class="headerlink" title="EBITA to EV(企业倍数估值)"></a>EBITA to EV(企业倍数估值)</h3><pre><code>The ratio of the company&apos;s EBITDA to Enterprise Value. EBITDA is Earnings before interest, taxes and depreciation and is calculated by taking the pretax income and adding back interest expense on debt and depreciation, depletion and amortization and subtracting interest capitalized.
+Enterprise Value is defined as &quot;market capitalization + total debt + preferred stock - cash and cash equivalents&quot;.
+</code></pre><p>这是EBITDA对企业价值的比率。EBITDA 是在利息，税以及货币贬值之前的收益，通过考虑税前收入和增加债务和折旧，消耗和摊销以及减去利息资本化的利息费用加回来计算出来的。<br>企业价值被定义为“市场价值 + 全部债务 + 优先股-现金和现金等价物”  </p>
+<h4 id="RiceQuant-字段及获取方法-4"><a href="#RiceQuant-字段及获取方法-4" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>1/ev_to_ebitda</code></strong><br>说明： 企业倍数： 评估公司价值的指标，看的出来，这里也是刚好是导数才能和上一致。<br><em>我有一个问题，EV是怎么计算出来的。</em><br><strong>这个字段无法查出，ev是有值的而ebitda为NA，暂时无法确定是否其他的股票也没有值</strong></p>
+<p><strong>代码：</strong> </p>
+<pre><code>dp = get_fundamentals(query(fundamentals.financial_indicator.ev_to_ebitda).filter(fundamentals.stockcode == &apos;000001.XSHE&apos;), &apos;2017-12-31&apos;,&apos;4q&apos; ,report_quarter = True)
+
+dp.minor_xs(&apos;000001.XSHE&apos;)
+report_quarter ev_to_ebitda
+2017-12-29         2017q3          NaN
+2017-09-29         2017q2          NaN
+2017-06-29         2017q1          NaN
+2017-03-29         2016q4          NaN
+</code></pre><h2 id="收益率因子"><a href="#收益率因子" class="headerlink" title="收益率因子"></a>收益率因子</h2><h3 id="Dividend-Yield-股息收益率"><a href="#Dividend-Yield-股息收益率" class="headerlink" title="Dividend Yield(股息收益率)"></a>Dividend Yield(股息收益率)</h3><pre><code>The annual dividend paid per share divided by the share price.
+This factor measures the value of company shares according to the stream of dividend income resulting from share ownership.
+</code></pre><p>一年每一股的股息除以每股的价格 </p>
+<h4 id="RiceQuant-字段及获取方法-5"><a href="#RiceQuant-字段及获取方法-5" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><em>这个因子通过股权所得的股息收入流衡量了公司股票价格</em><br><strong>字段：<code>dividend_yield</code></strong><br>说明： 股息率： 股息率是股息与股票价格之间的比率<br>股息率＝∑每股股利(税前) / 每股市价</p>
+<p><strong>代码：</strong> </p>
+<pre><code>dp = get_fundamentals(query(fundamentals.eod_derivative_indicator.dividend_yield).filter(fundamentals.stockcode == &apos;000001.XSHE&apos;), &apos;2017-12-31&apos;,&apos;4q&apos; ,report_quarter = True)
+dp.minor_xs(&apos;000001.XSHE&apos;)
+report_quarter dividend_yield
+2017-12-29         2017q3          1.188
+2017-09-29         2017q2         1.4221
+2017-06-29         2017q1            NaN
+2017-03-29         2016q4         1.3996
+</code></pre><h3 id="Shareholder-Yield-股东收益率"><a href="#Shareholder-Yield-股东收益率" class="headerlink" title="Shareholder Yield(股东收益率)"></a>Shareholder Yield(股东收益率)</h3><pre><code>The sum of Net Buyback Yield, Dividend Yield and Net Debt Paydown Yield.
+This factor measures the proportion of a company&apos;s value distributed to shareholders through dividend payments, share repurchases and debt reduction.
+</code></pre><p>净回购收益率的总和除以收益率和净债务部分还款收益率<br><em>这个因子衡量了公司通过股息分红，股票再回购和债务减少分配给股东公司价值的比率</em></p>
+<h2 id="增长因子"><a href="#增长因子" class="headerlink" title="增长因子"></a>增长因子</h2><h3 id="Earnings-Growth-5Y-五年盈利增长"><a href="#Earnings-Growth-5Y-五年盈利增长" class="headerlink" title="Earnings Growth 5Y(五年盈利增长)"></a>Earnings Growth 5Y(五年盈利增长)</h3><pre><code>The average annual growth rate of earnings (adjusted for amortizations of intangibles, extraordinary charges and credits) over a trailing five years.
+Earnings Growth is, perhaps, the clearest of the growth criteria. However, it is subject to the distortions of reporting conventions and manipulation and, particularly in some markets, only known after a considerable lag.
+</code></pre><p>过去五年的平均年收入增长率（根据无形资产摊销，特殊费用和信贷调整。<br>盈利增长可能是最清晰的增长标准。然而他会收到报告惯例失真和操控，特别是在一些市场上，只有在一段时间后才能看出来。  </p>
+<h4 id="RiceQuant-字段及获取方法-6"><a href="#RiceQuant-字段及获取方法-6" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>profit_from_operation</code></strong><br>说明： 可以获取每年的营业利润，然后计算五年的平均增长情况<br>营业利润： 企业在其全部销售业务中实现的利润，又称营业利润、经营利润，它包含主营业务利润</p>
+<pre><code>年增长率是当年利润的较前一年的增长量除以前一年利润的百分比.
+平均增长率的计算：
+假定
+1、平均增长率为X
+2、每年的增长率分别为R1、R2、R3,...,Rn
+则：
+X＝{[（1＋R1）＊（1＋R2）＊（1＋R3）＊...*(1+Rn)]^1/n} - 1
+注：^1/n表示开n次方
+</code></pre><p><a href="https://www.zybang.com/question/cc63fc27473ec333c407161c3e2089d6.html" target="_blank" rel="noopener">https://www.zybang.com/question/cc63fc27473ec333c407161c3e2089d6.html</a><br><strong>代码：</strong> </p>
+<pre><code>import math
+dp = get_fundamentals(query(fundamentals.income_statement. profit_from_operation).filter(fundamentals.stockcode == &apos;000001.XSHE&apos;), &apos;2018-01-10&apos;, &apos;5y&apos;)
+dp2 = get_fundamentals(query(fundamentals.income_statement. profit_from_operation).filter(fundamentals.stockcode == &apos;000001.XSHE&apos;), &apos;2017-01-10&apos;, &apos;5y&apos;)
+upPercent = dp.minor_xs(&apos;000001.XSHE&apos;)[&apos;profit_from_operation&apos;].values/dp2.minor_xs(&apos;000001.XSHE&apos;)[&apos;profit_from_operation&apos;].values
+i = 1
+for i in range(len(upPercent)):
+    i = i*(upPercent[i] + 1)
+
+earning_growth_5y = math.pow(i, 1/5.0) - 1    
+</code></pre><h3 id="Sales-Growth-5Y-五年销售增长"><a href="#Sales-Growth-5Y-五年销售增长" class="headerlink" title="Sales Growth 5Y(五年销售增长)"></a>Sales Growth 5Y(五年销售增长)</h3><pre><code>The average annual growth rate of net sales per share over a trailing five years.
+Although growth in sales per share might be only a narrow measure of a company’s business growth, and may be subject to a number of distortions, it is less subject to differences in reporting conventions or manipulation than many other balance sheet or profit and loss items.
+</code></pre><p>过去五年的每股净销售量平均年增长率。<br>尽管每股增长率也许只是衡量公司业务增长的一个小范围，并且可能有一些扭曲，与许多其他资产负债表或损益项目相比，它在报告惯例或操纵方面的差异较小。</p>
+<h4 id="RiceQuant-字段及获取方法-7"><a href="#RiceQuant-字段及获取方法-7" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>revenue</code></strong><br>说明： 可以获取每年的收入，然后计算五年的盈利增长情况</p>
+<pre><code>年增长率是当年利润的较前一年的增长量除以前一年利润的百分比.
+平均增长率的计算：
+假定
+1、平均增长率为X
+2、每年的增长率分别为R1、R2、R3,...,Rn
+则：
+X＝{[（1＋R1）＊（1＋R2）＊（1＋R3）＊...*(1+Rn)]^1/n} - 1
+注：^1/n表示开n次方
+</code></pre><p><a href="https://www.zybang.com/question/cc63fc27473ec333c407161c3e2089d6.html" target="_blank" rel="noopener">https://www.zybang.com/question/cc63fc27473ec333c407161c3e2089d6.html</a><br><strong>代码：</strong> </p>
+<pre><code>import math
+dp = get_fundamentals(query(fundamentals.income_statement.revenue).filter(fundamentals.stockcode == &apos;000001.XSHE&apos;), &apos;2018-01-10&apos;, &apos;5y&apos;)
+dp2 = get_fundamentals(query(fundamentals.income_statement.revenue).filter(fundamentals.stockcode == &apos;000001.XSHE&apos;), &apos;2017-01-10&apos;, &apos;5y&apos;)
+upPercent = dp.minor_xs(&apos;000001.XSHE&apos;)[&apos;revenue&apos;].values/dp2.minor_xs(&apos;000001.XSHE&apos;)[&apos;revenue&apos;].values
+i = 1
+for i in range(len(upPercent)):
+    i = i*(upPercent[i] + 1)
+
+revenue_growth_5y = math.pow(i, 1/5.0) - 1
+</code></pre><h3 id="Forecast-Growth-12M-12月预测增长率"><a href="#Forecast-Growth-12M-12月预测增长率" class="headerlink" title="Forecast Growth 12M(12月预测增长率)"></a>Forecast Growth 12M(12月预测增长率)</h3><pre><code>Consensus forecast growth of earnings over the next 12 months. The 12 month growth is calculated on a pro-rata basis from the forecasts for each of the company&apos;s next 2 annual reporting periods.
+</code></pre><p>市场普遍预测未来12个月的盈利增长。 12个月的增长是根据公司未来2个年度报告期的预测按比例计算的。</p>
+<h3 id="Dividend-Growth-5Y-5年股息增长"><a href="#Dividend-Growth-5Y-5年股息增长" class="headerlink" title="Dividend Growth 5Y(5年股息增长)"></a>Dividend Growth 5Y(5年股息增长)</h3><pre><code>The average annual growth rate of dividends over a trailing five years.
+</code></pre><p>过去五年平均股息年增长率</p>
+<h4 id="RiceQuant-字段及获取方法-8"><a href="#RiceQuant-字段及获取方法-8" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>dividend_yield</code></strong><br>说明：股息率是股息与股票价格之间的比率；股息率＝∑每股股利(税前) / 每股市价<br>由于股息不是每年都会分配的，很多股票不是每年都有股息的。所以目前只是简单的写出怎么获取一年的股息率。但是怎么计算这个因子还未完成。<br><strong>代码：</strong> </p>
+<pre><code>## 获取股息率
+fundamental_df = get_fundamentals(query(fundamentals.eod_derivative_indicator.dividend_yield).order_by(fundamentals.eod_derivative_indicator.dividend_yield.desc()).limit(50), &apos;2018-01-10&apos;, &apos;1y&apos;)
+
+for key in fundamental_df.minor_axis:
+    print key
+    print fundamental_df.minor_xs(key)
+</code></pre><h2 id="质量因子"><a href="#质量因子" class="headerlink" title="质量因子"></a>质量因子</h2><h3 id="Return-on-Equity-股东权益回报率"><a href="#Return-on-Equity-股东权益回报率" class="headerlink" title="Return on Equity(股东权益回报率)"></a>Return on Equity(股东权益回报率)</h3><pre><code>Net Income after preferred dividends divided by the book value of shareholders’ common equity.
+RoE measures the profitability of the operations of the company as a proportion of the total amount of equity in the company. Since RoE multiplied by the reinvestment rate (the proportion of earnings not paid as dividends but reinvested in the company) gives the warranted growth rate of a company, RoE is a traditional measure of a company&apos;s growth potential.
+</code></pre><p>优先股股息后的净收入除以股东普通股权的账面价值<br>RoE衡量了这个公司的操作的利润率作为这个公司全部数量产权的一部分。由于RoE乘了再投资率（盈利没有用来作为股息支付而是再次投向公司）给出了公司的保证增长率，RoE是一个传统的用来衡量公司增长潜力的因子。</p>
+<h4 id="RiceQuant-字段及获取方法-9"><a href="#RiceQuant-字段及获取方法-9" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>roe</code></strong><br>说明：净资产收益率(摊薄)(%)  </p>
+<p><strong>代码：</strong><br>    <a href="https://www.ricequant.com/api/research/chn#research-API-current_performance" target="_blank" rel="noopener">https://www.ricequant.com/api/research/chn#research-API-current_performance</a></p>
+<pre><code>## 获取股息率  
+current_performance(&apos;000004.XSHE&apos;,quarter=&apos;2017q2&apos;,fields=&apos;roe&apos;,interval=&apos;6q&apos;)
+    end_date  info_date        roe
+0 2015-12-31 2016-04-15   1.529771
+1 2014-12-31 2015-04-16   4.735392
+2 2013-12-31 2014-04-15  -1.642598
+3 2012-12-31 2013-04-13   2.588968
+4 2007-12-31 2008-04-15 -13.200000
+</code></pre><h3 id="Net-Profit-Margin-净利润率"><a href="#Net-Profit-Margin-净利润率" class="headerlink" title="Net Profit Margin(净利润率)"></a>Net Profit Margin(净利润率)</h3><pre><code>The &quot;net margin&quot;, annual net income before preferred dividends (plus policyholders&apos; surplus for insurance companies), divided by annual net sales.
+This measure attempts to assess the company&apos;s potential for profitable, sustained expansion or growth.
+</code></pre><p>“净利润率”，优先股股息之前的年度净收入（加上保险公司的保单持有人盈余）除以年度净销售额。<br>这个因子试图评估这个公司利润潜力，持续扩张或者增长。</p>
+<h4 id="RiceQuant-字段及获取方法-10"><a href="#RiceQuant-字段及获取方法-10" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>net_profit_to_total_operating_revenueTTM</code></strong><br>说明：净利润率;含少数股东损益的净利润（TTM）/营业收入（TTM）*100%<br><strong>代码：</strong>  </p>
+<pre><code>dp = get_fundamentals(query(fundamentals.financial_indicator_TTM.net_profit_to_total_operating_revenueTTM).filter(fundamentals.stockcode == &apos;000001.XSHE&apos;), &apos;2018-01-10&apos;, &apos;5y&apos;)
+dp.minor_xs(&apos;000001.XSHE&apos;)
+                         net_profit_to_total_operating_revenueTTM
+2018-01-10                                  21.8157
+2017-01-10                                  21.3537
+2016-01-08                                  24.3004
+2015-01-08                                  27.6696
+2014-01-08                                   31.247
+dp.minor_xs(&apos;000001.XSHE&apos;)* (-1)
+                 debt_to_asset_ratio
+2018-01-10            -93.0482
+2017-01-10            -92.8982
+2016-01-08            -93.9541
+2015-01-08            -94.0898
+2014-01-08            -94.8851
+</code></pre><h3 id="Low-Gearing-低资本负债比率"><a href="#Low-Gearing-低资本负债比率" class="headerlink" title="Low Gearing (低资本负债比率)"></a>Low Gearing (低资本负债比率)</h3><pre><code>The negative of debt to equity. Low geared companies can regarded as being of higher &quot;quality&quot; as they are less burdened by debt repayment costs.
+</code></pre><p>债务对股权的负面影响。低资本负载率比的公司可以被认为是高“质量”的因为它们的债务偿还成本负担更小。  </p>
+<h4 id="RiceQuant-字段及获取方法-11"><a href="#RiceQuant-字段及获取方法-11" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>debt_to_asset_ratio</code></strong><br>说明：资产负债率： 资产负债率是企业负债总额占企业资产总额的百分比<br><strong>代码：</strong> </p>
+<pre><code>dp = get_fundamentals(query(fundamentals.financial_indicator_TTM.net_profit_to_total_operating_revenueTTM).filter(fundamentals.stockcode == &apos;000001.XSHE&apos;), &apos;2018-01-10&apos;, &apos;5y&apos;)
+
+dp.minor_xs(&apos;000001.XSHE&apos;) 
+               debt_to_asset_ratio
+2018-01-10             93.0482
+2017-01-10             92.8982
+2016-01-08             93.9541
+2015-01-08             94.0898
+2014-01-08             94.8851
+
+dp.minor_xs(&apos;000001.XSHE&apos;)*(-1)
+            debt_to_asset_ratio
+2018-01-10            -93.0482
+2017-01-10            -92.8982
+2016-01-08            -93.9541
+2015-01-08            -94.0898
+2014-01-08            -94.8851
+</code></pre><h3 id="Earnings-Growth-Stability-收益增长稳定性"><a href="#Earnings-Growth-Stability-收益增长稳定性" class="headerlink" title="Earnings Growth Stability(收益增长稳定性)"></a>Earnings Growth Stability(收益增长稳定性)</h3><pre><code>This &apos;quality&apos; factor is calculated as the negative of the standard deviation of earnings growth over the most recent 3 years of growth data.
+</code></pre><p>这个“质量”因素计算为最近3年增长数据中收益增长标准差的负值。</p>
+<h4 id="RiceQuant-字段及获取方法-12"><a href="#RiceQuant-字段及获取方法-12" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>inc_gross_profit</code></strong><br>说明：营业利润(同比增长率)<br><strong>代码：</strong> </p>
+<pre><code>dp = get_fundamentals(query(fundamentals.financial_indicator.inc_gross_profit).filter(fundamentals.stockcode == &apos;000001.XSHE&apos;), &apos;2018-01-10&apos;, &apos;3y&apos;)
+
+-dp.minor_xs(&apos;000001.XSHE&apos;).std()
+inc_gross_profit   -5.265935
+dtype: float64
+</code></pre><h3 id="Sales-Growth-Stability-销售增长稳定性"><a href="#Sales-Growth-Stability-销售增长稳定性" class="headerlink" title="Sales Growth Stability(销售增长稳定性)"></a>Sales Growth Stability(销售增长稳定性)</h3><pre><code>This &apos;Quality&apos; factor is calculated as the negative of the standard deviation of Sales Growth over the most recent 3 years of growth data.
+</code></pre><p>此“质量”因子计算为销售增长标准差与最近3年增长数据的负值。</p>
+<h4 id="RiceQuant-相关字段及获取方法"><a href="#RiceQuant-相关字段及获取方法" class="headerlink" title="RiceQuant 相关字段及获取方法"></a>RiceQuant 相关字段及获取方法</h4><p><strong>字段：<code>inc_revenue</code></strong><br>说明：营业总收入(同比增长率)<br><strong>代码：</strong> </p>
+<pre><code>dp = get_fundamentals(query(fundamentals.financial_indicator. inc_revenue).filter(fundamentals.stockcode == &apos;000001.XSHE&apos;), &apos;2018-01-10&apos;, &apos;3y&apos;)
+
+dp.minor_xs(&apos;000001.XSHE&apos;)
+                inc_revenue
+2018-01-10     -2.6047
+2017-01-10     15.2013
+2016-01-08     30.1934
+
+-dp.minor_xs(&apos;000001.XSHE&apos;).std()
+inc_revenue   -16.419156
+dtype: float64
+</code></pre><h2 id="大小因子"><a href="#大小因子" class="headerlink" title="大小因子"></a>大小因子</h2><h3 id="市场价值"><a href="#市场价值" class="headerlink" title="市场价值"></a>市场价值</h3><pre><code>The market capitalization of the stock.
+The average size statistic of a portfolio is the weighted (by holding value) average size of the securities held. The average size statistic of a benchmark (or total market) is the weighted (by holding value) average size of the securities within the benchmark (or total market)
+</code></pre><p>股票的市场价值<br>一个投资组合的平均规模统计是持有的证券的平均规模加权（通过持有的价值）。这个基准（或者总市场）的平均规模统计是基准中股票平均规模加权（通过持有价值）。</p>
+<h2 id="波动率因子"><a href="#波动率因子" class="headerlink" title="波动率因子"></a>波动率因子</h2><h3 id="Market-Beta-市场Beta值"><a href="#Market-Beta-市场Beta值" class="headerlink" title="Market Beta(市场Beta值)"></a>Market Beta(市场Beta值)</h3><pre><code>The &quot;slope coefficient&quot;, (β), from the simple regression:
+Security monthly return = α + β * market monthly return + random error.
+The regression is carried out over 36 month periods. Where sufficient information is not available, β=1 is assumed.
+</code></pre><p>斜率因子（β）是从一个简单的回归：<br>股票月的回归率 = α + β * 市场月回归率 + 随机误差<br>回归会进行过去36个月。当没有明显的信息的时候，是假设β=1。  </p>
+<h4 id="RiceQuant-相关字段及获取方法-1"><a href="#RiceQuant-相关字段及获取方法-1" class="headerlink" title="RiceQuant 相关字段及获取方法"></a>RiceQuant 相关字段及获取方法</h4><p><strong>字段：<code>inc_revenue</code></strong><br>说明：营业总收入(同比增长率)<br><strong>代码：</strong> </p>
+<pre><code>dp = get_fundamentals(query(fundamentals.financial_indicator. inc_revenue).filter(fundamentals.stockcode == &apos;000001.XSHE&apos;), &apos;2018-01-10&apos;, &apos;3y&apos;)
+
+dp.minor_xs(&apos;000001.XSHE&apos;)
+                inc_revenue
+2018-01-10     -2.6047
+2017-01-10     15.2013
+2016-01-08     30.1934
+
+-dp.minor_xs(&apos;000001.XSHE&apos;).std()
+inc_revenue   -16.419156
+dtype: float64
+</code></pre><h3 id="Daily-Volatility-1Y-1年日均波动率"><a href="#Daily-Volatility-1Y-1年日均波动率" class="headerlink" title="Daily Volatility 1Y(1年日均波动率)"></a>Daily Volatility 1Y(1年日均波动率)</h3><pre><code>The standard deviation of the last year of daily total returns, expressed as an annualized percentage.
+</code></pre><p>每日总回报的去年的标准差，以年化百分比表示。</p>
+<h3 id="Volatility-3Y-3年波动率"><a href="#Volatility-3Y-3年波动率" class="headerlink" title="Volatility 3Y(3年波动率)"></a>Volatility 3Y(3年波动率)</h3><pre><code>The standard deviation of the last 36 months of total returns, expressed as an annualized percentage.
+</code></pre><p>过去36个月的总回报率的标准差，以年化百分比表示。</p>
+<h2 id="动量因子"><a href="#动量因子" class="headerlink" title="动量因子"></a>动量因子</h2><h3 id="Momentum-ST"><a href="#Momentum-ST" class="headerlink" title="Momentum ST"></a>Momentum ST</h3><pre><code>Calculated using a 6 month &quot;memory&quot; of monthly total returns. The past period returns are weighted using a &quot;decay ratio&quot; of 2/3, per month. This weighted historic return factor measures the degree of performance trend following. It is useful in recognizing trading character of specific markets and in noticing occasional changing patterns through the market cycle.
+</code></pre><p>使用每月总回报的6个月“记忆”计算。 过去的期间回报使用每月2/3的“衰减率”加权。 该加权历史回报因子衡量了追随的业绩趋势程度。 它有助于识别特定市场的交易特征，并注意到市场周期中偶尔会出现的变化模式。</p>
+<h3 id="Momentum-12-1"><a href="#Momentum-12-1" class="headerlink" title="Momentum 12-1"></a>Momentum 12-1</h3><pre><code>The total return of the stock over the last 12 months, excluding the total return over the most recent month since reversal effects are often associated with one-month returns.
+</code></pre><p>过去12个月的股票总回报，不包括自逆转影响以来最近一个月的总回报，通常与一个月的回报相关。</p>
+<h3 id="Forecast-12M-Revisions"><a href="#Forecast-12M-Revisions" class="headerlink" title="Forecast 12M Revisions"></a>Forecast 12M Revisions</h3><pre><code>IBES balance of Earnings forecast revisions for the over the next 12 months.
+Calculated as the difference between the number of upwards revisions minus the number of downwards revisions (as sampled over the past 1M period), expressed as a percentage of the number of estimates.
+</code></pre><p>IBES未来12个月的盈利预测修正余额。<br>计算为向上修订数量减去向下修订数量（在过去1M期间采样）之间的差异，表示为估计数量的百分比。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sevenpan.com/2018/09/21/Algo/单因子说明以及计算结果/" data-id="cjsv63lyn00052crrlswxgv6s" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/13/基础建设和杂项比较/hexoWithGit/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hexo With Git
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/04/Algo/跟踪聪明钱/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algotrading-pyalgotrade/">Algotrading, pyalgotrade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx-ssh/">hexo,git,nginx,ssh,</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Algotrading-pyalgotrade/" style="font-size: 10px;">Algotrading, pyalgotrade</a> <a href="/tags/deeplearning4j-spark/" style="font-size: 10px;">deeplearning4j; spark</a> <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a> <a href="/tags/hexo-git-nginx-ssh/" style="font-size: 10px;">hexo,git,nginx,ssh,</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/04/Core_java/Java8 并发指南：线程和执行者 Threads and Executors/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/03/基础建设和杂项比较/DevOps 笔记/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/22/基础建设和杂项比较/一台VPS所需要的安装/">一台VPS所需要的操作</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/23/基础建设和杂项比较/RPC,REST,SOAP/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/07/Algo/配对交易策略RQ/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Pan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

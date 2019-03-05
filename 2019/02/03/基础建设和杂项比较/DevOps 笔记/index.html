@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Eden</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="DevOps找了一个关于devops的文章，想看看详细的实践是怎么做的。from: https://medium.com/@devfire https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d 基础https://medium.c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eden">
+<meta property="og:url" content="http://blog.sevenpan.com/2019/02/03/基础建设和杂项比较/DevOps 笔记/index.html">
+<meta property="og:site_name" content="Eden">
+<meta property="og:description" content="DevOps找了一个关于devops的文章，想看看详细的实践是怎么做的。from: https://medium.com/@devfire https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d 基础https://medium.c">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://blog.sevenpan.com/2019/02/03/基础建设和杂项比较/DevOps%20笔记/TerraformAndAnsible.png">
+<meta property="og:updated_time" content="2019-02-11T04:41:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Eden">
+<meta name="twitter:description" content="DevOps找了一个关于devops的文章，想看看详细的实践是怎么做的。from: https://medium.com/@devfire https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d 基础https://medium.c">
+<meta name="twitter:image" content="http://blog.sevenpan.com/2019/02/03/基础建设和杂项比较/DevOps%20笔记/TerraformAndAnsible.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Eden" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Eden</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.sevenpan.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-基础建设和杂项比较/DevOps 笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/03/基础建设和杂项比较/DevOps 笔记/" class="article-date">
+  <time datetime="2019-02-03T07:43:16.000Z" itemprop="datePublished">2019-02-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="DevOps"><a href="#DevOps" class="headerlink" title="DevOps"></a>DevOps</h1><p>找了一个关于devops的文章，想看看详细的实践是怎么做的。<br>from: <a href="https://medium.com/@devfire" target="_blank" rel="noopener">https://medium.com/@devfire</a><br> <a href="https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d" target="_blank" rel="noopener">https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d</a></p>
+<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><p><a href="https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-366097df7737" target="_blank" rel="noopener">https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-366097df7737</a><br>基础列的就是三部分:Linux, Python 以及 AWS.<br>然后六个部分：  </p>
+<pre><code>configure配置：Terraform - Ansible
+Version版本：Git+GitHub - GitLab
+package包:Docker - Lambda
+Deploy部署:Jenkins - codeDeploy 
+Run运行:ECS - Kubernetes
+Monitoer监控：ELK Stack - Prometheus
+</code></pre><h2 id="configure-配置"><a href="#configure-配置" class="headerlink" title="configure 配置"></a>configure 配置</h2><p><a href="https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d" target="_blank" rel="noopener">https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d</a><br>配置就是将机器配置好基础设施来让代码运行。以前的话可能是一步一步的安装，而新的方法是将基础设施也编码(infrastructure-as-code).这也是这个阶段需要做的事情。<br><em>作为最佳实践，基础设施作为代码要求提供计算资源所需的任何工作都必须通过代码来完成。</em><br>计算资源是指：计算，存储，网络，数据库等等。<br>在Devops中，我们将会：</p>
+<ol>
+<li>在<a href="https://www.terraform.io/" target="_blank" rel="noopener">Terraform</a>中填写我们需要的设施</li>
+<li>将它保存在我们源代码管理中</li>
+<li>通过一个PR来获取反馈</li>
+<li>测试</li>
+<li>执行用来提供所有需要的资源。</li>
+</ol>
+<p><img src="TerraformAndAnsible.png" alt="TerraformAndAnsible"><br>同时Ansible可能后面会慢慢淘汰，因为 immutable deployments的推行。所有的环境配置都是一致的无需改变的。<br>怎么开始： Terraform+AWS 套餐可以看下。  </p>
+<h2 id="版本version"><a href="#版本version" class="headerlink" title="版本version"></a>版本version</h2><p>使用git进行版本控制。<br>最少你应该精通以下：</p>
+<ol>
+<li>Fork一个仓库</li>
+<li>创建分支</li>
+<li>从upstream中合并改变，并且回来</li>
+<li>创建一个Pull Requests。</li>
+</ol>
+<h2 id="打包-Package"><a href="#打包-Package" class="headerlink" title="打包 Package"></a>打包 Package</h2><p><a href="https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-4-package-47677ca2f058" target="_blank" rel="noopener">https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-4-package-47677ca2f058</a><br>虚拟化技术可以节省等待时间并且更快部署。  </p>
+<h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><p>Docker就是基于一个很久以前的想法：在同样的操作系统中对每个单独的进程进行隔离。这不是’full virtualization’:在同一物理主机上并行运行虚拟机。<br>Docker 是和微服务同步兴起的，它可以解决不同的app有环境冲突的问题。比如python，java应用需要的环境配置都是不一样的。  </p>
+<h3 id="Lambda"><a href="#Lambda" class="headerlink" title="Lambda"></a>Lambda</h3><p>运行Docker仍然是运行服务器，服务器都是易碎，脆弱的。他们都需要被管理，打补丁等等。<br>同时Docker并不是100%安全的。运行容器托管的大公司都是在虚拟机中进行的而不是在裸机上运行，这样可以获得虚拟机的安全性和容器的快速。<br>最后，没有人只是运行Docker。大部分都是将它作为一个复杂容器编排结构的一部分。<br>AWS lambda允许您在不设置或管理服务器的情况下运行代码。您只需支付您所花费的计算时间-当您的代码没有运行时，不收取任何费用。<br>这尼玛是广告吧。。。<br>但是这个环境怎么实现的？？可以看看。。serverless嘛。。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sevenpan.com/2019/02/03/基础建设和杂项比较/DevOps 笔记/" data-id="cjsv63lz1000g2crrsi98fmof" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/04/Core_java/Java8 并发指南：线程和执行者 Threads and Executors/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/01/22/基础建设和杂项比较/一台VPS所需要的安装/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">一台VPS所需要的操作</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algotrading-pyalgotrade/">Algotrading, pyalgotrade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx-ssh/">hexo,git,nginx,ssh,</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Algotrading-pyalgotrade/" style="font-size: 10px;">Algotrading, pyalgotrade</a> <a href="/tags/deeplearning4j-spark/" style="font-size: 10px;">deeplearning4j; spark</a> <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a> <a href="/tags/hexo-git-nginx-ssh/" style="font-size: 10px;">hexo,git,nginx,ssh,</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/04/Core_java/Java8 并发指南：线程和执行者 Threads and Executors/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/03/基础建设和杂项比较/DevOps 笔记/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/22/基础建设和杂项比较/一台VPS所需要的安装/">一台VPS所需要的操作</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/23/基础建设和杂项比较/RPC,REST,SOAP/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/07/Algo/配对交易策略RQ/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Pan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
