@@ -5,19 +5,20 @@
   
 
   
-  <title>Eden</title>
+  <title>配对交易策略 | Eden</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="#配对交易策略 - 初1又名搬砖策略https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c几个基本的问题： 1. 如何找到股票相关性高的股票？ 2. 怎么确定股票比较之间的长期稳定关系 3. 怎么依据长期稳定关系来建立策略 另外一个pariTrading的介绍https://medium.com/auquan/pairs-tradin">
+  <meta name="description" content="#配对交易策略 - 初1 又名搬砖策略：https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c   几个基本的问题：  如何找到股票相关性高的股票？ 怎么确定股票比较之间的长期稳定关系 怎么依据长期稳定关系来建立策略  另外一个pariTrading的介绍https://medium.com/auquan/pairs-trading-">
+<meta name="keywords" content="Alpha factor; pair trading">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Eden">
+<meta property="og:title" content="配对交易策略">
 <meta property="og:url" content="http://blog.sevenpan.com/2018/11/07/Algo/配对交易策略RQ/index.html">
 <meta property="og:site_name" content="Eden">
-<meta property="og:description" content="#配对交易策略 - 初1又名搬砖策略https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c几个基本的问题： 1. 如何找到股票相关性高的股票？ 2. 怎么确定股票比较之间的长期稳定关系 3. 怎么依据长期稳定关系来建立策略 另外一个pariTrading的介绍https://medium.com/auquan/pairs-tradin">
+<meta property="og:description" content="#配对交易策略 - 初1 又名搬砖策略：https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c   几个基本的问题：  如何找到股票相关性高的股票？ 怎么确定股票比较之间的长期稳定关系 怎么依据长期稳定关系来建立策略  另外一个pariTrading的介绍https://medium.com/auquan/pairs-trading-">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-07T08:21:17.000Z">
+<meta property="og:updated_time" content="2019-03-06T09:58:50.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eden">
-<meta name="twitter:description" content="#配对交易策略 - 初1又名搬砖策略https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c几个基本的问题： 1. 如何找到股票相关性高的股票？ 2. 怎么确定股票比较之间的长期稳定关系 3. 怎么依据长期稳定关系来建立策略 另外一个pariTrading的介绍https://medium.com/auquan/pairs-tradin">
+<meta name="twitter:title" content="配对交易策略">
+<meta name="twitter:description" content="#配对交易策略 - 初1 又名搬砖策略：https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c   几个基本的问题：  如何找到股票相关性高的股票？ 怎么确定股票比较之间的长期稳定关系 怎么依据长期稳定关系来建立策略  另外一个pariTrading的介绍https://medium.com/auquan/pairs-trading-">
   
     <link rel="alternate" href="/atom.xml" title="Eden" type="application/atom+xml">
   
@@ -74,13 +75,27 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      配对交易策略
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#配对交易策略 - 初1<br>又名搬砖策略<br><a href="https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c" target="_blank" rel="noopener">https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c</a><br>几个基本的问题：</p>
-<pre><code>1. 如何找到股票相关性高的股票？
-2. 怎么确定股票比较之间的长期稳定关系
-3. 怎么依据长期稳定关系来建立策略
-</code></pre><h2 id="另外一个pariTrading的介绍"><a href="#另外一个pariTrading的介绍" class="headerlink" title="另外一个pariTrading的介绍"></a>另外一个pariTrading的介绍</h2><p><a href="https://medium.com/auquan/pairs-trading-data-science-7dbedafcfe5a" target="_blank" rel="noopener">https://medium.com/auquan/pairs-trading-data-science-7dbedafcfe5a</a><br>多重比较偏差：会有增加的错误生成一个明显的p-value的可能性当有太多的测试在运行的时候。 如果100个测试运行在随机数据上，我们应该期望看到5个p-value低于0.05.如果你比较n个证券，你将会执行n((n-1)/2次比较，你将会希望看到很多不正确的p-valus,他们将会随着你增加比较次数而增加。为了避免这个问题，你应该选择小数量的对来测试可能协整并且测试单独测试每一个。<br><b>？？？ 为啥测的多了可能会产生过多的错误的结果？还是不太懂。然后比较小的数量，这个数量应该怎么确定了？</b><br>接下来文章中介绍的是使用标普500的股票数据来产生交易对。文章提到：<br><b>This method is prone to multiple comparison bias and in practice the securities should be subject to a second verification step.</b><br>这里面的二次验证是指？  </p>
+        <p>#配对交易策略 - 初1</p>
+<p>又名搬砖策略：<br><a href="https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c" target="_blank" rel="noopener">https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c</a>  </p>
+<p>几个基本的问题：</p>
+<ol>
+<li>如何找到股票相关性高的股票？</li>
+<li>怎么确定股票比较之间的长期稳定关系</li>
+<li>怎么依据长期稳定关系来建立策略</li>
+</ol>
+<h2 id="另外一个pariTrading的介绍"><a href="#另外一个pariTrading的介绍" class="headerlink" title="另外一个pariTrading的介绍"></a>另外一个pariTrading的介绍</h2><p><a href="https://medium.com/auquan/pairs-trading-data-science-7dbedafcfe5a" target="_blank" rel="noopener">https://medium.com/auquan/pairs-trading-data-science-7dbedafcfe5a</a><br>多重比较偏差：会有增加的错误生成一个明显的p-value的可能性当有太多的测试在运行的时候。 如果100个测试运行在随机数据上，我们应该期望看到5个p-value低于0.05.如果你比较n个证券，你将会执行n((n-1)/2次比较，你将会希望看到很多不正确的p-valus,他们将会随着你增加比较次数而增加。为了避免这个问题，你应该选择小数量的对来测试可能协整并且测试单独测试每一个。<br><b>？？？ 为啥测的多了可能会产生过多的错误的结果？还是不太懂。然后比较小的数量，这个数量应该怎么确定了？</b><br>接下来文章中介绍的是使用标普500的股票数据来产生交易对。文章提到：<br><b>This method is prone to multiple comparison bias and in practice the securities should be subject to a second verification step.</b><br>这里面的二次验证是指？  </p>
 <p>Z Score(Value) = (Value - Mean)/Standard Deviation<br>在实际操作中，常常试图对数据做一定的扩展，但是这是在假设了一个底部的分布时候。 通常是正太分布。然而，很多金融数据并不是正太分布的，我们必须很小心，而不是简单的假设为正太分布或者特定的分布，当生成统计时。真正的比率分布可能会十分的肥尾，倾向于极端的价值弄乱了我们的模型，并且产生很大的损失。  </p>
 <p><b>fat-tailed distribution</b><br>    <a href="https://en.wikipedia.org/wiki/Fat-tailed_distribution" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Fat-tailed_distribution</a></p>
 <pre><code>A fat-tailed distribution is a probability distribution that exhibits a large skewness or kurtosis, relative to that of either a normal distribution or an exponential distribution.  
@@ -106,10 +121,10 @@
 </li>
 <li><p>模型的选择<br> 研究z-score的图表可以看出来，无论这个值太大或者太小它都将会回复到均值的水平。我们使用+1/-1作为阀值来代表过高或者太低，然后我们可以采用以下模型来生成一个交易信号：<br> Ratio 是buy(1)当z-score低于-1.0时，因为我们期望z score将会回到0，也就是增加.<br> Ratio 是sell(-1)当z-score高于1.0时，因为我们期望z score将会回到0，也就是降低.</p>
 </li>
-<li><p>训练，校验和优化  </p>
-<h3 id="避免过度拟合"><a href="#避免过度拟合" class="headerlink" title="避免过度拟合"></a>避免过度拟合</h3><p>在上述模型中，使用了rolling参数来创建而且也许希望来优化窗口大小。我们也许可以使用一个简单的迭代来计算全部的可能的窗口大小，然后使用最好的表现的窗口大小。但是就是会有过度拟合的问题。为了解决这个问题，这个文章里提到的是使用经济学的解释或者使用算法的特性来选择窗口长度。当然还有一个方法： Kalman filter，这个据说不需要制定一个特定的长度，我准备接下来看下这个。  </p>
+<li><p>训练，校验和优化</p>
 </li>
 </ol>
+<h3 id="避免过度拟合"><a href="#避免过度拟合" class="headerlink" title="避免过度拟合"></a>避免过度拟合</h3><p>在上述模型中，使用了rolling参数来创建而且也许希望来优化窗口大小。我们也许可以使用一个简单的迭代来计算全部的可能的窗口大小，然后使用最好的表现的窗口大小。但是就是会有过度拟合的问题。为了解决这个问题，这个文章里提到的是使用经济学的解释或者使用算法的特性来选择窗口长度。当然还有一个方法： Kalman filter，这个据说不需要制定一个特定的长度，我准备接下来看下这个。  </p>
 <h3 id="更多信息"><a href="#更多信息" class="headerlink" title="更多信息"></a>更多信息</h3><p>上述只是一个简单的开发pairtrading策略的过程，在现实中，我们应该使用更复杂的统计学方式，比如：</p>
 <pre><code>1. Hurst Exponent
 2. Half-life of mean reversion inferred from an Ornstein-Uhlenbeck process
@@ -118,9 +133,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/11/07/Algo/配对交易策略RQ/" data-id="cjswzmq0a000546rrsznjoubm" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/11/07/Algo/配对交易策略RQ/" data-id="cjsx1n6au0003sgrr3hia4o0d" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Alpha-factor-pair-trading/">Alpha factor; pair trading</a></li></ul>
+
     </footer>
   </div>
   
@@ -158,7 +175,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algotrading-pyalgotrade/">Algotrading, pyalgotrade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx-ssh/">hexo,git,nginx,ssh,</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algo/">Algo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algotrading-pyalgotrade/">Algotrading, pyalgotrade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Alpha-factor/">Alpha factor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Alpha-factor-pair-trading/">Alpha factor; pair trading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-多线程-Atomic-Variables-ConcurrentMap/">Java; 多线程; Atomic Variables; ConcurrentMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-多线程-Synchronization-Locks/">Java; 多线程; Synchronization; Locks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-多线程-Threads-Executors/">Java; 多线程; Threads; Executors</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx-ssh/">hexo,git,nginx,ssh,</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java；spring-IOC-DI/">java；spring;IOC;DI</a></li></ul>
     </div>
   </div>
 
@@ -168,7 +185,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Algotrading-pyalgotrade/" style="font-size: 10px;">Algotrading, pyalgotrade</a> <a href="/tags/deeplearning4j-spark/" style="font-size: 10px;">deeplearning4j; spark</a> <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a> <a href="/tags/hexo-git-nginx-ssh/" style="font-size: 10px;">hexo,git,nginx,ssh,</a>
+      <a href="/tags/Algo/" style="font-size: 10px;">Algo</a> <a href="/tags/Algotrading-pyalgotrade/" style="font-size: 10px;">Algotrading, pyalgotrade</a> <a href="/tags/Alpha-factor/" style="font-size: 10px;">Alpha factor</a> <a href="/tags/Alpha-factor-pair-trading/" style="font-size: 10px;">Alpha factor; pair trading</a> <a href="/tags/Java-多线程-Atomic-Variables-ConcurrentMap/" style="font-size: 10px;">Java; 多线程; Atomic Variables; ConcurrentMap</a> <a href="/tags/Java-多线程-Synchronization-Locks/" style="font-size: 10px;">Java; 多线程; Synchronization; Locks</a> <a href="/tags/Java-多线程-Threads-Executors/" style="font-size: 10px;">Java; 多线程; Threads; Executors</a> <a href="/tags/deeplearning4j-spark/" style="font-size: 10px;">deeplearning4j; spark</a> <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a> <a href="/tags/hexo-git-nginx-ssh/" style="font-size: 10px;">hexo,git,nginx,ssh,</a> <a href="/tags/java；spring-IOC-DI/" style="font-size: 10px;">java；spring;IOC;DI</a>
     </div>
   </div>
 
@@ -190,23 +207,23 @@
       <ul>
         
           <li>
-            <a href="/2019/03/04/Core_java/Java8 并发指南：线程和执行者 Threads and Executors/">(no title)</a>
+            <a href="/2019/03/06/java/CoreJava/Java8 并发指南：原子变量和并发Map Atomic Variables and ConcurrentMap/">Java8 并发指南：原子变量和并发Map(Atomic Variables and ConcurrentMap)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/05/java/CoreJava/Java8 并发指南：同步和锁 Synchronization and Locks/">Java8 并发指南：同步和锁 Synchronization and Locks</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/04/java/CoreJava/Java8 并发指南：线程和执行者 Threads and Executors/">Java8 并发指南：线程和执行者 Threads and Executors</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/03/java/Spring/Spring 学习-- IOC容器和Dependency Injection 模式/">Spring 学习-- IOC容器和Dependency Injection 模式</a>
           </li>
         
           <li>
             <a href="/2019/02/03/基础建设和杂项比较/DevOps 笔记/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/22/基础建设和杂项比较/一台VPS所需要的安装/">一台VPS所需要的操作</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/23/基础建设和杂项比较/RPC,REST,SOAP/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/07/Algo/配对交易策略RQ/">(no title)</a>
           </li>
         
       </ul>

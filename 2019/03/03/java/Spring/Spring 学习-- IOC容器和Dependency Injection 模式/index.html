@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Spring 学习-- IOC容器和Dependency Injection 模式 | Eden</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Spring 学习– IOC容器和Dependency Injection 模式from:http://insights.thoughtworkers.org/injection/ 组件和服务服务(service)：可以看作是需要通过远程接口来远程调用的(例如web Service，消息系统，RPC或者socket)。组件（component）：本地使用的（例如JAR文件，程序集，DLL或者源码导">
+<meta name="keywords" content="java；spring;IOC;DI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring 学习-- IOC容器和Dependency Injection 模式">
+<meta property="og:url" content="http://blog.sevenpan.com/2019/03/03/java/Spring/Spring 学习-- IOC容器和Dependency Injection 模式/index.html">
+<meta property="og:site_name" content="Eden">
+<meta property="og:description" content="Spring 学习– IOC容器和Dependency Injection 模式from:http://insights.thoughtworkers.org/injection/ 组件和服务服务(service)：可以看作是需要通过远程接口来远程调用的(例如web Service，消息系统，RPC或者socket)。组件（component）：本地使用的（例如JAR文件，程序集，DLL或者源码导">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://blog.sevenpan.com/2019/03/03/java/Spring/Spring%20学习--%20IOC容器和Dependency%20Injection%20模式/DI_injection-image-3.gif">
+<meta property="og:updated_time" content="2019-03-06T10:01:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring 学习-- IOC容器和Dependency Injection 模式">
+<meta name="twitter:description" content="Spring 学习– IOC容器和Dependency Injection 模式from:http://insights.thoughtworkers.org/injection/ 组件和服务服务(service)：可以看作是需要通过远程接口来远程调用的(例如web Service，消息系统，RPC或者socket)。组件（component）：本地使用的（例如JAR文件，程序集，DLL或者源码导">
+<meta name="twitter:image" content="http://blog.sevenpan.com/2019/03/03/java/Spring/Spring%20学习--%20IOC容器和Dependency%20Injection%20模式/DI_injection-image-3.gif">
+  
+    <link rel="alternate" href="/atom.xml" title="Eden" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Eden</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.sevenpan.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-java/Spring/Spring 学习-- IOC容器和Dependency Injection 模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/03/java/Spring/Spring 学习-- IOC容器和Dependency Injection 模式/" class="article-date">
+  <time datetime="2019-03-03T14:41:46.000Z" itemprop="datePublished">2019-03-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Spring 学习-- IOC容器和Dependency Injection 模式
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-学习–-IOC容器和Dependency-Injection-模式"><a href="#Spring-学习–-IOC容器和Dependency-Injection-模式" class="headerlink" title="Spring 学习– IOC容器和Dependency Injection 模式"></a>Spring 学习– IOC容器和Dependency Injection 模式</h1><p>from:<a href="http://insights.thoughtworkers.org/injection/" target="_blank" rel="noopener">http://insights.thoughtworkers.org/injection/</a></p>
+<h2 id="组件和服务"><a href="#组件和服务" class="headerlink" title="组件和服务"></a>组件和服务</h2><p>服务(service)：可以看作是需要通过远程接口来远程调用的(例如web Service，消息系统，RPC或者socket)。<br>组件（component）：本地使用的（例如JAR文件，程序集，DLL或者源码导入）。  </p>
+<h2 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MovieLister</span>...</span></span><br><span class="line"><span class="class"></span></span><br><span class="line">    public Movie[] moviesDirectedBy(String arg)</span><br><span class="line">    &#123;</span><br><span class="line">        List allMovies = finder.findAll();</span><br><span class="line">        <span class="keyword">for</span> (Iterator it = allMovies.iterator(); it.hasNext();)</span><br><span class="line">        &#123;</span><br><span class="line">            Movie movie = (Movie) it.next();</span><br><span class="line">            <span class="keyword">if</span> (!movie.getDirector().equals(arg))</span><br><span class="line">            &#123;</span><br><span class="line">                it.remove();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> (Movie[]) allMovies.toArray(<span class="keyword">new</span> Movie[allMovies.size()]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在MovieLister中有一个finder对象，用于搜寻全部的电影。目的是上面的moviesDirectedBy方法不依赖于电影的存储方式而可以运行。比如定义了接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MovieFinder</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function">List <span class="title">findAll</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>和一个具体的实现类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MovieLister</span>...</span></span><br><span class="line"><span class="class">    <span class="title">private</span> <span class="title">MovieFinder</span> <span class="title">finder</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MovieLister</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        finder = <span class="keyword">new</span> ColonDelimitedMovieFinder(<span class="string">"movies1.txt"</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>上面这个实现类就是从一个存储着电影名字的文件中来获取电影。但是如果其他的人也想要使用这个程序，但是存储电影的形式并不是在文件中，而是在SQL，XML文件或者web Service中，应该怎么办？<br>我们希望MovieLister可以和MovieFinder的任何实现类一起配合工作，并且允许在运行期插入具体的实现类。而这里用到的就是<strong>控制反转(Inversion of Control)</strong>。  </p>
+<h2 id="控制反转"><a href="#控制反转" class="headerlink" title="控制反转"></a>控制反转</h2><p>反转了哪方面的控制？比如有的是针对用户界面的主控权。早期的用户界面是由应用程序来控制的。而后来界面环境下，UI框架负责执行一个主循环，应用程序只需要为屏幕的各个区域提供事件处理函数就可以了。这里<strong>控制权从应用程序移到了框架</strong>。<br>而这些新生的容器框架，反转的是如何定位插件的具体实现。在前面例子中，MovieLister负责定位MovieFinder的具体实现– 它直接实例化后者的一个子类。这样MovieFinder没法作为一个插件，因为它并不是在运行期插入程序的。而轻量级容器提供了更加灵活的方式，只要遵循一定的规则，一个独立的组装模块就可以将插件的具体实现注射到应用程序中。这种模式称为“依赖注入Dependency Injection”。  </p>
+<h2 id="依赖注入的几种形式"><a href="#依赖注入的几种形式" class="headerlink" title="依赖注入的几种形式"></a>依赖注入的几种形式</h2><p>基本思想：用一个单独的装配器来获取对应的合适的实现，并将其实例赋给MovieLister类的一个字段。<br>依赖注入有三种形式：1.构造函数注入(Constructor Injection) 2. 设值方法注入(Setter Injection) 3.接口注入(Interface Injection)<br>这三种分别就是 指注入的形式，</p>
+<h3 id="构造函数注入"><a href="#构造函数注入" class="headerlink" title="构造函数注入"></a>构造函数注入</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MovieLister</span>...</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">MovieLister</span>(<span class="title">MovieFinder</span> <span class="title">finder</span>)</span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.finder = finder;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>构造函数中将实现注入。 </p>
+<h3 id="设值方法注入"><a href="#设值方法注入" class="headerlink" title="设值方法注入"></a>设值方法注入</h3><p>就是用专门的set方法来注入实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MovieLister</span>...</span></span><br><span class="line"><span class="class">    <span class="title">private</span> <span class="title">MovieFinder</span> <span class="title">finder</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFinder</span><span class="params">(MovieFinder finder)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.finder = finder;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ColonMovieFinder</span>...</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">void</span> <span class="title">setFilename</span>(<span class="title">String</span> <span class="title">filename</span>)</span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.filename = filename;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>然后在配置文件中具体指出配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"MovieLister"</span> <span class="attr">class</span>=<span class="string">"spring.MovieLister"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"finder"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ref</span> <span class="attr">local</span>=<span class="string">"MovieFinder"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"MovieFinder"</span> <span class="attr">class</span>=<span class="string">"spring.ColonMovieFinder"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"filename"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span>movies1.txt<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="接口注入"><a href="#接口注入" class="headerlink" title="接口注入"></a>接口注入</h3><p>先定义一个接口，然后组件通过这个接口进行注入。比如，下面代码中，接口InjectFinder的用途就是将一个MovieFinder实例注入继承该接口的对象。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">InjectFinder</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">injectFinder</span><span class="params">(MovieFinder finder)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个接口由提供MovieFinder接口的人一并提供，任何想要实现MovieFinder实例的类，如MovieLister类都必须实现这个接口。这样以来就必须在运行时指定具体实现类了。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MovieLister</span> <span class="keyword">implements</span> <span class="title">InjectFinder</span>...</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">void</span> <span class="title">injectFinder</span>(<span class="title">MovieFinder</span> <span class="title">finder</span>)</span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.finder = finder;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>然后使用类似的方法将文件名注入MovieFinder的实现类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">InjectFilename</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">injectFilename</span> <span class="params">(String filename)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ColonMovieFinder</span> <span class="keyword">implements</span> <span class="title">MovieFinder</span>, <span class="title">InjectFilename</span>...</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">void</span> <span class="title">injectFilename</span>(<span class="title">String</span> <span class="title">filename</span>)</span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.filename = filename;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>最后，对所有组件进行装配：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IfaceTester</span>...</span></span><br><span class="line"><span class="class">    <span class="title">private</span> <span class="title">MovieLister</span> <span class="title">lister</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">configureLister</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        ColonMovieFinder finder = <span class="keyword">new</span> ColonMovieFinder();</span><br><span class="line">        finder.injectFilename(<span class="string">"movies1.txt"</span>);</span><br><span class="line">        lister = <span class="keyword">new</span> MovieLister();</span><br><span class="line">        lister.injectFinder(finder);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>比如这上面，configureLister()就将具体实现通过这个接口进行了注入。  </p>
+<h2 id="使用Service-Locator-服务定位？"><a href="#使用Service-Locator-服务定位？" class="headerlink" title="使用Service Locator(服务定位？)"></a>使用Service Locator(服务定位？)</h2><p>依赖注入最大的好处在于：它消除了MovieLister类对具体MovieFinder实现类的依赖。这样不同的环境可以插入合适的MovieFinder实现。而Service Locator也可以打破这层依赖。<br>Service Locator背后的思想是：有一个对象(服务定位器)可以知道如何获取一个应用程序所需的所有服务。</p>
+<p><img src="DI_injection-image-3.gif" alt="DI_injection-image-3.gif"></p>
+<p>将ServiceLocator实现为一个Singleton的注册表，MovieLister就可以在实例化时通过ServiceLocator获得一个MovieFinder的实例。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MovieLister</span>...</span></span><br><span class="line"><span class="class">    <span class="title">MovieFinder</span> <span class="title">finder</span> </span>= ServiceLocator.movieFinder();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ServiceLocator</span>...</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">static</span> <span class="title">MovieFinder</span> <span class="title">movieFinder</span>()</span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> soleInstance.movieFinder;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ServiceLocator soleInstance;</span><br><span class="line">    <span class="keyword">private</span> MovieFinder movieFinder;</span><br></pre></td></tr></table></figure>
+<p>配置的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tester</span>...</span></span><br><span class="line"><span class="class">    <span class="title">private</span> <span class="title">void</span> <span class="title">configure</span>()</span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        ServiceLocator.load(<span class="keyword">new</span> ServiceLocator(</span><br><span class="line">        newColonMovieFinder(<span class="string">"movies1.txt"</span>)));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ServiceLocator</span>...</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">static</span> <span class="title">void</span> <span class="title">load</span>(<span class="title">ServiceLocator</span> <span class="title">arg</span>)</span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        soleInstance = arg;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ServiceLocator</span><span class="params">(MovieFinder movieFinder)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.movieFinder = movieFinder;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="为定位器提供分离的接口"><a href="#为定位器提供分离的接口" class="headerlink" title="为定位器提供分离的接口"></a>为定位器提供分离的接口</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sevenpan.com/2019/03/03/java/Spring/Spring 学习-- IOC容器和Dependency Injection 模式/" data-id="cjsx1n6bg000ssgrr0tq5x4o5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java；spring-IOC-DI/">java；spring;IOC;DI</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/04/java/CoreJava/Java8 并发指南：线程和执行者 Threads and Executors/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java8 并发指南：线程和执行者 Threads and Executors
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/02/03/基础建设和杂项比较/DevOps 笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algo/">Algo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algotrading-pyalgotrade/">Algotrading, pyalgotrade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Alpha-factor/">Alpha factor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Alpha-factor-pair-trading/">Alpha factor; pair trading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-多线程-Atomic-Variables-ConcurrentMap/">Java; 多线程; Atomic Variables; ConcurrentMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-多线程-Synchronization-Locks/">Java; 多线程; Synchronization; Locks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-多线程-Threads-Executors/">Java; 多线程; Threads; Executors</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx-ssh/">hexo,git,nginx,ssh,</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java；spring-IOC-DI/">java；spring;IOC;DI</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Algo/" style="font-size: 10px;">Algo</a> <a href="/tags/Algotrading-pyalgotrade/" style="font-size: 10px;">Algotrading, pyalgotrade</a> <a href="/tags/Alpha-factor/" style="font-size: 10px;">Alpha factor</a> <a href="/tags/Alpha-factor-pair-trading/" style="font-size: 10px;">Alpha factor; pair trading</a> <a href="/tags/Java-多线程-Atomic-Variables-ConcurrentMap/" style="font-size: 10px;">Java; 多线程; Atomic Variables; ConcurrentMap</a> <a href="/tags/Java-多线程-Synchronization-Locks/" style="font-size: 10px;">Java; 多线程; Synchronization; Locks</a> <a href="/tags/Java-多线程-Threads-Executors/" style="font-size: 10px;">Java; 多线程; Threads; Executors</a> <a href="/tags/deeplearning4j-spark/" style="font-size: 10px;">deeplearning4j; spark</a> <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a> <a href="/tags/hexo-git-nginx-ssh/" style="font-size: 10px;">hexo,git,nginx,ssh,</a> <a href="/tags/java；spring-IOC-DI/" style="font-size: 10px;">java；spring;IOC;DI</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/06/java/CoreJava/Java8 并发指南：原子变量和并发Map Atomic Variables and ConcurrentMap/">Java8 并发指南：原子变量和并发Map(Atomic Variables and ConcurrentMap)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/05/java/CoreJava/Java8 并发指南：同步和锁 Synchronization and Locks/">Java8 并发指南：同步和锁 Synchronization and Locks</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/04/java/CoreJava/Java8 并发指南：线程和执行者 Threads and Executors/">Java8 并发指南：线程和执行者 Threads and Executors</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/03/java/Spring/Spring 学习-- IOC容器和Dependency Injection 模式/">Spring 学习-- IOC容器和Dependency Injection 模式</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/03/基础建设和杂项比较/DevOps 笔记/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Pan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

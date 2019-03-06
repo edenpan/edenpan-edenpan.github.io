@@ -65,6 +65,455 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Algo/单因子说明以及计算结果" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/21/Algo/单因子说明以及计算结果/" class="article-date">
+  <time datetime="2018-09-21T13:02:03.000Z" itemprop="datePublished">2018-09-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/21/Algo/单因子说明以及计算结果/">单因子说明以及计算结果</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="单因子说明以及计算结果"><a href="#单因子说明以及计算结果" class="headerlink" title="单因子说明以及计算结果"></a>单因子说明以及计算结果</h1><p><em>本笔记是参考了报告：<a href="https://cloud.tencent.com/developer/article/1174165" target="_blank" rel="noopener">新兴市场第二季度因子收益报告</a> 以及</em><br><a href="https://www.ricequant.com/doc/rqdata-institutional#research-API-get_fundamentals" target="_blank" rel="noopener">增加RiceQuant获取基本面数据的方法</a></p>
+<p><strong>初始化使用 riceQuant的方式如下：</strong>  </p>
+<ol>
+<li>进入之前系统预装的rq python虚拟机中</li>
+<li>运行如下的命令：</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> rqdatac <span class="keyword">as</span> rq</span><br><span class="line"><span class="keyword">from</span> rqdatac <span class="keyword">import</span> *</span><br><span class="line">rq.init()</span><br></pre></td></tr></table></figure>
+<h2 id="计算方式"><a href="#计算方式" class="headerlink" title="计算方式"></a>计算方式</h2><p>报告中一共包含23中单独的因子。每一个小节包括了一个定义的时间段内每个因子的表现。</p>
+<p>为了计算每一个单独因子的对应回报率，将会创建一个单因子投资组合。为了创造这个单因子投资组合，在选择的区域中的实体证券根据一个单独的实体因子被降序排列。 </p>
+<p>在一个日历月最开始时，我们从这个排序的列表中选择证券并且不断累积直到积累的市场份额达到全部的地区的市场份额的50%来作为我们的单因子投资组合。然后我们将会持有这些证券直到这个日历月最后。这一个月的单因子投资组合然后会被用来和整个市场进行比较。  </p>
+<p>同样的构建过程在每个月都会进行，并且这个连续不断的每月回报率会被联系到一起来提供一个积累因子表现来衡量不同的时间帧。<br>这个过程被不断的重复只是使用不同的因子并且这些结果被聚合在一起。应用这个一致的过程可以来比较因子间的超额表现活underperformance在同一个区域间。  </p>
+<p><strong>关于调整（Adjustments）</strong></p>
+<p>一个区域表示一个国家比如美国，在产业证券级别市场和基础数据被使用了 sector-average 相关数据调整了。<br>对于区域代表多个国家的，比如Asia Pacific，市场和基础数据也被调整了通过行业和国家来调整（Country and Sector Adjusted）。  </p>
+<h2 id="因子定义"><a href="#因子定义" class="headerlink" title="因子定义"></a>因子定义</h2><table>
+<thead>
+<tr>
+<th>价值因子</th>
+<th>收益率因子</th>
+<th>增长因子</th>
+<th>质量因子</th>
+<th>大小因子</th>
+<th>波动因子</th>
+<th>动量因子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Book to Price(市净率)</td>
+<td>Dividend Yield(股息收益率)</td>
+<td>Earnings Growth 5Y(五年盈利增长)</td>
+<td>Return on Equity(股东权益回报率)</td>
+<td>Market Cap (市值)</td>
+<td>Market Beta(市场Beta值)</td>
+<td>Momentum ST()</td>
+</tr>
+<tr>
+<td> Earning Yield(收益率)</td>
+<td>Shareholder Yield(股东收益率)</td>
+<td>Sales Growth 5Y(五年销售增长)</td>
+<td>Net Profit Margin(净利润率)</td>
+<td></td>
+<td>Daily Volatility 1Y(1年日均波动率)</td>
+<td>Momentum 12-1()</td>
+</tr>
+<tr>
+<td> Cash Flow Yield(现金流量收益率)</td>
+<td></td>
+<td>Forecast Growth 12M(12月预测增长率)</td>
+<td>Low Gearing (低资本负债比率)</td>
+<td></td>
+<td>Volatility 3Y(3年波动率)</td>
+<td>Forecast 12M Revisions(预测12月的反转)</td>
+</tr>
+<tr>
+<td> Sales to Price(市销率)</td>
+<td></td>
+<td>Dividend Growth 5Y(5年股息增长)</td>
+<td>Earnings Growth Stability(收益增长稳定性)</td>
+<td></td>
+</tr>
+<tr>
+<td> EBITA to EV(企业倍数估值)</td>
+<td></td>
+<td></td>
+<td>Sales Growth Stability(销售增长稳定性)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="价值因子"><a href="#价值因子" class="headerlink" title="价值因子"></a>价值因子</h2><h3 id="Book-to-Price-市净率"><a href="#Book-to-Price-市净率" class="headerlink" title="Book to Price(市净率)"></a>Book to Price(市净率)</h3><blockquote>
+<p>The ratio of the company’s book value (the sum of shareholders’ equity plus accumulated retained earnings from the P &amp; L Account) to its share price.<br>This factor has been one of the most successful measures of the intrinsic value of company shares. </p>
+</blockquote>
+<p>市净率等于这个公司的账本价值(股东权益与保证金账户累计留存收益之和)／股票价格  </p>
+<blockquote>
+<p><em>这个因子是最有效的衡量这个公司股票的原始价值的方法。</em></p>
+</blockquote>
+<h4 id="RiceQuant-字段及获取方法"><a href="#RiceQuant-字段及获取方法" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：pe_ratio</strong> </p>
+<p>代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">dp = get_fundamentals(query(fundamentals.eod_derivative_indicator.pe_ratio).filter(fundamentals.stockcode == <span class="string">'000001.XSHE'</span>), <span class="string">'2018-08-01'</span>,<span class="string">'4q'</span> ,report_quarter = <span class="keyword">True</span>)</span><br><span class="line">dp.minor_xs(<span class="string">'000001.XSHE'</span>)</span><br><span class="line"></span><br><span class="line">report_quarter pe_ratio</span><br><span class="line"><span class="number">2018</span><span class="number">-08</span><span class="number">-01</span>         <span class="number">2018</span>q1   <span class="number">6.5443</span></span><br><span class="line"><span class="number">2018</span><span class="number">-04</span><span class="number">-27</span>         <span class="number">2018</span>q1   <span class="number">7.9041</span></span><br><span class="line"><span class="number">2018</span><span class="number">-01</span><span class="number">-26</span>         <span class="number">2017</span>q3  <span class="number">10.4034</span></span><br><span class="line"><span class="number">2017</span><span class="number">-10</span><span class="number">-26</span>         <span class="number">2017</span>q3   <span class="number">8.3344</span></span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line"><span class="comment">### Earning Yield(收益率)</span></span><br><span class="line"></span><br><span class="line">&gt;Annual earnings (adjusted <span class="keyword">for</span> amortizations of intangibles, extraordinary charges <span class="keyword">and</span> credits) per share divided by the share price.  </span><br><span class="line">&gt;This factor measures the worth of a company’s shares according to the company’s ability to support each share <span class="keyword">with</span> after tax earnings.</span><br><span class="line"></span><br><span class="line">每一股年收益除以每一股的价格。  </span><br><span class="line">&gt;*这个因子用于衡量一个公司的股票通过公司税后每一股可以赚多少*</span><br><span class="line"></span><br><span class="line"><span class="comment">#### RiceQuant 字段及获取方法</span></span><br><span class="line"></span><br><span class="line">**字段：`earnings_per_share`**  </span><br><span class="line"></span><br><span class="line">说明： 基本每股收益  </span><br><span class="line">指企业应当按照属于普通股股东的当期净利润  </span><br><span class="line">除以发行在外普通股的加权平均数从而计算出的每股收益  </span><br><span class="line"></span><br><span class="line">```python </span><br><span class="line">dp = get_fundamentals(query(fundamentals.financial_indicator.earnings_per_share).filter(fundamentals.stockcode == <span class="string">'000001.XSHE'</span>), <span class="string">'2018-08-01'</span>,<span class="string">'4q'</span> ,report_quarter = <span class="keyword">True</span>)</span><br><span class="line">dp.minor_xs(<span class="string">'000001.XSHE'</span>)</span><br><span class="line"></span><br><span class="line">report_quarter earnings_per_share</span><br><span class="line"><span class="number">2018</span><span class="number">-08</span><span class="number">-01</span>         <span class="number">2018</span>q1               <span class="number">0.33</span></span><br><span class="line"><span class="number">2018</span><span class="number">-04</span><span class="number">-27</span>         <span class="number">2018</span>q1               <span class="number">0.33</span></span><br><span class="line"><span class="number">2018</span><span class="number">-01</span><span class="number">-26</span>         <span class="number">2017</span>q3               <span class="number">1.06</span></span><br><span class="line"><span class="number">2017</span><span class="number">-10</span><span class="number">-26</span>         <span class="number">2017</span>q3               <span class="number">1.06</span></span><br><span class="line">```	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"><span class="comment">### Cash Flow Yield(现金流量收益率)</span></span><br><span class="line"></span><br><span class="line">&gt;Annual cash flow per share divided by the share price.  </span><br><span class="line">&gt;This factor <span class="keyword">is</span> related to earnings <span class="keyword">yield</span> but also includes other items, specifically: depreciation, amortizations, <span class="keyword">and</span> provisions <span class="keyword">for</span> deferred liabilities. It <span class="keyword">is</span> intended to capture the cash availability of the company <span class="keyword">as</span> a multiple of the share price, <span class="keyword">and</span> offers a value criteria based on the stream of accessible cash earnings</span><br><span class="line"></span><br><span class="line">每一股的年现金流除以每一股的价格  </span><br><span class="line"></span><br><span class="line">&gt;这个因子和回报收益率有关同时也包含了其他的东西，明确的：货币贬值， 摊销 以及延期债务的规定。这个因子试图抓取公司的现金可用性作为股票的倍数，同时提供一个基于可以获得的现金收入流价值标准</span><br><span class="line"></span><br><span class="line"><span class="comment">#### RiceQuant 字段及获取方法</span></span><br><span class="line"></span><br><span class="line">**字段：`<span class="number">1</span>/pcf_ratio`**  </span><br><span class="line"></span><br><span class="line">说明： 市现率： 市现率是股票价格与每股现金流量的比率，所以在这里我需要获取的是这个pcf_ratio的倒数才是年现金流除以每一股的价格。   </span><br><span class="line">总市值/去年经营现金流量净额</span><br><span class="line"></span><br><span class="line">```python	</span><br><span class="line">	dp = get_fundamentals(query(fundamentals.eod_derivative_indicator.pcf_ratio).filter(fundamentals.stockcode == <span class="string">'000001.XSHE'</span>), <span class="string">'2018-08-01'</span>,<span class="string">'4q'</span> ,report_quarter = <span class="keyword">True</span>)</span><br><span class="line">	</span><br><span class="line">	dp.minor_xs(<span class="string">'000001.XSHE'</span>)</span><br><span class="line">	</span><br><span class="line">	report_quarter pcf_ratio</span><br><span class="line">	<span class="number">2018</span><span class="number">-08</span><span class="number">-01</span>         <span class="number">2018</span>q1   <span class="number">-1.3227</span></span><br><span class="line">	<span class="number">2018</span><span class="number">-04</span><span class="number">-27</span>         <span class="number">2018</span>q1   <span class="number">-1.5684</span></span><br><span class="line">	<span class="number">2018</span><span class="number">-01</span><span class="number">-26</span>         <span class="number">2017</span>q3    <span class="number">-2.031</span></span><br><span class="line">	<span class="number">2017</span><span class="number">-10</span><span class="number">-26</span>         <span class="number">2017</span>q3   <span class="number">17.4689</span></span><br></pre></td></tr></table></figure>
+<h3 id="Sales-to-Price-市销率"><a href="#Sales-to-Price-市销率" class="headerlink" title="Sales to Price(市销率)"></a>Sales to Price(市销率)</h3><blockquote>
+<p>Net sales per share divided by the share price.<br>This factor measures the worth of a company’s shares according to the annual sales volume supporting the company business. The item is considered by many analysts to be less susceptible to manipulation than other valuation criteria; it is however, a less comprehensive measure of a company’s range of activities.</p>
+</blockquote>
+<p>每一股的净销售额除以每一股的价格  </p>
+<p><em>这个因子通过年销售量来衡量这个公司的价值。这个因子被很多的分析师认为更加不容易操纵比起其他的因子；无论如何这是一个不很复杂的衡量一个公司活动范围的方式。</em></p>
+<h4 id="RiceQuant-字段及获取方法-1"><a href="#RiceQuant-字段及获取方法-1" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>1/ps_ratio</code></strong>  </p>
+<blockquote>
+<p>说明： 市销率： 市销率为股票价格与每股销售收入之比，市销率越小，通常被认为投资价值越高，所以在这里我需要获取的是这个ps_ratio的倒数才是每一股的净销售额除以每一股的价格。   </p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">dp = get_fundamentals(query(fundamentals.eod_derivative_indicator.ps_ratio).filter(fundamentals.stockcode == <span class="string">'000001.XSHE'</span>), <span class="string">'2017-12-31'</span>,<span class="string">'4q'</span> ,report_quarter = <span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">dp.minor_xs(<span class="string">'000001.XSHE'</span>)</span><br><span class="line">report_quarter ps_ratio</span><br><span class="line"><span class="number">2017</span><span class="number">-12</span><span class="number">-29</span>         <span class="number">2017</span>q3   <span class="number">2.1629</span></span><br><span class="line"><span class="number">2017</span><span class="number">-09</span><span class="number">-29</span>         <span class="number">2017</span>q2   <span class="number">1.7825</span></span><br><span class="line"><span class="number">2017</span><span class="number">-06</span><span class="number">-29</span>         <span class="number">2017</span>q1   <span class="number">1.5004</span></span><br><span class="line"><span class="number">2017</span><span class="number">-03</span><span class="number">-29</span>         <span class="number">2016</span>q4   <span class="number">1.4521</span></span><br></pre></td></tr></table></figure>
+<h3 id="EBITA-to-EV-企业倍数估值"><a href="#EBITA-to-EV-企业倍数估值" class="headerlink" title="EBITA to EV(企业倍数估值)"></a>EBITA to EV(企业倍数估值)</h3><blockquote>
+<p>The ratio of the company’s EBITDA to Enterprise Value. EBITDA is Earnings before interest, taxes and depreciation and is calculated by taking the pretax income and adding back interest expense on debt and depreciation, depletion and amortization and subtracting interest capitalized.<br>Enterprise Value is defined as “market capitalization + total debt + preferred stock - cash and cash equivalents”.</p>
+</blockquote>
+<p>这是EBITDA对企业价值的比率。EBITDA 是在利息，税以及货币贬值之前的收益，通过考虑税前收入和增加债务和折旧，消耗和摊销以及减去利息资本化的利息费用加回来计算出来的。<br>企业价值被定义为“市场价值 + 全部债务 + 优先股-现金和现金等价物”  </p>
+<h4 id="RiceQuant-字段及获取方法-2"><a href="#RiceQuant-字段及获取方法-2" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>1/ev_to_ebitda</code></strong>  </p>
+<blockquote>
+<p>说明： 企业倍数： 评估公司价值的指标，看的出来，这里也是刚好是导数才能和上一致。</p>
+</blockquote>
+<p><em>我有一个问题，EV是怎么计算出来的。</em>  </p>
+<p><strong>这个字段无法查出，ev是有值的而ebitda为NA，暂时无法确定是否其他的股票也没有值</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">dp = get_fundamentals(query(fundamentals.financial_indicator.ev_to_ebitda).filter(fundamentals.stockcode == <span class="string">'000001.XSHE'</span>), <span class="string">'2017-12-31'</span>,<span class="string">'4q'</span> ,report_quarter = <span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">dp.minor_xs(<span class="string">'000001.XSHE'</span>)</span><br><span class="line">report_quarter ev_to_ebitda</span><br><span class="line"><span class="number">2017</span><span class="number">-12</span><span class="number">-29</span>         <span class="number">2017</span>q3          NaN</span><br><span class="line"><span class="number">2017</span><span class="number">-09</span><span class="number">-29</span>         <span class="number">2017</span>q2          NaN</span><br><span class="line"><span class="number">2017</span><span class="number">-06</span><span class="number">-29</span>         <span class="number">2017</span>q1          NaN</span><br><span class="line"><span class="number">2017</span><span class="number">-03</span><span class="number">-29</span>         <span class="number">2016</span>q4          NaN</span><br></pre></td></tr></table></figure>
+<h2 id="收益率因子"><a href="#收益率因子" class="headerlink" title="收益率因子"></a>收益率因子</h2><h3 id="Dividend-Yield-股息收益率"><a href="#Dividend-Yield-股息收益率" class="headerlink" title="Dividend Yield(股息收益率)"></a>Dividend Yield(股息收益率)</h3><blockquote>
+<p>The annual dividend paid per share divided by the share price.<br>This factor measures the value of company shares according to the stream of dividend income resulting from share ownership.  </p>
+</blockquote>
+<p>一年每一股的股息除以每股的价格 </p>
+<h4 id="RiceQuant-字段及获取方法-3"><a href="#RiceQuant-字段及获取方法-3" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><em>这个因子通过股权所得的股息收入流衡量了公司股票价格</em></p>
+<p><strong>字段：<code>dividend_yield</code></strong>  </p>
+<p>说明： 股息率： 股息率是股息与股票价格之间的比率<br>股息率＝∑每股股利(税前) / 每股市价</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">dp = get_fundamentals(query(fundamentals.eod_derivative_indicator.dividend_yield).filter(fundamentals.stockcode == <span class="string">'000001.XSHE'</span>), <span class="string">'2017-12-31'</span>,<span class="string">'4q'</span> ,report_quarter = <span class="keyword">True</span>)</span><br><span class="line">dp.minor_xs(<span class="string">'000001.XSHE'</span>)</span><br><span class="line">report_quarter dividend_yield</span><br><span class="line"><span class="number">2017</span><span class="number">-12</span><span class="number">-29</span>         <span class="number">2017</span>q3          <span class="number">1.188</span></span><br><span class="line"><span class="number">2017</span><span class="number">-09</span><span class="number">-29</span>         <span class="number">2017</span>q2         <span class="number">1.4221</span></span><br><span class="line"><span class="number">2017</span><span class="number">-06</span><span class="number">-29</span>         <span class="number">2017</span>q1            NaN</span><br><span class="line"><span class="number">2017</span><span class="number">-03</span><span class="number">-29</span>         <span class="number">2016</span>q4         <span class="number">1.3996</span></span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line"><span class="comment">### Shareholder Yield(股东收益率)</span></span><br><span class="line"></span><br><span class="line">&gt;The sum of Net Buyback Yield, Dividend Yield <span class="keyword">and</span> Net Debt Paydown Yield.  </span><br><span class="line">&gt;This factor measures the proportion of a company<span class="string">'s value distributed to shareholders through dividend payments, share repurchases and debt reduction.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">净回购收益率的总和除以收益率和净债务部分还款收益率  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">*这个因子衡量了公司通过股息分红，股票再回购和债务减少分配给股东公司价值的比率*</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">## 增长因子</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">### Earnings Growth 5Y(五年盈利增长)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&gt;The average annual growth rate of earnings (adjusted for amortizations of intangibles, extraordinary charges and credits) over a trailing five years.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&gt;Earnings Growth is, perhaps, the clearest of the growth criteria. However, it is subject to the distortions of reporting conventions and manipulation and, particularly in some markets, only known after a considerable lag.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">过去五年的平均年收入增长率（根据无形资产摊销，特殊费用和信贷调整。  </span></span><br><span class="line"><span class="string">盈利增长可能是最清晰的增长标准。然而他会收到报告惯例失真和操控，特别是在一些市场上，只有在一段时间后才能看出来。  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">#### RiceQuant 字段及获取方法</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">**字段：`profit_from_operation `**  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&gt;说明： 可以获取每年的营业利润，然后计算五年的平均增长情况  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">营业利润： 企业在其全部销售业务中实现的利润，又称营业利润、经营利润，它包含主营业务利润</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&gt;	年增长率是当年利润的较前一年的增长量除以前一年利润的百分比.  </span></span><br><span class="line"><span class="string">&gt;	平均增长率的计算：  </span></span><br><span class="line"><span class="string">&gt;	假定  </span></span><br><span class="line"><span class="string">&gt;	1、平均增长率为X  </span></span><br><span class="line"><span class="string">&gt;	2、每年的增长率分别为R1、R2、R3,...,Rn  </span></span><br><span class="line"><span class="string">&gt;	则：  </span></span><br><span class="line"><span class="string">&gt;	X＝&#123;[（1＋R1）＊（1＋R2）＊（1＋R3）＊...*(1+Rn)]^1/n&#125; - 1  </span></span><br><span class="line"><span class="string">&gt;	注：^1/n表示开n次方  </span></span><br><span class="line"><span class="string">[https://www.zybang.com/question/cc63fc27473ec333c407161c3e2089d6.html](https://www.zybang.com/question/cc63fc27473ec333c407161c3e2089d6.html)	</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">```python</span></span><br><span class="line"><span class="string">import math</span></span><br><span class="line"><span class="string">dp = get_fundamentals(query(fundamentals.income_statement. profit_from_operation).filter(fundamentals.stockcode == '</span><span class="number">000001.</span>XSHE<span class="string">'), '</span><span class="number">2018</span><span class="number">-01</span><span class="number">-10</span><span class="string">', '</span><span class="number">5</span>y<span class="string">')</span></span><br><span class="line"><span class="string">dp2 = get_fundamentals(query(fundamentals.income_statement. profit_from_operation).filter(fundamentals.stockcode == '</span><span class="number">000001.</span>XSHE<span class="string">'), '</span><span class="number">2017</span><span class="number">-01</span><span class="number">-10</span><span class="string">', '</span><span class="number">5</span>y<span class="string">')</span></span><br><span class="line"><span class="string">upPercent = dp.minor_xs('</span><span class="number">000001.</span>XSHE<span class="string">')['</span>profit_from_operation<span class="string">'].values/dp2.minor_xs('</span><span class="number">000001.</span>XSHE<span class="string">')['</span>profit_from_operation<span class="string">'].values</span></span><br><span class="line"><span class="string">i = 1</span></span><br><span class="line"><span class="string">for i in range(len(upPercent)):</span></span><br><span class="line"><span class="string">	i = i*(upPercent[i] + 1)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">earning_growth_5y = math.pow(i, 1/5.0) - 1</span></span><br></pre></td></tr></table></figure>
+<h3 id="Sales-Growth-5Y-五年销售增长"><a href="#Sales-Growth-5Y-五年销售增长" class="headerlink" title="Sales Growth 5Y(五年销售增长)"></a>Sales Growth 5Y(五年销售增长)</h3><blockquote>
+<p>The average annual growth rate of net sales per share over a trailing five years.<br>Although growth in sales per share might be only a narrow measure of a company’s business growth, and may be subject to a number of distortions, it is less subject to differences in reporting conventions or manipulation than many other balance sheet or profit and loss items.</p>
+</blockquote>
+<p>过去五年的每股净销售量平均年增长率。<br>尽管每股增长率也许只是衡量公司业务增长的一个小范围，并且可能有一些扭曲，与许多其他资产负债表或损益项目相比，它在报告惯例或操纵方面的差异较小。</p>
+<h4 id="RiceQuant-字段及获取方法-4"><a href="#RiceQuant-字段及获取方法-4" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>revenue</code></strong>  </p>
+<p>说明： 可以获取每年的收入，然后计算五年的盈利增长情况</p>
+<pre><code>年增长率是当年利润的较前一年的增长量除以前一年利润的百分比.
+平均增长率的计算：
+假定
+1、平均增长率为X
+2、每年的增长率分别为R1、R2、R3,...,Rn
+则：
+X＝{[（1＋R1）＊（1＋R2）＊（1＋R3）＊...*(1+Rn)]^1/n} - 1
+注：^1/n表示开n次方
+</code></pre><p><a href="https://www.zybang.com/question/cc63fc27473ec333c407161c3e2089d6.html" target="_blank" rel="noopener">https://www.zybang.com/question/cc63fc27473ec333c407161c3e2089d6.html</a>    </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">import</span> math</span><br><span class="line">	dp = get_fundamentals(query(fundamentals.income_statement.revenue).filter(fundamentals.stockcode == <span class="string">'000001.XSHE'</span>), <span class="string">'2018-01-10'</span>, <span class="string">'5y'</span>)</span><br><span class="line">	dp2 = get_fundamentals(query(fundamentals.income_statement.revenue).filter(fundamentals.stockcode == <span class="string">'000001.XSHE'</span>), <span class="string">'2017-01-10'</span>, <span class="string">'5y'</span>)</span><br><span class="line">	upPercent = dp.minor_xs(<span class="string">'000001.XSHE'</span>)[<span class="string">'revenue'</span>].values/dp2.minor_xs(<span class="string">'000001.XSHE'</span>)[<span class="string">'revenue'</span>].values</span><br><span class="line">	i = <span class="number">1</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(len(upPercent)):</span><br><span class="line">		i = i*(upPercent[i] + <span class="number">1</span>)</span><br><span class="line">	</span><br><span class="line">	revenue_growth_5y = math.pow(i, <span class="number">1</span>/<span class="number">5.0</span>) - <span class="number">1</span></span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line"><span class="comment">### Forecast Growth 12M(12月预测增长率)</span></span><br><span class="line"></span><br><span class="line">	Consensus forecast growth of earnings over the next <span class="number">12</span> months. The <span class="number">12</span> month growth <span class="keyword">is</span> calculated on a pro-rata basis <span class="keyword">from</span> the forecasts <span class="keyword">for</span> each of the company<span class="string">'s next 2 annual reporting periods.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">市场普遍预测未来12个月的盈利增长。 12个月的增长是根据公司未来2个年度报告期的预测按比例计算的。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">### Dividend Growth 5Y(5年股息增长)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">	The average annual growth rate of dividends over a trailing five years.</span></span><br><span class="line"><span class="string">过去五年平均股息年增长率</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">#### RiceQuant 字段及获取方法</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">**字段：`dividend_yield `**  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">说明：股息率是股息与股票价格之间的比率；股息率＝∑每股股利(税前) / 每股市价    </span></span><br><span class="line"><span class="string">由于股息不是每年都会分配的，很多股票不是每年都有股息的。所以目前只是简单的写出怎么获取一年的股息率。但是怎么计算这个因子还未完成。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">```python</span></span><br><span class="line"><span class="string">	</span></span><br><span class="line"><span class="string">	## 获取股息率</span></span><br><span class="line"><span class="string">	fundamental_df = get_fundamentals(query(fundamentals.eod_derivative_indicator.dividend_yield).order_by(fundamentals.eod_derivative_indicator.dividend_yield.desc()).limit(50), '</span><span class="number">2018</span><span class="number">-01</span><span class="number">-10</span><span class="string">', '</span><span class="number">1</span>y<span class="string">')</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">	for key in fundamental_df.minor_axis:</span></span><br><span class="line"><span class="string">		print key</span></span><br><span class="line"><span class="string">		print fundamental_df.minor_xs(key)</span></span><br></pre></td></tr></table></figure>
+<h2 id="质量因子"><a href="#质量因子" class="headerlink" title="质量因子"></a>质量因子</h2><h3 id="Return-on-Equity-股东权益回报率"><a href="#Return-on-Equity-股东权益回报率" class="headerlink" title="Return on Equity(股东权益回报率)"></a>Return on Equity(股东权益回报率)</h3><pre><code>Net Income after preferred dividends divided by the book value of shareholders’ common equity.
+RoE measures the profitability of the operations of the company as a proportion of the total amount of equity in the company. Since RoE multiplied by the reinvestment rate (the proportion of earnings not paid as dividends but reinvested in the company) gives the warranted growth rate of a company, RoE is a traditional measure of a company&apos;s growth potential.
+</code></pre><p>优先股股息后的净收入除以股东普通股权的账面价值<br>RoE衡量了这个公司的操作的利润率作为这个公司全部数量产权的一部分。由于RoE乘了再投资率（盈利没有用来作为股息支付而是再次投向公司）给出了公司的保证增长率，RoE是一个传统的用来衡量公司增长潜力的因子。</p>
+<h4 id="RiceQuant-字段及获取方法-5"><a href="#RiceQuant-字段及获取方法-5" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>roe</code></strong>  </p>
+<p>说明：净资产收益率(摊薄)(%)  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[https://www.ricequant.com/api/research/chn<span class="comment">#research-API-current_performance](https://www.ricequant.com/api/research/chn#research-API-current_performance)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 获取股息率  </span></span><br><span class="line">current_performance(<span class="string">'000004.XSHE'</span>,quarter=<span class="string">'2017q2'</span>,fields=<span class="string">'roe'</span>,interval=<span class="string">'6q'</span>)</span><br><span class="line">	end_date  info_date        roe</span><br><span class="line"><span class="number">0</span> <span class="number">2015</span><span class="number">-12</span><span class="number">-31</span> <span class="number">2016</span><span class="number">-04</span><span class="number">-15</span>   <span class="number">1.529771</span></span><br><span class="line"><span class="number">1</span> <span class="number">2014</span><span class="number">-12</span><span class="number">-31</span> <span class="number">2015</span><span class="number">-04</span><span class="number">-16</span>   <span class="number">4.735392</span></span><br><span class="line"><span class="number">2</span> <span class="number">2013</span><span class="number">-12</span><span class="number">-31</span> <span class="number">2014</span><span class="number">-04</span><span class="number">-15</span>  <span class="number">-1.642598</span></span><br><span class="line"><span class="number">3</span> <span class="number">2012</span><span class="number">-12</span><span class="number">-31</span> <span class="number">2013</span><span class="number">-04</span><span class="number">-13</span>   <span class="number">2.588968</span></span><br><span class="line"><span class="number">4</span> <span class="number">2007</span><span class="number">-12</span><span class="number">-31</span> <span class="number">2008</span><span class="number">-04</span><span class="number">-15</span> <span class="number">-13.200000</span></span><br></pre></td></tr></table></figure>
+<h3 id="Net-Profit-Margin-净利润率"><a href="#Net-Profit-Margin-净利润率" class="headerlink" title="Net Profit Margin(净利润率)"></a>Net Profit Margin(净利润率)</h3><pre><code>The &quot;net margin&quot;, annual net income before preferred dividends (plus policyholders&apos; surplus for insurance companies), divided by annual net sales.
+This measure attempts to assess the company&apos;s potential for profitable, sustained expansion or growth.
+</code></pre><p>“净利润率”，优先股股息之前的年度净收入（加上保险公司的保单持有人盈余）除以年度净销售额。<br>这个因子试图评估这个公司利润潜力，持续扩张或者增长。</p>
+<h4 id="RiceQuant-字段及获取方法-6"><a href="#RiceQuant-字段及获取方法-6" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>net_profit_to_total_operating_revenueTTM</code></strong>  </p>
+<p>说明：净利润率;含少数股东损益的净利润（TTM）/营业收入（TTM）*100%  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">dp = get_fundamentals(query(fundamentals.financial_indicator_TTM.net_profit_to_total_operating_revenueTTM).filter(fundamentals.stockcode == <span class="string">'000001.XSHE'</span>), <span class="string">'2018-01-10'</span>, <span class="string">'5y'</span>)</span><br><span class="line">dp.minor_xs(<span class="string">'000001.XSHE'</span>)</span><br><span class="line">	 					net_profit_to_total_operating_revenueTTM</span><br><span class="line"><span class="number">2018</span><span class="number">-01</span><span class="number">-10</span>                                  <span class="number">21.8157</span></span><br><span class="line"><span class="number">2017</span><span class="number">-01</span><span class="number">-10</span>                                  <span class="number">21.3537</span></span><br><span class="line"><span class="number">2016</span><span class="number">-01</span><span class="number">-08</span>                                  <span class="number">24.3004</span></span><br><span class="line"><span class="number">2015</span><span class="number">-01</span><span class="number">-08</span>                                  <span class="number">27.6696</span></span><br><span class="line"><span class="number">2014</span><span class="number">-01</span><span class="number">-08</span>                                   <span class="number">31.247</span></span><br><span class="line">dp.minor_xs(<span class="string">'000001.XSHE'</span>)* (<span class="number">-1</span>)</span><br><span class="line">				 debt_to_asset_ratio</span><br><span class="line"><span class="number">2018</span><span class="number">-01</span><span class="number">-10</span>            <span class="number">-93.0482</span></span><br><span class="line"><span class="number">2017</span><span class="number">-01</span><span class="number">-10</span>            <span class="number">-92.8982</span></span><br><span class="line"><span class="number">2016</span><span class="number">-01</span><span class="number">-08</span>            <span class="number">-93.9541</span></span><br><span class="line"><span class="number">2015</span><span class="number">-01</span><span class="number">-08</span>            <span class="number">-94.0898</span></span><br><span class="line"><span class="number">2014</span><span class="number">-01</span><span class="number">-08</span>            <span class="number">-94.8851</span></span><br></pre></td></tr></table></figure>
+<h3 id="Low-Gearing-低资本负债比率"><a href="#Low-Gearing-低资本负债比率" class="headerlink" title="Low Gearing (低资本负债比率)"></a>Low Gearing (低资本负债比率)</h3><pre><code>The negative of debt to equity. Low geared companies can regarded as being of higher &quot;quality&quot; as they are less burdened by debt repayment costs.
+</code></pre><p>债务对股权的负面影响。低资本负载率比的公司可以被认为是高“质量”的因为它们的债务偿还成本负担更小。  </p>
+<h4 id="RiceQuant-字段及获取方法-7"><a href="#RiceQuant-字段及获取方法-7" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>debt_to_asset_ratio</code></strong> </p>
+<p>说明：资产负债率： 资产负债率是企业负债总额占企业资产总额的百分比 </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">dp = get_fundamentals(query(fundamentals.financial_indicator_TTM.net_profit_to_total_operating_revenueTTM).filter(fundamentals.stockcode == <span class="string">'000001.XSHE'</span>), <span class="string">'2018-01-10'</span>, <span class="string">'5y'</span>)</span><br><span class="line"></span><br><span class="line">dp.minor_xs(<span class="string">'000001.XSHE'</span>) </span><br><span class="line">	           debt_to_asset_ratio</span><br><span class="line"><span class="number">2018</span><span class="number">-01</span><span class="number">-10</span>             <span class="number">93.0482</span></span><br><span class="line"><span class="number">2017</span><span class="number">-01</span><span class="number">-10</span>             <span class="number">92.8982</span></span><br><span class="line"><span class="number">2016</span><span class="number">-01</span><span class="number">-08</span>             <span class="number">93.9541</span></span><br><span class="line"><span class="number">2015</span><span class="number">-01</span><span class="number">-08</span>             <span class="number">94.0898</span></span><br><span class="line"><span class="number">2014</span><span class="number">-01</span><span class="number">-08</span>             <span class="number">94.8851</span></span><br><span class="line"></span><br><span class="line">dp.minor_xs(<span class="string">'000001.XSHE'</span>)*(<span class="number">-1</span>)</span><br><span class="line">			debt_to_asset_ratio</span><br><span class="line"><span class="number">2018</span><span class="number">-01</span><span class="number">-10</span>            <span class="number">-93.0482</span></span><br><span class="line"><span class="number">2017</span><span class="number">-01</span><span class="number">-10</span>            <span class="number">-92.8982</span></span><br><span class="line"><span class="number">2016</span><span class="number">-01</span><span class="number">-08</span>            <span class="number">-93.9541</span></span><br><span class="line"><span class="number">2015</span><span class="number">-01</span><span class="number">-08</span>            <span class="number">-94.0898</span></span><br><span class="line"><span class="number">2014</span><span class="number">-01</span><span class="number">-08</span>            <span class="number">-94.8851</span></span><br></pre></td></tr></table></figure>
+<h3 id="Earnings-Growth-Stability-收益增长稳定性"><a href="#Earnings-Growth-Stability-收益增长稳定性" class="headerlink" title="Earnings Growth Stability(收益增长稳定性)"></a>Earnings Growth Stability(收益增长稳定性)</h3><pre><code>This &apos;quality&apos; factor is calculated as the negative of the standard deviation of earnings growth over the most recent 3 years of growth data.
+</code></pre><p>这个“质量”因素计算为最近3年增长数据中收益增长标准差的负值。</p>
+<h4 id="RiceQuant-字段及获取方法-8"><a href="#RiceQuant-字段及获取方法-8" class="headerlink" title="RiceQuant 字段及获取方法"></a>RiceQuant 字段及获取方法</h4><p><strong>字段：<code>inc_gross_profit</code></strong>  </p>
+<p>说明：营业利润(同比增长率)    </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dp = get_fundamentals(query(fundamentals.financial_indicator.inc_gross_profit).filter(fundamentals.stockcode == <span class="string">'000001.XSHE'</span>), <span class="string">'2018-01-10'</span>, <span class="string">'3y'</span>)</span><br><span class="line"></span><br><span class="line">-dp.minor_xs(<span class="string">'000001.XSHE'</span>).std()</span><br><span class="line">inc_gross_profit   <span class="number">-5.265935</span></span><br><span class="line">dtype: float64</span><br></pre></td></tr></table></figure>
+<h3 id="Sales-Growth-Stability-销售增长稳定性"><a href="#Sales-Growth-Stability-销售增长稳定性" class="headerlink" title="Sales Growth Stability(销售增长稳定性)"></a>Sales Growth Stability(销售增长稳定性)</h3><pre><code>This &apos;Quality&apos; factor is calculated as the negative of the standard deviation of Sales Growth over the most recent 3 years of growth data.
+</code></pre><p>此“质量”因子计算为销售增长标准差与最近3年增长数据的负值。</p>
+<h4 id="RiceQuant-相关字段及获取方法"><a href="#RiceQuant-相关字段及获取方法" class="headerlink" title="RiceQuant 相关字段及获取方法"></a>RiceQuant 相关字段及获取方法</h4><p><strong>字段：<code>inc_revenue</code></strong>  </p>
+<p>说明：营业总收入(同比增长率)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	dp = get_fundamentals(query(fundamentals.financial_indicator. inc_revenue).filter(fundamentals.stockcode == <span class="string">'000001.XSHE'</span>), <span class="string">'2018-01-10'</span>, <span class="string">'3y'</span>)</span><br><span class="line">	</span><br><span class="line">	dp.minor_xs(<span class="string">'000001.XSHE'</span>)</span><br><span class="line">					inc_revenue</span><br><span class="line">	<span class="number">2018</span><span class="number">-01</span><span class="number">-10</span>     <span class="number">-2.6047</span></span><br><span class="line">	<span class="number">2017</span><span class="number">-01</span><span class="number">-10</span>     <span class="number">15.2013</span></span><br><span class="line">	<span class="number">2016</span><span class="number">-01</span><span class="number">-08</span>     <span class="number">30.1934</span></span><br><span class="line">	</span><br><span class="line">	-dp.minor_xs(<span class="string">'000001.XSHE'</span>).std()</span><br><span class="line">	inc_revenue   <span class="number">-16.419156</span></span><br><span class="line">	dtype: float64</span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line"><span class="comment">## 大小因子</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 市场价值</span></span><br><span class="line"></span><br><span class="line">	The market capitalization of the stock.</span><br><span class="line">	The average size statistic of a portfolio <span class="keyword">is</span> the weighted (by holding value) average size of the securities held. The average size statistic of a benchmark (<span class="keyword">or</span> total market) <span class="keyword">is</span> the weighted (by holding value) average size of the securities within the benchmark (<span class="keyword">or</span> total market)</span><br><span class="line"></span><br><span class="line">股票的市场价值  </span><br><span class="line">一个投资组合的平均规模统计是持有的证券的平均规模加权（通过持有的价值）。这个基准（或者总市场）的平均规模统计是基准中股票平均规模加权（通过持有价值）。</span><br><span class="line"></span><br><span class="line"><span class="comment">## 波动率因子</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### Market Beta(市场Beta值)</span></span><br><span class="line"></span><br><span class="line">	The <span class="string">"slope coefficient"</span>, (β), <span class="keyword">from</span> the simple regression:</span><br><span class="line">	Security monthly <span class="keyword">return</span> = α + β * market monthly <span class="keyword">return</span> + random error.</span><br><span class="line">	The regression <span class="keyword">is</span> carried out over <span class="number">36</span> month periods. Where sufficient information <span class="keyword">is</span> <span class="keyword">not</span> available, β=<span class="number">1</span> <span class="keyword">is</span> assumed.</span><br><span class="line"></span><br><span class="line">斜率因子（β）是从一个简单的回归：  </span><br><span class="line">股票月的回归率 = α + β * 市场月回归率 + 随机误差  </span><br><span class="line">回归会进行过去<span class="number">36</span>个月。当没有明显的信息的时候，是假设β=<span class="number">1</span>。  </span><br><span class="line"></span><br><span class="line"><span class="comment">#### RiceQuant 相关字段及获取方法</span></span><br><span class="line"></span><br><span class="line">**字段：`inc_revenue`**  </span><br><span class="line">说明：营业总收入(同比增长率)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">	dp = get_fundamentals(query(fundamentals.financial_indicator. inc_revenue).filter(fundamentals.stockcode == <span class="string">'000001.XSHE'</span>), <span class="string">'2018-01-10'</span>, <span class="string">'3y'</span>)</span><br><span class="line">	</span><br><span class="line">	dp.minor_xs(<span class="string">'000001.XSHE'</span>)</span><br><span class="line">					inc_revenue</span><br><span class="line">	<span class="number">2018</span><span class="number">-01</span><span class="number">-10</span>     <span class="number">-2.6047</span></span><br><span class="line">	<span class="number">2017</span><span class="number">-01</span><span class="number">-10</span>     <span class="number">15.2013</span></span><br><span class="line">	<span class="number">2016</span><span class="number">-01</span><span class="number">-08</span>     <span class="number">30.1934</span></span><br><span class="line">	</span><br><span class="line">	-dp.minor_xs(<span class="string">'000001.XSHE'</span>).std()</span><br><span class="line">	inc_revenue   <span class="number">-16.419156</span></span><br><span class="line">	dtype: float64</span><br></pre></td></tr></table></figure>
+<h3 id="Daily-Volatility-1Y-1年日均波动率"><a href="#Daily-Volatility-1Y-1年日均波动率" class="headerlink" title="Daily Volatility 1Y(1年日均波动率)"></a>Daily Volatility 1Y(1年日均波动率)</h3><pre><code>The standard deviation of the last year of daily total returns, expressed as an annualized percentage.
+</code></pre><p>每日总回报的去年的标准差，以年化百分比表示。</p>
+<h3 id="Volatility-3Y-3年波动率"><a href="#Volatility-3Y-3年波动率" class="headerlink" title="Volatility 3Y(3年波动率)"></a>Volatility 3Y(3年波动率)</h3><pre><code>The standard deviation of the last 36 months of total returns, expressed as an annualized percentage.
+</code></pre><p>过去36个月的总回报率的标准差，以年化百分比表示。</p>
+<h2 id="动量因子"><a href="#动量因子" class="headerlink" title="动量因子"></a>动量因子</h2><h3 id="Momentum-ST"><a href="#Momentum-ST" class="headerlink" title="Momentum ST"></a>Momentum ST</h3><pre><code>Calculated using a 6 month &quot;memory&quot; of monthly total returns. The past period returns are weighted using a &quot;decay ratio&quot; of 2/3, per month. This weighted historic return factor measures the degree of performance trend following. It is useful in recognizing trading character of specific markets and in noticing occasional changing patterns through the market cycle.
+</code></pre><p>使用每月总回报的6个月“记忆”计算。 过去的期间回报使用每月2/3的“衰减率”加权。 该加权历史回报因子衡量了追随的业绩趋势程度。 它有助于识别特定市场的交易特征，并注意到市场周期中偶尔会出现的变化模式。</p>
+<h3 id="Momentum-12-1"><a href="#Momentum-12-1" class="headerlink" title="Momentum 12-1"></a>Momentum 12-1</h3><pre><code>The total return of the stock over the last 12 months, excluding the total return over the most recent month since reversal effects are often associated with one-month returns.
+</code></pre><p>过去12个月的股票总回报，不包括自逆转影响以来最近一个月的总回报，通常与一个月的回报相关。</p>
+<h3 id="Forecast-12M-Revisions"><a href="#Forecast-12M-Revisions" class="headerlink" title="Forecast 12M Revisions"></a>Forecast 12M Revisions</h3><pre><code>IBES balance of Earnings forecast revisions for the over the next 12 months.
+Calculated as the difference between the number of upwards revisions minus the number of downwards revisions (as sampled over the past 1M period), expressed as a percentage of the number of estimates.
+</code></pre><p>IBES未来12个月的盈利预测修正余额。<br>计算为向上修订数量减去向下修订数量（在过去1M期间采样）之间的差异，表示为估计数量的百分比。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sevenpan.com/2018/09/21/Algo/单因子说明以及计算结果/" data-id="cjsx1n6ar0001sgrrgg8bfksq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Alpha-factor/">Alpha factor</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Algo/跟踪聪明钱" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/04/Algo/跟踪聪明钱/" class="article-date">
+  <time datetime="2018-09-04T12:16:20.000Z" itemprop="datePublished">2018-09-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/04/Algo/跟踪聪明钱/">跟踪聪明钱</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="跟踪聪明钱"><a href="#跟踪聪明钱" class="headerlink" title="跟踪聪明钱"></a>跟踪聪明钱</h1><p>##研究目标</p>
+<p>分钟行情数据进行研究  </p>
+<p>##聪明度指标S</p>
+<p>聪明钱情绪因子Q，因子Q越高，表面聪明钱的交易倾向于出现在价格较高处，逢高出货的表现，表明了悲观态度；因子Q值越小，表明聪明钱交易出现在价格较低处，逢低吸筹的表现，反应了乐观情绪。<br>Q 值小视为聪明钱逢低买入的表现，因此可选取五分组中Q值最小的第一组，作为跟踪聪明钱动向的 SMART 组合</p>
+<p>##从分钟行情数据中看聪明钱</p>
+<p>股票的分钟行情数据，包含开盘价，最高价，最低价，收盘价和成交量等。<br>找聪明钱的特征设置为：“单笔订单数量更大，订单报价更为激进”。<br>使用如下的指标来衡量每一分钟交易聪明程度：</p>
+<p>$$ S_t = |R_t|/V_t^{0.5}$$</p>
+<p>其中\(R_t\) 是第t分钟的涨跌幅，\(V_t\)是第t分钟的成交量。指标\(S_t\)的值越大，则该分钟的交易越聪明。<br>对于特定的时段，特定股票的所有分钟行情数据， 将其按指标S从大到小排序，成交量累积占比前20%的视为聪明钱交易。 —- 这里我有点不懂是怎么处理的？<br>懂了，就是对每一分钟的S值进行排序，然后只取成交值为20%的时间做为聪明钱的交易。  </p>
+<p><strong>聪明钱情绪因子Q</strong></p>
+<p>$$ Q = VWAP_{smart}/VWAP_{all}$$<br>\( VWAP_{smart}\) 是聪明钱的成交量加权平均价<br>\( VWAP_{all}\) 是所有交易的成交量加权平均价<br>Q反应了这个时间段<strong>我的问题是这个时间段怎么定义的？</strong>中聪明钱参与交易的相对价位。<br>Q越高，值越大，聪明钱的交易越倾向于出现在价格高点，逢高出货。<br>Q越低，值越小，聪明钱的交易越倾向于出现在价格低点，逢低吸筹。  </p>
+<h2 id="情绪因子Q的选股能力"><a href="#情绪因子Q的选股能力" class="headerlink" title="情绪因子Q的选股能力"></a>情绪因子Q的选股能力</h2><p>每个月的最后一个交易日，计算所有股票最近10个交易日的分钟行情数据，计算每个股票的情绪因子Q。<br>然后考虑了每个月因子值和次月收益的秩相关系数（RankIC）<br>这个相关系数要怎么计算？ 次月收益是怎么得出来的？？<br>计算秩相关系数又是怎么计算的？  </p>
+<p>投资的方法倒是看出来了：将市场上的股票按照Q从小到大排序，等分为五组。第一组为最小，第五组最大。然后可以最大和最小之间进行对冲<strong>为啥我觉得这么处理毫无逻辑</strong></p>
+<p>##情绪因子的风险特征</p>
+<p>重点关注情绪因子Q的市值，动量等因子的关联性。<br>使用横截面回归取残差的方式，对市值，动量，行业等因子进行剔除。横截面回归模型如下：<br>$$ Q_i = \beta_1LogMktVal + \beta_2Ret20d_i + \sum_{j=1}^{N} \beta_{3j}Ind_{ji} + \epsilon$$<br>其中，Q为情绪因子<br>LogMktVal 为股票对数流通市值<br>Ret20d 为前20个交易日的涨跌值<br>Ind申万一级行业哑变量<br>\( \epsilon\) 是残差因子  </p>
+<p>##跟踪聪明钱的SMART组合</p>
+<p>由于我们可以视Q值小为聪明钱逢低买入的表现。因此选取五分组中Q最小的第一组，用于跟踪聪明钱动向的SMART组合。</p>
+<p>##除了上面描述的对冲计算收益率的方式我还感兴趣的地方</p>
+<pre><code>1. 是否可以列出每次的聪明钱因子对应的股票，做一个股票集。
+2. 还是没有看出来这里面是怎么根据q来进行投资组合的。
+3. 后面的横截面回归模型是为什么？
+
+实现完了优矿上的代码再来回答这些问题。
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sevenpan.com/2018/09/04/Algo/跟踪聪明钱/" data-id="cjsx1n6aw0004sgrrk90v4j8e" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algo/">Algo</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-SparkAndDeepLearning/Shuffle_翻译自spark_programming_guideline" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/04/23/SparkAndDeepLearning/Shuffle_翻译自spark_programming_guideline/" class="article-date">
+  <time datetime="2018-04-23T10:17:04.000Z" itemprop="datePublished">2018-04-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/23/SparkAndDeepLearning/Shuffle_翻译自spark_programming_guideline/">Spark Programming--- Shuffle Operations 翻译</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spark-Programming—-Shuffle-operations"><a href="#Spark-Programming—-Shuffle-operations" class="headerlink" title="Spark Programming— Shuffle operations"></a>Spark Programming— Shuffle operations</h1><p>original: <a href="http://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations" target="_blank" rel="noopener">http://spark.apache.org/docs/latest/rdd-programming-guide.html#shuffle-operations</a></p>
+<p>一些spark的特定操作将会触发被称为shuffle的事件。Shuffle是Spark用于重新分布数据的机制，这样可以在不同的分区来分组。这通常涉及到在executor和机器之间进行拷贝数据，所以shuffle是一个很复杂并且消耗高的操作。  </p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>为了了解shuffle期间发生了什么，我们可以考虑reduceByKey操作作为例子。reduceByKey操作生成了一个新的RDD通过所有的单个键值组合为一个元组-关键字和针对与该关键字相关的所有值执行reduce函数的结果。这里的挑战不是所有的值对一个单独的键都在同一个分区上或者甚至说在一台机器上，而是它们必须被重新分布来计算结果。<br>在Spark，数据通常不会跨分区分布到特定操作的必要位置。在计算中，一个单独的任务将会在一个单独的分区上操作-然而为了组织所有的数据来被一个的单独reduceByKey 的reduce任务来执行，Spark需要来执行一个all-to-all操作。它必须读取所有分区来找到所有键的值，然后将它们带到一起跨分区来为每一个键计算最终的结果—这个被称为shuffle。<br>尽管在每一个分区中的新的shuffled数据的元素集是很重要的，同样分区自己的顺序也很重要，而元素之间的顺序就不是了。如果一个想要预测shuffle中的顺序数据那么可以使用：  </p>
+<ol>
+<li>mapPartitions 来排序每一个分区，比如，.sorted</li>
+<li>repartitionAndSortWithinPartitions 来有效分区同时同步重新分区。  </li>
+<li>sortBy 创造一个全局的排序的RDD</li>
+</ol>
+<p>可以引起一个shuffle 的操作包括：repartition 和 coalesce,ByKey的操作，除了counting之外的比如：groupByKey 和reduceByKey,以及join操作比如cogroup 和 join。</p>
+<h2 id="性能影响"><a href="#性能影响" class="headerlink" title="性能影响"></a>性能影响</h2><p>Shuffle是一个昂贵的操作因为它涉及到磁盘I/O，数据序列化和网络I/O。为了给shuffle组织数据，spark生成一系列任务-maps用于组织数据，以及一系列reduce任务来聚集它。这个命名系统来自于MapReduce而且并不直接和SparK的map，reduce操作有关。<br>在内部，单独的map任务的结果会被保存在内存中直到它们不适用。然后这些结果会被根据目标分区排序并且写向单一的文件。在reduce方面，任务读取相关的排序块。<br>一定的shuffle操作会消耗明显的数量的堆内存因为它们使用的是在内存中的数据结构来组织记录在传输之前或者之后。明显的，reduceByKey和AggregateByKey创造了这些结构在map阶段，以及 ‘Bykey的操作生成了它们在reduce阶段。当数据不能放进内存中时，Spark将会将这些表散落到硬盘中，会引起而外的磁盘I/O和增加垃圾回收次数。<br>Shuffle同样会生成大量的中间文件在磁盘中。从Spark1.3开始，这些文件被保存直到对应的RDDs不再被使用以及已经被垃圾回收了。这样做是为了shuffle文件不需要被重新创造如果lineage被重新计算时。垃圾回收也许会发生只有在一段很长时间，如果这个应用保留了对RDD的引用或者如果GC没有频繁的发生。这意味着长期运行的spark任务也许会消耗大量的磁盘空间。这个零时的磁盘目录会被spark.local.dir参数所指定。<br>Shuffle行为可以被调整通过一系列的参数。可以参考<a href="http://spark.apache.org/docs/latest/configuration.html#shuffle-behavior" target="_blank" rel="noopener"> Spark Configuration Guide.</a>‘Shuffle Behavior’章节。</p>
+<h2 id="Shuffle-Behavior"><a href="#Shuffle-Behavior" class="headerlink" title="Shuffle Behavior"></a>Shuffle Behavior</h2><table>
+<thead>
+<tr>
+<th>属性名称Property Name</th>
+<th>默认值Default</th>
+<th>含义Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>spark.reducer.maxSizeInFlight</td>
+<td>48m</td>
+<td>从每一个reduce任务中同步获取的map输出的最大值。由于每一个输出需要我们创造一个缓存来接受它，这个代表了每个任务的固定的内存开销，所以尽量保证它较小除非你有很多内存。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.reducer.maxReqsInFlight</td>
+<td>Int.MaxValue</td>
+<td>这个配置限制了任意给定点远程请求获取块数。当集群中的主机数量增加的时候，它也许会导致一个非常大数量的内部连接到一到多个节点，引起worker在负载下失败。通过允许它来限制获取请求的数量，这个情况也许会缓解</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.reducer.maxBlocksInFlightPerAddress</td>
+<td>Int.MaxValue</td>
+<td>这个配置限制了每一个从给定端口里的的reduce任务可以获取的远程端口数量。当一个大量的block被一个给定的地址在一次单独获取或者同步获取所请求时，可能会冲垮服务的executor或者Node Manager。这个配置对于减少Node Manager的负载尤为有用当外部的shuffle是被允许的。你可以通过设定一个较低值来减轻这个情况。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.maxRemoteBlockSizeFetchToMem</td>
+<td>Long.MaxValue</td>
+<td>远程的块将会被获取到磁盘中，当这个块的大小超过了这个配置的值在byte单位上。这个用于避免一个巨大的请求占据了太多的内存。我们可以将这个配置为一个指定的值（比如，200M）。注意到这个配置将会影响到shuffle的获取以及远程块获取的块管理。对于允许了外部shuffle服务的用户，这个特性只会在外部shuffle服务版本高于Spark2。2时有效。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.compress</td>
+<td>true</td>
+<td>是否压缩map的输出文件，通常是一个好想法。压缩将会使用spark.io.compression.codec.</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.file.buffer</td>
+<td>32k</td>
+<td>对每一个shuffle文件输出流的在内存中的缓存大小，单位是KiB除非有其他的特别指定。这些缓存减少了硬盘查找和系统调用创建中间shuffle文件的过程。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.io.maxRetries</td>
+<td>3</td>
+<td>(Netty only)最大自动重复尝试的次数如果这个值没有被设置为0.这个重试逻辑有助于稳定大型的shuffle在长时间的GC暂停或者暂时的网络连接问题上。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.io.numConnectionsPerPeer</td>
+<td>1</td>
+<td>(Netty only) 节点之间的连接的重复使用为了减少大型集群中重复建立连接的情况。对于有很多硬盘和很少主机的集群，这个将会导致并发行不足以饱和所有硬盘，因此用户可能会考虑增加这个值。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.io.preferDirectBufs</td>
+<td>true</td>
+<td>(Netty only) 堆外缓冲区在shuffle和缓存块转移期间被用于减少垃圾回收。对于对外缓存内存数量有限的环境，用户也许想要关掉这个来强迫所有的来自于Netty的分配都是在堆上。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.io.retryWait</td>
+<td>5s</td>
+<td>(Netty only) 在每一次重试直接需要等待多久。最大的延迟时间默认是15秒，maxRetries * retryWait.</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.service.enabled</td>
+<td>false</td>
+<td>允许外部shuffle服务。这个服务保存了通过executor所写的shuffle文件，这样这个executor可以安全的被移除。这个配置必须被允许如果spark.dynamicAllocation.enabled是“true”。这个外部的shuffle服务必须被启动。查看<a href="http://spark.apache.org/docs/latest/job-scheduling.html#configuration-and-setup" target="_blank" rel="noopener">dynamic allocation configuration and setup documentation </a>来获得更多信息。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.service.port</td>
+<td>7337</td>
+<td>外部shuffle服务将会运行的端口。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.service.index.cache.size</td>
+<td>100m</td>
+<td>缓存条目限制在指定的内存占用空间中，以字节为单位</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.maxChunksBeingTransferred</td>
+<td>Long.MAX_VALUE</td>
+<td>在shuffle服务中同一时间最大允许传输的块数量。注意到新来的连接将会被关闭如果达到了最大数量。这个客户端将会尝试重新连接根据shuffle的重试配置（see spark.shuffle.io.maxRetries and spark.shuffle.io.retryWait），如果这个限制也被达到了，那么这个任务将会失败。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.sort.bypassMergeThreshold</td>
+<td>200</td>
+<td>(Advanced)在基于排序的shuffle管理中，避免合并排序数据如果这里没有map-side的聚合和这里最多有配置的这么多的reduce分区。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.spill.compress</td>
+<td>true</td>
+<td>是否压缩溢出的数据在shuffle期间</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.accurateBlockThreshold</td>
+<td>100 <em> 1024 </em> 1024</td>
+<td>阀值是以bytes为单位，高于此值将准确记录HighlyCompressedMapStatus中的shuffle块的大小。这个用于帮助阻止OOM通过避免错误估计了shuffle块大小当获取了shuffle块时。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.registration.timeout</td>
+<td>5000</td>
+<td>注册外部shuffle服务的超时时间，单位是毫秒</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.shuffle.registration.maxAttempts</td>
+<td>3</td>
+<td>当注册外部shuffle服务失败的时候，我们会重复尝试的最大次数</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.io.encryption.enabled</td>
+<td>false</td>
+<td>允许IO编码。目前支持所有的模式除了Mesos。当使用这个特性的时候，我们推荐RPC编码。</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.io.encryption.keySizeBits</td>
+<td>128</td>
+<td>IO编码的值大小单位为bit。支持的值有128，192和256.</td>
+<td></td>
+</tr>
+<tr>
+<td>spark.io.encryption.keygen.algorithm</td>
+<td>HmacSHA1</td>
+<td>当生成一个IO编码键值时使用的算法。被支持的算法在Java Cryptography Architecture Standard Algorithm Name 文档的KeyGenerator章节中被描述。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sevenpan.com/2018/04/23/SparkAndDeepLearning/Shuffle_翻译自spark_programming_guideline/" data-id="cjsx1n6b4000fsgrr8fz89wch" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-SparkAndDeepLearning/Distributed Training- Gradients Sharing" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/04/20/SparkAndDeepLearning/Distributed Training- Gradients Sharing/" class="article-date">
@@ -105,7 +554,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/20/SparkAndDeepLearning/Distributed Training- Gradients Sharing/" data-id="cjswzmq0d000946rrgu8qw6fk" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/20/SparkAndDeepLearning/Distributed Training- Gradients Sharing/" data-id="cjsx1n6b1000bsgrr3hf9rraq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -178,7 +627,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/15/SparkAndDeepLearning/Deep Learning on Apache Spark/" data-id="cjswzmq03000146rrwxe0flpi" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/15/SparkAndDeepLearning/Deep Learning on Apache Spark/" data-id="cjsx1n6az0009sgrrs71dcix1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li></ul>
@@ -215,36 +664,37 @@
         <h1 id="RDD-Programming-Guide"><a href="#RDD-Programming-Guide" class="headerlink" title="RDD Programming Guide"></a>RDD Programming Guide</h1><p>from <a href="http://spark.apache.org/docs/latest/rdd-programming-guide.html" target="_blank" rel="noopener">http://spark.apache.org/docs/latest/rdd-programming-guide.html</a></p>
 <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在一个较高的层级，每一个Spark 应用包含了一个driven程序运行用户的main函数以及运行不同的并行操作在一个集群上。<br>Spark主要提供的抽象是一个弹性分布试数据集（RDD），是一个元素集分布在不同的集群节点可以被并行操作的。RDDs在Hadoop文件系统中由一个文件开始创造的。或者一个在驱动程序中存在的Scala集合并且改变它。用户也许会请求Spark来永久存储一个RDD在内存中，然后可以有效的在并行操作中再次访问。最终，RDDs自动从节点失败中恢复。<br>Spark提供的第二个抽象是共享变量，可以在并行操作中使用。默认的，当Spark并行运行一个函数作为一系列的任务在不同的节点中，它将每一个函数中的变量传输到每一个节点然后给到每一个任务。有时，一个变量需要在不同的任务直接共享或者需要在任务和driven 程序直接共享。Spark提供两种类型的共享变量：<b>broadcast</b> 变量，可以用来缓存值在所有的节点中。 <b> accumulators</b>,变量只是用于“added”，比如counter和sums。  </p>
 <h2 id="Initializing-Spark（Java）"><a href="#Initializing-Spark（Java）" class="headerlink" title="Initializing Spark（Java）"></a>Initializing Spark（Java）</h2><p>spark程序首先需要创建一个JavaSparkContext对象，告诉Spark如何访问一个集群。为了创建一个SparkContext你首先需要创建一个SparkConf对象，包含你应用的信息。  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SparkConf conf = new SparkConf().setAppName(appName).setMaster(master);</span><br><span class="line">JavaSparkContext sc = new JavaSparkContext(conf);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SparkConf conf = <span class="keyword">new</span> SparkConf().setAppName(appName).setMaster(master);</span><br><span class="line">JavaSparkContext sc = <span class="keyword">new</span> JavaSparkContext(conf);</span><br></pre></td></tr></table></figure>
 <p>appName 参数是你的应用名字将会展示在集群UI上。 master可能是一个spark，Mesos或者YARN集群URL，或者一个特殊的“local“ 来本地运行。在实际使用中，当在集群中运行时，你不会想要hardcode master在程序中，而是启动应用使用 spark-submit 并且接受它。在本地测试和单元测试的时候，你可以传递”local“并且运行spark  </p>
 <h2 id="Resilient-Distributed-Datasets（RDDs）弹性分布式数据集"><a href="#Resilient-Distributed-Datasets（RDDs）弹性分布式数据集" class="headerlink" title="Resilient Distributed Datasets（RDDs）弹性分布式数据集"></a>Resilient Distributed Datasets（RDDs）弹性分布式数据集</h2><p>Spark是以RDD观念为中心的，是一个容错的元素集可以并行进行操作。这里有两种方式来创造RDDs：在driver程序中并行化一个已存在的集合，或者引用一个数据集在一个外部存储系统，比如一个文件系统，HDFS，HBase或者任何其他的提供一个Hadoop输入格式的数据源。  </p>
 <h3 id="并行化集合"><a href="#并行化集合" class="headerlink" title="并行化集合"></a>并行化集合</h3><p>并行化集合是调用JavaSparkContext的parallelize方法来创造的。这个元素的集合会被复制称为一个分布式数据集，然后可以用来并行化操作。比如，这是如何创造一个并行化集合来存储数字1到5:  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; data = Arrays.asList(1, 2, 3, 4, 5);</span><br><span class="line">JavaRDD&lt;Integer&gt; distData = sc.parallelize(data);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; data = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>);</span><br><span class="line">JavaRDD&lt;Integer&gt; distData = sc.parallelize(data);</span><br></pre></td></tr></table></figure>
 <p>一旦创造了，这个分布式数据集（distData）可以被用来并行操作。比如，我们也许会调用distData.reduce((a,b) -&gt; a + b) 来计算元素的列表的和。<br>一个重要的参数来并行化几个是将这个数据集拆分为几个partitions的个数。Spark将会在每一个集群的partition运行一个任务。一般的你想要一个CPU有2-4个partition在你的集群中。通常，Spark尝试自动设置partitions基于你的集群。同时你也可以手动的设置通过传递一个秒参数到parallelize（比如：sc.parallelize(data,10)）.</p>
 <h2 id="RDD-操作"><a href="#RDD-操作" class="headerlink" title="RDD 操作"></a>RDD 操作</h2><p>RDDs支持两种类型的操作：变化，从已知的数据集中创造一个新的数据集，并且actions（执行），将会返回一个值给driver program在dataset运行了计算以后。比如，map是一个变化，将数据集中的每一个元素都运行一遍函数，然后返回新的RDD来代表结果。在另一方面，reduce也是一个action聚合所有的RDD元素使用某个函数然后返回最终的结果到driver program（尽管这仍然有一个并行的 reduceByKey返回一个分布式数据集）。<br>Spark中所有的变化都是lazy的，它们不会立刻的计算结果。反而，它们只是记住了有些基本的数据集需要执行一些transformations。这些transformations只会在最后需要一个结果返回给driver program时才会执行。这个设计保证了Spark可以有效率的运行。比如，我们可以认识到一个创造了map的数据集将会在reduce中使用，并且只返回reduce的结果到driver中，而不是一个庞大的mapped数据集。<br>默认的，这样的变化的RDD每次你运行一个action在上面的时候都会需要重新计算。你也可以持久化一个RDD在内存中使用persist或者cache方法，Spark将会保存元素在集群中以便快速访问。它也支持持久化RDDs到硬盘中，或者在多个节点之间进行复制。  </p>
 <h3 id="Basics"><a href="#Basics" class="headerlink" title="Basics"></a>Basics</h3><p>展示RDD的基础，考虑以下这个简单的程序：  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">JavaRDD&lt;String&gt; lines = sc.textFile(&quot;data.txt&quot;);</span><br><span class="line">JavaRDD&lt;Integer&gt; lineLengths = lines.map(s -&gt; s.length());</span><br><span class="line">int totalLength = lineLengths.reduce((a, b) -&gt; a + b);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">JavaRDD&lt;String&gt; lines = sc.textFile(<span class="string">"data.txt"</span>);</span><br><span class="line">JavaRDD&lt;Integer&gt; lineLengths = lines.map(s -&gt; s.length());</span><br><span class="line"><span class="keyword">int</span> totalLength = lineLengths.reduce((a, b) -&gt; a + b);</span><br></pre></td></tr></table></figure>
 <p>第一行定义了一个基础的RDD从外部文件中获取的。这个数据集没有加载到内存中或者采取了行动：lines只是一个指向文件的指针。第二行定义了lineLengths作为一个map变化的结果。同样lineLengths也不能立即的计算，应为laziness。最终，我们运行reduce，是一个action。在这个点，spark将计算分为多个任务并且在不同的独立机器中运行，每一个运行自己部分的map和一个本地的reduction，然后这个结果到driver program。<br>如果我们仍然想要使用lineLengths，我们可以增加</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lineLengths.persist(StorageLevel.MEMORY_ONLY());</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lineLengths.persist(StorageLevel.MEMORY_ONLY());</span><br></pre></td></tr></table></figure>
 <h3 id="传递参数到Spark"><a href="#传递参数到Spark" class="headerlink" title="传递参数到Spark"></a>传递参数到Spark</h3><p>Spark的API严重依赖在driver program中传递函数来运行集群。在Java，functions被实现了org.apache.spark.api.java.function package中的接口的class所代表。这里有两种方式来创造函数：  </p>
 <ol>
 <li>在你自己的类中实现函数接口，不管是匿名类或者有名字的，并且传递一个实例到spark。</li>
 <li>使用lambda expression来简洁的定义一个实现。  </li>
 </ol>
 <p>比如我们可以定义函数如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">JavaRDD&lt;String&gt; lines = sc.textFile(&quot;data.txt&quot;);</span><br><span class="line">JavaRDD&lt;Integer&gt; lineLengths = lines.map(new Function&lt;String, Integer&gt;() &#123;</span><br><span class="line">  public Integer call(String s) &#123; return s.length(); &#125;</span><br><span class="line">&#125;);</span><br><span class="line">int totalLength = lineLengths.reduce(new Function2&lt;Integer, Integer, Integer&gt;() &#123;</span><br><span class="line">  public Integer call(Integer a, Integer b) &#123; return a + b; &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>或者写函数是笨重的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class GetLength implements Function&lt;String, Integer&gt; &#123;</span><br><span class="line">  public Integer call(String s) &#123; return s.length(); &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Sum implements Function2&lt;Integer, Integer, Integer&gt; &#123;</span><br><span class="line">  public Integer call(Integer a, Integer b) &#123; return a + b; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">JavaRDD&lt;String&gt; lines = sc.textFile(&quot;data.txt&quot;);</span><br><span class="line">JavaRDD&lt;Integer&gt; lineLengths = lines.map(new GetLength());</span><br><span class="line">int totalLength = lineLengths.reduce(new Sum());</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">JavaRDD&lt;String&gt; lines = sc.textFile(<span class="string">"data.txt"</span>);</span><br><span class="line">JavaRDD&lt;Integer&gt; lineLengths = lines.map(<span class="keyword">new</span> Function&lt;String, Integer&gt;() &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">(String s)</span> </span>&#123; <span class="keyword">return</span> s.length(); &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">int</span> totalLength = lineLengths.reduce(<span class="keyword">new</span> Function2&lt;Integer, Integer, Integer&gt;() &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">(Integer a, Integer b)</span> </span>&#123; <span class="keyword">return</span> a + b; &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>或者写函数是笨重的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GetLength</span> <span class="keyword">implements</span> <span class="title">Function</span>&lt;<span class="title">String</span>, <span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">(String s)</span> </span>&#123; <span class="keyword">return</span> s.length(); &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sum</span> <span class="keyword">implements</span> <span class="title">Function2</span>&lt;<span class="title">Integer</span>, <span class="title">Integer</span>, <span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">(Integer a, Integer b)</span> </span>&#123; <span class="keyword">return</span> a + b; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">JavaRDD&lt;String&gt; lines = sc.textFile(<span class="string">"data.txt"</span>);</span><br><span class="line">JavaRDD&lt;Integer&gt; lineLengths = lines.map(<span class="keyword">new</span> GetLength());</span><br><span class="line"><span class="keyword">int</span> totalLength = lineLengths.reduce(<span class="keyword">new</span> Sum());</span><br></pre></td></tr></table></figure>
 <p>注意到java的匿名函数同样也可以访问变量在enclosing范围内，只要它们被标记为final。Spark将会传输这些变量到工作节点就像它会给其他的语言所做的那样。  </p>
 <h3 id="了解closures"><a href="#了解closures" class="headerlink" title="了解closures"></a>了解closures</h3><p>Spark较为困难的一件事情是理解范围和变量和方法的生命周期当代码在集群中运行的时候。RDD操作改变了变量的外部范围常常容易让人困惑。在下面的例子中，我们会看到使用foreach()来增加一个counter，但是同样的问题也会在其他的操作中发生。  </p>
 <h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p>考虑原生的RDD元素和，将会根据是否在相同的JVM上运行会有不同的结果。一个普通的例子是执行spark在local模式（–master = local[n]）对比部署一个spark到一个集群中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int counter = 0;</span><br><span class="line">JavaRDD&lt;Integer&gt; rdd = sc.parallelize(data);</span><br><span class="line"></span><br><span class="line">// Wrong: Don&apos;t do this!!</span><br><span class="line">rdd.foreach(x -&gt; counter += x);</span><br><span class="line"></span><br><span class="line">println(&quot;Counter value: &quot; + counter);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> counter = <span class="number">0</span>;</span><br><span class="line">JavaRDD&lt;Integer&gt; rdd = sc.parallelize(data);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Wrong: Don't do this!!</span></span><br><span class="line">rdd.foreach(x -&gt; counter += x);</span><br><span class="line"></span><br><span class="line">println(<span class="string">"Counter value: "</span> + counter);</span><br></pre></td></tr></table></figure>
 <h4 id="Local-VS-cluster-modes"><a href="#Local-VS-cluster-modes" class="headerlink" title="Local VS. cluster modes"></a>Local VS. cluster modes</h4><p>上面的代码的行为是未定义的，而且可能运行并不像所预期的。为了执行job，spark将RDD操作切成多个任务，每一个在一个executor中执行。在执行之前，Spark会计算这个任务的closure。Closure是哪些变量和方法必须对这个executor可见来执行对RDD的计算（在这个例子中foreach()）。这个closure是序列化的并且被发给每一个executor。<br>被发给每一个executor的这个closure的变量会被复制并且然后当counter在这个foreach函数中被引用时，它不再是在driver节点上的counter。这里仍然有一个counter在driver节点的内存中，但是不在对executor可见了。executors只能看到序列化的closure的副本。这样最终的counter仍然将会是0因为所有在counter操作都是对序列化closure上的值的操作。<br>在本地模式，有时，foreach函数将会实际在和drive上的同一个jvm中执行，同时会引用原来的counter，这个时候就会更新它。<br>为了保证这种情况的可控性，应该使用一个 Accumulator。Accumulators在spark中通常用来提供一个机制来安全的更新一个变量，当执行被切分到不同的worker节点中时。这个Accumulators在后续还会被讨论。<br>通常说来， closures - constructs喜欢循环活着本地定义方法，不应该被用来改变一些全局的状态。Spark不能定义或者保证对对象的改变。一些代码也许会在本地模式其效果，但是也只是偶然，同时在分布式模式也不能和期望一样运行。使用一个Accumulators来取代一些全局变量的聚合是必要的。  </p>
 <h4 id="打印一个RDD的元素"><a href="#打印一个RDD的元素" class="headerlink" title="打印一个RDD的元素"></a>打印一个RDD的元素</h4><p>另外一个常见的行为是试图使用rdd.foreach(println)或rdd.map(println)打印一个RDD元素。在单机情况下，这个将会输出期望并且打出所有的RDD元素。然而在集群的情况下，这个stdout的输出只会被executor所调用并且写到executor的stdout中，而不是在driver node上，所以driver上并不会输出这些内容。为了打出所有在driver上的元素，一个可以使用collect()方法来将RDD放到driver上：rdd.collect().foreach(println)。这个会引起driver内存溢出，因为collect()将全部的RDD放到一台机器上，如果你只需要打出RDD中的部分元素，一个安全的方法是使用take():<br>rdd.take(100).foreach(println).  </p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/04/SparkAndDeepLearning/RDDSpark/" data-id="cjswzmq0e000a46rrsjynp4cj" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/04/SparkAndDeepLearning/RDDSpark/" data-id="cjsx1n6ax0005sgrrzlntyn7o" class="article-share-link">Share</a>
       
       
     </footer>
@@ -300,7 +750,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/02/SparkAndDeepLearning/sparkLearningNote/" data-id="cjswzmq0g000d46rru9i4ftqw" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/02/SparkAndDeepLearning/sparkLearningNote/" data-id="cjsx1n6b2000dsgrrkk1ewq7p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -333,19 +783,21 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="LSTM-Walk-Through"><a href="#LSTM-Walk-Through" class="headerlink" title="LSTM Walk Through"></a>LSTM Walk Through</h1><p>reference: <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank" rel="noopener">http://colah.github.io/posts/2015-08-Understanding-LSTMs/</a></p>
-<p>在下面这个LSTM模型中，需要决定的第一点就是我们将要丢掉什么从cell 状态中。<br>这个决定是被一个称为：“forget gate layer” 的sigmoid 层来决定的。它将 \( h_{t-1}\) 和 \(x_t\)作为输入，并且输出一个介于0到1之间的值在cell state \(C_{t-1}\). 1代表完全的保存而0代表完全丢掉。<br>接下来我们看回之前的语言模型，试图根据前一个值来预测下一个值。在这个问题中，这个Cell state可能包括包括当前客体的性别，所以正确的代词才会被使用。当我们看到一个新的客体时，我们想要忘掉老的客体。<br><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-focus-f.png" alt=""><br>下一步是决定哪些新的信息我们想要存储到cell state中。这里有两个部分：  </p>
+<p>在下面这个LSTM模型中，需要决定的第一点就是我们将要丢掉什么从cell 状态中。<br>这个决定是被一个称为：“forget gate layer” 的sigmoid 层来决定的。它将 \( h_{t-1}\) 和 \(x_t\)作为输入，并且输出一个介于0到1之间的值在cell state \(C_{t-1}\). 1代表完全的保存而0代表完全丢掉。<br>接下来我们看回之前的语言模型，试图根据前一个值来预测下一个值。在这个问题中，这个Cell state可能包括包括当前客体的性别，所以正确的代词才会被使用。当我们看到一个新的客体时，我们想要忘掉老的客体。<br><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-focus-f.png" alt="LSTM3-focus-f"></p>
+<p>下一步是决定哪些新的信息我们想要存储到cell state中。这里有两个部分：  </p>
 <pre><code>1. 一个sigmoid层，称为“input gate layer”，决定哪些值，我们将会更新。
 2. 一个tanh层，创造一个新的候选值的向量，\\( C_t^~ \\),将会用来加入到状态中。在下一步，我们将会组合这两个然后来在状态里创造一个升级。
 </code></pre><p>在我们的语言模型中，我们想要增加新客体的性别到cell state中，来替换我们忘掉的老的。</p>
-<p><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-focus-i.png" alt=""><br>现在是时候升级老的cell state，\(C_{t-1} \)到新的cell state \( C_t\).前一个步骤已经实际决定了怎么做，我们只需要真正实施就好。<br>我们对老的state乘 \( f_t\),来忘记我们之前决定忘记的。然后我们加上 \( i_t * C_t^{~} \). 这是新的候选值，通过我们决定升级多少的状态来扩展。<br>在这个语言模型中，这是我们实际丢掉老客体的性别和添加它们新的信息的地方。<br><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-focus-C.png" alt=""></p>
+<p><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-focus-i.png" alt="LSTM3-focus-i"><br>现在是时候升级老的cell state，\(C_{t-1} \)到新的cell state \( C_t\).前一个步骤已经实际决定了怎么做，我们只需要真正实施就好。<br>我们对老的state乘 \( f_t\),来忘记我们之前决定忘记的。然后我们加上 \( i_t * C_t^{~} \). 这是新的候选值，通过我们决定升级多少的状态来扩展。<br>在这个语言模型中，这是我们实际丢掉老客体的性别和添加它们新的信息的地方。<br><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-focus-C.png" alt="LSTM3-focus-C"></p>
 <p>最终我们需要决定我们想要输出什么。这个输出将会基于我们的cell state，但是将会是一个filtered 版本。首先我们运行一个sigmoid 层级，来决定cell state哪一部分我们将会输出，然后我们将这个cell state进行tanh处理（将这个值输出为-1 到 1 之间）然后和sigmoid gate的输出相乘，这样我们只输出我们想要的部分。  </p>
-<p>对于语言模型例子，由于它只是看到一个客体，也许想要输出信息和动词相关。比如它可能输出是否这个客体是单数或者复数，这样我们知道接下来应该使用什么形式的动词。<br><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-focus-o.png" alt=""></p>
-<h2 id="Variances-in-Code"><a href="#Variances-in-Code" class="headerlink" title="Variances in Code"></a>Variances in Code</h2><p><b>batch_size:</b>denotes the subset size of your training sample (e.g. 100 out of 1000) which is going to be used in order to train the network during its learning process. Each batch trains network in a successive order, taking into account the updated weights coming from the appliance of the previous batch.<br>在学习过程中将会用来训练你的模型的数量。每一个batch训练network在一个连续的顺序，会不断的更新权重。</p>
+<p>对于语言模型例子，由于它只是看到一个客体，也许想要输出信息和动词相关。比如它可能输出是否这个客体是单数或者复数，这样我们知道接下来应该使用什么形式的动词。<br><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-focus-o.png" alt="LSTM3-focus-o"></p>
+<h2 id="Variances-in-Code"><a href="#Variances-in-Code" class="headerlink" title="Variances in Code"></a>Variances in Code</h2><p><b>batch_size:</b>denotes the subset size of your training sample (e.g. 100 out of 1000) which is going to be used in order to train the network during its learning process. Each batch trains network in a successive order, taking into account the updated weights coming from the appliance of the previous batch. </p>
+<p>在学习过程中将会用来训练你的模型的数量。每一个batch训练network在一个连续的顺序，会不断的更新权重。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.sevenpan.com/2018/04/02/SparkAndDeepLearning/LSTM/" data-id="cjswzmq0f000c46rri0gxmyir" class="article-share-link">Share</a>
+      <a data-url="http://blog.sevenpan.com/2018/04/02/SparkAndDeepLearning/LSTM/" data-id="cjsx1n6ay0008sgrrbsq91gne" class="article-share-link">Share</a>
       
       
     </footer>
@@ -373,7 +825,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algotrading-pyalgotrade/">Algotrading, pyalgotrade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx-ssh/">hexo,git,nginx,ssh,</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algo/">Algo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algotrading-pyalgotrade/">Algotrading, pyalgotrade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Alpha-factor/">Alpha factor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Alpha-factor-pair-trading/">Alpha factor; pair trading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-多线程-Atomic-Variables-ConcurrentMap/">Java; 多线程; Atomic Variables; ConcurrentMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-多线程-Synchronization-Locks/">Java; 多线程; Synchronization; Locks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-多线程-Threads-Executors/">Java; 多线程; Threads; Executors</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx-ssh/">hexo,git,nginx,ssh,</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java；spring-IOC-DI/">java；spring;IOC;DI</a></li></ul>
     </div>
   </div>
 
@@ -383,7 +835,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Algotrading-pyalgotrade/" style="font-size: 10px;">Algotrading, pyalgotrade</a> <a href="/tags/deeplearning4j-spark/" style="font-size: 10px;">deeplearning4j; spark</a> <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a> <a href="/tags/hexo-git-nginx-ssh/" style="font-size: 10px;">hexo,git,nginx,ssh,</a>
+      <a href="/tags/Algo/" style="font-size: 10px;">Algo</a> <a href="/tags/Algotrading-pyalgotrade/" style="font-size: 10px;">Algotrading, pyalgotrade</a> <a href="/tags/Alpha-factor/" style="font-size: 10px;">Alpha factor</a> <a href="/tags/Alpha-factor-pair-trading/" style="font-size: 10px;">Alpha factor; pair trading</a> <a href="/tags/Java-多线程-Atomic-Variables-ConcurrentMap/" style="font-size: 10px;">Java; 多线程; Atomic Variables; ConcurrentMap</a> <a href="/tags/Java-多线程-Synchronization-Locks/" style="font-size: 10px;">Java; 多线程; Synchronization; Locks</a> <a href="/tags/Java-多线程-Threads-Executors/" style="font-size: 10px;">Java; 多线程; Threads; Executors</a> <a href="/tags/deeplearning4j-spark/" style="font-size: 10px;">deeplearning4j; spark</a> <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a> <a href="/tags/hexo-git-nginx-ssh/" style="font-size: 10px;">hexo,git,nginx,ssh,</a> <a href="/tags/java；spring-IOC-DI/" style="font-size: 10px;">java；spring;IOC;DI</a>
     </div>
   </div>
 
@@ -405,23 +857,23 @@
       <ul>
         
           <li>
-            <a href="/2019/03/04/Core_java/Java8 并发指南：线程和执行者 Threads and Executors/">(no title)</a>
+            <a href="/2019/03/06/java/CoreJava/Java8 并发指南：原子变量和并发Map Atomic Variables and ConcurrentMap/">Java8 并发指南：原子变量和并发Map(Atomic Variables and ConcurrentMap)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/05/java/CoreJava/Java8 并发指南：同步和锁 Synchronization and Locks/">Java8 并发指南：同步和锁 Synchronization and Locks</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/04/java/CoreJava/Java8 并发指南：线程和执行者 Threads and Executors/">Java8 并发指南：线程和执行者 Threads and Executors</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/03/java/Spring/Spring 学习-- IOC容器和Dependency Injection 模式/">Spring 学习-- IOC容器和Dependency Injection 模式</a>
           </li>
         
           <li>
             <a href="/2019/02/03/基础建设和杂项比较/DevOps 笔记/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/22/基础建设和杂项比较/一台VPS所需要的安装/">一台VPS所需要的操作</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/23/基础建设和杂项比较/RPC,REST,SOAP/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/07/Algo/配对交易策略RQ/">(no title)</a>
           </li>
         
       </ul>

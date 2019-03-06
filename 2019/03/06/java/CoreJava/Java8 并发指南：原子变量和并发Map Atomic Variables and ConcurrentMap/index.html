@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Java8 并发指南：原子变量和并发Map(Atomic Variables and ConcurrentMap) | Eden</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Java8 并发指南：原子变量和并发Map Atomic Variables and ConcurrentMapfrom:https://winterbe.com/posts/2015/05/22/java8-concurrency-tutorial-atomic-concurrent-map-examples/ 原子类 AtomicIntegerjava.concurrent.atomic包中包">
+<meta name="keywords" content="Java; 多线程; Atomic Variables; ConcurrentMap">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java8 并发指南：原子变量和并发Map(Atomic Variables and ConcurrentMap)">
+<meta property="og:url" content="http://blog.sevenpan.com/2019/03/06/java/CoreJava/Java8 并发指南：原子变量和并发Map Atomic Variables and ConcurrentMap/index.html">
+<meta property="og:site_name" content="Eden">
+<meta property="og:description" content="Java8 并发指南：原子变量和并发Map Atomic Variables and ConcurrentMapfrom:https://winterbe.com/posts/2015/05/22/java8-concurrency-tutorial-atomic-concurrent-map-examples/ 原子类 AtomicIntegerjava.concurrent.atomic包中包">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-03-06T09:34:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java8 并发指南：原子变量和并发Map(Atomic Variables and ConcurrentMap)">
+<meta name="twitter:description" content="Java8 并发指南：原子变量和并发Map Atomic Variables and ConcurrentMapfrom:https://winterbe.com/posts/2015/05/22/java8-concurrency-tutorial-atomic-concurrent-map-examples/ 原子类 AtomicIntegerjava.concurrent.atomic包中包">
+  
+    <link rel="alternate" href="/atom.xml" title="Eden" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Eden</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.sevenpan.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-java/CoreJava/Java8 并发指南：原子变量和并发Map Atomic Variables and ConcurrentMap" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/06/java/CoreJava/Java8 并发指南：原子变量和并发Map Atomic Variables and ConcurrentMap/" class="article-date">
+  <time datetime="2019-03-06T02:15:11.000Z" itemprop="datePublished">2019-03-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java8 并发指南：原子变量和并发Map(Atomic Variables and ConcurrentMap)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Java8-并发指南：原子变量和并发Map-Atomic-Variables-and-ConcurrentMap"><a href="#Java8-并发指南：原子变量和并发Map-Atomic-Variables-and-ConcurrentMap" class="headerlink" title="Java8 并发指南：原子变量和并发Map Atomic Variables and ConcurrentMap"></a>Java8 并发指南：原子变量和并发Map Atomic Variables and ConcurrentMap</h1><p>from:<a href="https://winterbe.com/posts/2015/05/22/java8-concurrency-tutorial-atomic-concurrent-map-examples/" target="_blank" rel="noopener">https://winterbe.com/posts/2015/05/22/java8-concurrency-tutorial-atomic-concurrent-map-examples/</a></p>
+<h2 id="原子类-AtomicInteger"><a href="#原子类-AtomicInteger" class="headerlink" title="原子类 AtomicInteger"></a>原子类 AtomicInteger</h2><p>java.concurrent.atomic包中包含很多有用的类来运行原子操作。操作的原子性是指你可以安全的在多个线程中进行并发操作而不需要使用synchronized关键字。<br>在内部，原子类依赖于Compare-and-swap(CAS)，一个原子指令操作直接被多个现代CPU所支持。这些指令通常比使用锁同步要快很多。所以建议是如果你需要并发改变一个可变变量时，更加偏向于使用原子类而不是锁。<br>下面使用一个原子类作为例子：AtomicInteger</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">AtomicInteger atomicInt = <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">ExecutorService executor = Executors.newFixedThreadPool(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">IntStream.range(<span class="number">0</span>, <span class="number">1000</span>)</span><br><span class="line">    .forEach(i -&gt; executor.submit(atomicInt::incrementAndGet));</span><br><span class="line"></span><br><span class="line">stop(executor);</span><br><span class="line"></span><br><span class="line">System.out.println(atomicInt.get());    <span class="comment">// =&gt; 1000</span></span><br></pre></td></tr></table></figure>
+<p>使用ActomicInteger来替换Integer，我们可以并发的增加这个数字而不需要使用同步锁来访问这个变量。incrementAndGet()方法是一个原子操作这样我们可以安全的多线程调用这个方法。<br>AtomicInteger支持多种原子操作。<strong>updateAndGet()</strong>可以接受一个lambda表达式从而来执行任何的算术操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">AtomicInteger atomicInt = <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">ExecutorService executor = Executors.newFixedThreadPool(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">IntStream.range(<span class="number">0</span>, <span class="number">1000</span>)</span><br><span class="line">    .forEach(i -&gt; &#123;</span><br><span class="line">        Runnable task = () -&gt;</span><br><span class="line">            atomicInt.updateAndGet(n -&gt; n + <span class="number">2</span>);</span><br><span class="line">        executor.submit(task);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">stop(executor);</span><br><span class="line"></span><br><span class="line">System.out.println(atomicInt.get());    <span class="comment">// =&gt; 2000</span></span><br></pre></td></tr></table></figure>
+<p><strong>accumulateAndGet()</strong>接受另外一种IntBinaryOperator类型的lambda表达式。我们使用这个方法来将0到1000所有数字加起来。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">AtomicInteger atomicInt = <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">ExecutorService executor = Executors.newFixedThreadPool(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">IntStream.range(<span class="number">0</span>, <span class="number">1000</span>)</span><br><span class="line">    .forEach(i -&gt; &#123;</span><br><span class="line">        Runnable task = () -&gt;</span><br><span class="line">            atomicInt.accumulateAndGet(i, (n, m) -&gt; n + m);</span><br><span class="line">        executor.submit(task);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">stop(executor);</span><br><span class="line"></span><br><span class="line">System.out.println(atomicInt.get());    <span class="comment">// =&gt; 499500</span></span><br></pre></td></tr></table></figure>
+<p>还有一些原子类，比如：<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicBoolean.html" target="_blank" rel="noopener">AtomicBoolean</a>,<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicLong.html" target="_blank" rel="noopener">AtomicLong</a>,<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicReference.html" target="_blank" rel="noopener">AtomicReference</a>.  </p>
+<h2 id="LongAdder"><a href="#LongAdder" class="headerlink" title="LongAdder"></a>LongAdder</h2><p>LongAdder是用于连续的加值到一个数字上除了AtomicLong的另外一种选择。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService executor = Executors.newFixedThreadPool(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">IntStream.range(<span class="number">0</span>, <span class="number">1000</span>)</span><br><span class="line">    .forEach(i -&gt; executor.submit(adder::increment));</span><br><span class="line"></span><br><span class="line">stop(executor);</span><br><span class="line"></span><br><span class="line">System.out.println(adder.sumThenReset());   <span class="comment">// =&gt; 1000</span></span><br></pre></td></tr></table></figure>
+<p>LongAdder 和atomic number一样提供add()和increment()的方法，并且也是线程安全的。不同于只是将单个结果累加起来，这个类维护了一系列的内部变量用来减少线程的竞争.<em>怎么减少的？？</em>实际的结果可以通过sum()或sumThenReset()来获取。<br>当从多个线程中更新的次数多于读的次数时，这个类常常是比原子类更好的选择。比如当你想要获取统计数据的时候，比如你想要获取服务器一共服务了多少的请求。LongAdder的弊端是高内存消耗，因为它有一系列的变量在内存中。</p>
+<h2 id="LongAccumulator"><a href="#LongAccumulator" class="headerlink" title="LongAccumulator"></a>LongAccumulator</h2><p>LongAccumulator是LongAdder的一个更加常见的版本。不仅仅是处理一个简单的加操作，LongAccumulator是基于类型为LongBinaryOperator的lambda表达式来构建的。代码sample如下：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">LongBinaryOperator op = (x, y) -&gt; <span class="number">2</span> * x + y;</span><br><span class="line">LongAccumulator accumulator = <span class="keyword">new</span> LongAccumulator(op, <span class="number">1L</span>);</span><br><span class="line"></span><br><span class="line">ExecutorService executor = Executors.newFixedThreadPool(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">IntStream.range(<span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">    .forEach(i -&gt; executor.submit(() -&gt; accumulator.accumulate(i)));</span><br><span class="line"></span><br><span class="line">stop(executor);</span><br><span class="line"></span><br><span class="line">System.out.println(accumulator.getThenReset());     <span class="comment">// =&gt; 2539</span></span><br></pre></td></tr></table></figure>
+<p>我们通过函数<code>2 * x + y</code>和一个初始值来构造一个LongAccumulator。每次调用<code>accumulate(i)</code>时，当前的结果和值i将会被传进lambda表达式中。<br>LongAccumulator也和LongAdder一样维护了一系列的内部变量来减少线程间的竞争。  </p>
+<h2 id="ConcurrentMap"><a href="#ConcurrentMap" class="headerlink" title="ConcurrentMap"></a>ConcurrentMap</h2><p>接口ConcurrentMap扩展了map接口并且定义了最有用的并发集合类型。Java 8 通过增加新的方法到这个接口中来引入函数编程。<br>下面的代码用于展示这些新的方法：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ConcurrentMap&lt;String, String&gt; map = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line">map.put(<span class="string">"foo"</span>, <span class="string">"bar"</span>);</span><br><span class="line">map.put(<span class="string">"han"</span>, <span class="string">"solo"</span>);</span><br><span class="line">map.put(<span class="string">"r2"</span>, <span class="string">"d2"</span>);</span><br><span class="line">map.put(<span class="string">"c3"</span>, <span class="string">"p0"</span>);</span><br></pre></td></tr></table></figure>
+<p>forEach()方法接受一个Biconsumer的lambda表达式将map的key和value作为参数进行传递。这个可以作为替代for-each循环来迭代获取所有的concurrent map。这个迭代会被当前线程顺序执行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map.forEach((key, value) -&gt; System.out.printf(<span class="string">"%s = %s\n"</span>, key, value));</span><br></pre></td></tr></table></figure>
+<p>方法putIfAbsent()将新的值放到map中如果这个key没有值。最少在ConcurrentHashMap中这个方法是线程安全的就像put()方法，所以你不要再不同的线程中使用同步。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String value = map.putIfAbsent(<span class="string">"c3"</span>, <span class="string">"p1"</span>);</span><br><span class="line">System.out.println(value);    <span class="comment">// p0</span></span><br></pre></td></tr></table></figure>
+<p>方法getOrDefault()返回key对应的value。如果这个key不存在就会返回默认值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String value = map.getOrDefault(<span class="string">"hi"</span>, <span class="string">"there"</span>);</span><br><span class="line">System.out.println(value);    <span class="comment">// there</span></span><br></pre></td></tr></table></figure>
+<p>方法replaceAll()接受一个BiFunction的lambda表达式。BiFunction接受两个参数并且返回一个值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">map.replaceAll((key, value) -&gt; <span class="string">"r2"</span>.equals(key) ? <span class="string">"d3"</span> : value);</span><br><span class="line">System.out.println(map.get(<span class="string">"r2"</span>));    <span class="comment">// d3</span></span><br></pre></td></tr></table></figure>
+<p>compute方法可以让我们改变一个单独的条目。这个方法接受需要修改的键以及一个bi-function来指定修改这个值的方法。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">map.compute(<span class="string">"foo"</span>, (key, value) -&gt; value + value);</span><br><span class="line">System.out.println(map.get(<span class="string">"foo"</span>));   <span class="comment">// barbar</span></span><br></pre></td></tr></table></figure>
+<p>除了compute()，还有两种变体：computeIfAbsent(), computeIfPresent()。这个函数化参数只在key不存在或者存在的时候才会调用。<br>最后，merge()方法可以统一一个新值基于已经存在的值的基础上。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">map.merge(<span class="string">"foo"</span>, <span class="string">"boo"</span>, (oldVal, newVal) -&gt; newVal + <span class="string">" was "</span> + oldVal);</span><br><span class="line">System.out.println(map.get(<span class="string">"foo"</span>));   <span class="comment">// boo was foo</span></span><br></pre></td></tr></table></figure>
+<h2 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h2><p>上面的方法都是ConcurrentMap接口的一部分，所以所有实现了这个接口的类都可以使用。另外其中一个重要的实现：ConcurrentHashMap也被增强了加上了一些新的方法来在map上进行并发操作。<br>就像并发流(parallel streams)，这些方法使用一个特殊的通过ForkJoinPool.commonPool()来获取ForkJoinPool。这个池使用一个预先设定的并发值依赖于当前可用CPU的值。四核CPU返回的值如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(ForkJoinPool.getCommonPoolParallelism());  <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+<p>这个值可以通过修改JVM参数来更改：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Djava.util.concurrent.ForkJoinPool.common.parallelism=<span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p>我们通过和上一节一样的例子来展示，只是这次我们工作在具体的实现ConcurrentHashMap而不是在接口上，这样我们可以调用这个类的所有public方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ConcurrentHashMap&lt;String, String&gt; map = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line">map.put(<span class="string">"foo"</span>, <span class="string">"bar"</span>);</span><br><span class="line">map.put(<span class="string">"han"</span>, <span class="string">"solo"</span>);</span><br><span class="line">map.put(<span class="string">"r2"</span>, <span class="string">"d2"</span>);</span><br><span class="line">map.put(<span class="string">"c3"</span>, <span class="string">"p0"</span>);</span><br></pre></td></tr></table></figure>
+<p>Java8介绍了三种并发操作：forEach, search和 reduce。每一个操作都可以接受函数keys,values,entries和key-value对参数。<br>这些方法都有一个共同的第一个参数：parallelismThreshold。这个阀值指定了当操作应该并发的时候最小的集合大小。比如如果阀值是500，而你传递了实际map大小是499，这个时候这个操作会在单个线程顺序执行。</p>
+<h3 id="ForEach"><a href="#ForEach" class="headerlink" title="ForEach"></a>ForEach</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">map.forEach(<span class="number">1</span>, (key, value) -&gt;</span><br><span class="line">    System.out.printf(<span class="string">"key: %s; value: %s; thread: %s\n"</span>,</span><br><span class="line">        key, value, Thread.currentThread().getName()));</span><br><span class="line"></span><br><span class="line"><span class="comment">// key: r2; value: d2; thread: main</span></span><br><span class="line"><span class="comment">// key: foo; value: bar; thread: ForkJoinPool.commonPool-worker-1</span></span><br><span class="line"><span class="comment">// key: han; value: solo; thread: ForkJoinPool.commonPool-worker-2</span></span><br><span class="line"><span class="comment">// key: c3; value: p0; thread: main</span></span><br></pre></td></tr></table></figure>
+<h3 id="Search"><a href="#Search" class="headerlink" title="Search"></a>Search</h3><p>Search方法接受一个Bifunction，并且为当前的键值对返回一个非空结果或者null如果当前的迭代没有满足要求。只要一个非空结果返回后，更近一步的搜索操作将会停止。记住ConcurrentHashMap是无序的。这个搜索方法不应该依赖于map之前的顺序。如果有多个值都符合搜索结果，那么返回的结果是不定的。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">String result = map.search(<span class="number">1</span>, (key, value) -&gt; &#123;</span><br><span class="line">    System.out.println(Thread.currentThread().getName());</span><br><span class="line">    <span class="keyword">if</span> (<span class="string">"foo"</span>.equals(key)) &#123;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;);</span><br><span class="line">System.out.println(<span class="string">"Result: "</span> + result);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ForkJoinPool.commonPool-worker-2</span></span><br><span class="line"><span class="comment">// main</span></span><br><span class="line"><span class="comment">// ForkJoinPool.commonPool-worker-3</span></span><br><span class="line"><span class="comment">// Result: bar</span></span><br></pre></td></tr></table></figure>
+<h3 id="Reduce"><a href="#Reduce" class="headerlink" title="Reduce"></a>Reduce</h3><p>方法reduce可以接受两个类型为Bifunction的lambda表达式。第一个函数用于转换每个key-value键值为一个值。第二个函数用于将所转换的值变为一个值，忽略掉所有可能为空的值。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">String result = map.reduce(<span class="number">1</span>,</span><br><span class="line">    (key, value) -&gt; &#123;</span><br><span class="line">        System.out.println(<span class="string">"Transform: "</span> + Thread.currentThread().getName());</span><br><span class="line">        <span class="keyword">return</span> key + <span class="string">"="</span> + value;</span><br><span class="line">    &#125;,</span><br><span class="line">    (s1, s2) -&gt; &#123;</span><br><span class="line">        System.out.println(<span class="string">"Reduce: "</span> + Thread.currentThread().getName());</span><br><span class="line">        <span class="keyword">return</span> s1 + <span class="string">", "</span> + s2;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"Result: "</span> + result);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Transform: ForkJoinPool.commonPool-worker-2</span></span><br><span class="line"><span class="comment">// Transform: main</span></span><br><span class="line"><span class="comment">// Transform: ForkJoinPool.commonPool-worker-3</span></span><br><span class="line"><span class="comment">// Reduce: ForkJoinPool.commonPool-worker-3</span></span><br><span class="line"><span class="comment">// Transform: main</span></span><br><span class="line"><span class="comment">// Reduce: main</span></span><br><span class="line"><span class="comment">// Reduce: main</span></span><br><span class="line"><span class="comment">// Result: r2=d2, c3=p0, han=solo, foo=bar</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sevenpan.com/2019/03/06/java/CoreJava/Java8 并发指南：原子变量和并发Map Atomic Variables and ConcurrentMap/" data-id="cjsx1n6bi000vsgrr73hu03un" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-多线程-Atomic-Variables-ConcurrentMap/">Java; 多线程; Atomic Variables; ConcurrentMap</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/03/05/java/CoreJava/Java8 并发指南：同步和锁 Synchronization and Locks/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java8 并发指南：同步和锁 Synchronization and Locks</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algo/">Algo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algotrading-pyalgotrade/">Algotrading, pyalgotrade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Alpha-factor/">Alpha factor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Alpha-factor-pair-trading/">Alpha factor; pair trading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-多线程-Atomic-Variables-ConcurrentMap/">Java; 多线程; Atomic Variables; ConcurrentMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-多线程-Synchronization-Locks/">Java; 多线程; Synchronization; Locks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-多线程-Threads-Executors/">Java; 多线程; Threads; Executors</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx-ssh/">hexo,git,nginx,ssh,</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java；spring-IOC-DI/">java；spring;IOC;DI</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Algo/" style="font-size: 10px;">Algo</a> <a href="/tags/Algotrading-pyalgotrade/" style="font-size: 10px;">Algotrading, pyalgotrade</a> <a href="/tags/Alpha-factor/" style="font-size: 10px;">Alpha factor</a> <a href="/tags/Alpha-factor-pair-trading/" style="font-size: 10px;">Alpha factor; pair trading</a> <a href="/tags/Java-多线程-Atomic-Variables-ConcurrentMap/" style="font-size: 10px;">Java; 多线程; Atomic Variables; ConcurrentMap</a> <a href="/tags/Java-多线程-Synchronization-Locks/" style="font-size: 10px;">Java; 多线程; Synchronization; Locks</a> <a href="/tags/Java-多线程-Threads-Executors/" style="font-size: 10px;">Java; 多线程; Threads; Executors</a> <a href="/tags/deeplearning4j-spark/" style="font-size: 10px;">deeplearning4j; spark</a> <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a> <a href="/tags/hexo-git-nginx-ssh/" style="font-size: 10px;">hexo,git,nginx,ssh,</a> <a href="/tags/java；spring-IOC-DI/" style="font-size: 10px;">java；spring;IOC;DI</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/06/java/CoreJava/Java8 并发指南：原子变量和并发Map Atomic Variables and ConcurrentMap/">Java8 并发指南：原子变量和并发Map(Atomic Variables and ConcurrentMap)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/05/java/CoreJava/Java8 并发指南：同步和锁 Synchronization and Locks/">Java8 并发指南：同步和锁 Synchronization and Locks</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/04/java/CoreJava/Java8 并发指南：线程和执行者 Threads and Executors/">Java8 并发指南：线程和执行者 Threads and Executors</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/03/java/Spring/Spring 学习-- IOC容器和Dependency Injection 模式/">Spring 学习-- IOC容器和Dependency Injection 模式</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/03/基础建设和杂项比较/DevOps 笔记/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Pan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

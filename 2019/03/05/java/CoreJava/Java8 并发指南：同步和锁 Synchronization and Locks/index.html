@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Java8 并发指南：同步和锁 Synchronization and Locks | Eden</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Java8 并发指南：同步和锁 Synchronization and Locksfrom：https://winterbe.com/posts/2015/04/30/java8-concurrency-tutorial-synchronized-locks-examples/这是java8 并发指南的第二部分。在这个部分，你将会学习如何同步访问可变共享变量通过synchronized关键字，lo">
+<meta name="keywords" content="Java; 多线程; Synchronization; Locks">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java8 并发指南：同步和锁 Synchronization and Locks">
+<meta property="og:url" content="http://blog.sevenpan.com/2019/03/05/java/CoreJava/Java8 并发指南：同步和锁 Synchronization and Locks/index.html">
+<meta property="og:site_name" content="Eden">
+<meta property="og:description" content="Java8 并发指南：同步和锁 Synchronization and Locksfrom：https://winterbe.com/posts/2015/04/30/java8-concurrency-tutorial-synchronized-locks-examples/这是java8 并发指南的第二部分。在这个部分，你将会学习如何同步访问可变共享变量通过synchronized关键字，lo">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-03-06T09:37:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java8 并发指南：同步和锁 Synchronization and Locks">
+<meta name="twitter:description" content="Java8 并发指南：同步和锁 Synchronization and Locksfrom：https://winterbe.com/posts/2015/04/30/java8-concurrency-tutorial-synchronized-locks-examples/这是java8 并发指南的第二部分。在这个部分，你将会学习如何同步访问可变共享变量通过synchronized关键字，lo">
+  
+    <link rel="alternate" href="/atom.xml" title="Eden" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Eden</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.sevenpan.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-java/CoreJava/Java8 并发指南：同步和锁 Synchronization and Locks" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/05/java/CoreJava/Java8 并发指南：同步和锁 Synchronization and Locks/" class="article-date">
+  <time datetime="2019-03-05T02:44:55.000Z" itemprop="datePublished">2019-03-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java8 并发指南：同步和锁 Synchronization and Locks
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Java8-并发指南：同步和锁-Synchronization-and-Locks"><a href="#Java8-并发指南：同步和锁-Synchronization-and-Locks" class="headerlink" title="Java8 并发指南：同步和锁 Synchronization and Locks"></a>Java8 并发指南：同步和锁 Synchronization and Locks</h1><p>from：<a href="https://winterbe.com/posts/2015/04/30/java8-concurrency-tutorial-synchronized-locks-examples/" target="_blank" rel="noopener">https://winterbe.com/posts/2015/04/30/java8-concurrency-tutorial-synchronized-locks-examples/</a><br>这是java8 并发指南的第二部分。在这个部分，你将会学习如何同步访问可变共享变量通过synchronized关键字，lock锁和信号semaphores。  </p>
+<h2 id="synchronized同步"><a href="#synchronized同步" class="headerlink" title="synchronized同步"></a>synchronized同步</h2><p>在上一篇文章中，我们学习了如何并发执行代码通过executor服务。在编写多线程代码时，你需要格外注意多线程是如何访问可变共享变量的。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">increment</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    count = count + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ExecutorService executor = Executors.newFixedThreadPool(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">IntStream.range(<span class="number">0</span>, <span class="number">10000</span>)</span><br><span class="line">    .forEach(i -&gt; executor.submit(<span class="keyword">this</span>::increment));</span><br><span class="line"></span><br><span class="line">stop(executor);</span><br><span class="line"></span><br><span class="line">System.out.println(count);  <span class="comment">// 9965</span></span><br></pre></td></tr></table></figure>
+<p>因为我们共享了一个可变变量在不同的线程中而不加同步锁。结果是一个竞赛条件race condition(结果依赖于环境，不可固定。)。<br>为了增加数字有三个步骤：1.获取当前值。2.在这个值基础上加一。3.写入新的值到变量中。如果两个线程同时操作，并且都同时操作第一步，那么可能最后的值会比预想的值要小。<br>这个问题可以用java同步读synchronized关键字来解决。<br>内部java会使用一个监视器或者也被称为监视锁或者固有锁来管理同步。这个锁是和对象绑定的，比如当使用一个同步方法的时候，每一个方法共享相同的对象监视器。<br>所有的内部监视器实现了可重入的特性。可重入意味着锁和当前的线程绑定了。一个现场可以安全的多次获取相同的锁而不会进入死锁状态。</p>
+<h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><p>除了通过synchronized来使用内部锁，并发API也支持多种实现了Lock接口的显示锁。相对于内在监视器，Locks支持多种方法来细粒度控制。<br>在标准JDK中有多种锁的实现是可用的并将会在以下展示。</p>
+<h3 id="ReentrantLock-可重入锁"><a href="#ReentrantLock-可重入锁" class="headerlink" title="ReentrantLock 可重入锁"></a>ReentrantLock 可重入锁</h3><p>ReentrantLock 可重入锁是一个相互排斥的锁和内部监视器有着相同的基本行为但是有着其他扩展的能力。从名字可以看出，这个锁也是可以重入的。<br>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ReentrantLock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"><span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">increment</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        count++;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>锁是通过lock()来获取的，unlock()来释放的。将你的代码使用一个try/finally来包含起来很重要。这个方法就是线程安全的。  </p>
+<h3 id="ReadWriteLock-读写锁"><a href="#ReadWriteLock-读写锁" class="headerlink" title="ReadWriteLock 读写锁"></a>ReadWriteLock 读写锁</h3><p>ReadWriteLock接口指定了锁的另外一种类型来维护一对锁用于读和写访问。在读写锁的背后的想法是多个线程来读通常是安全的，只要同时没有线程在对锁进行写。所以读锁可以被同时多个线程所拥有制药没有线程有写锁。这个可以提升性能因为读会比写要更加频繁一些。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService executor = Executors.newFixedThreadPool(<span class="number">2</span>);</span><br><span class="line">Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">ReadWriteLock lock = <span class="keyword">new</span> ReentrantReadWriteLock();</span><br><span class="line"></span><br><span class="line">executor.submit(() -&gt; &#123;</span><br><span class="line">    lock.writeLock().lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        sleep(<span class="number">1</span>);</span><br><span class="line">        map.put(<span class="string">"foo"</span>, <span class="string">"bar"</span>);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.writeLock().unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">Runnable readTask = () -&gt; &#123;</span><br><span class="line">    lock.readLock().lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        System.out.println(map.get(<span class="string">"foo"</span>));</span><br><span class="line">        sleep(<span class="number">1</span>);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.readLock().unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">executor.submit(readTask);</span><br><span class="line">executor.submit(readTask);</span><br><span class="line"></span><br><span class="line">stop(executor);</span><br></pre></td></tr></table></figure>
+<p>当你执行代码片段时，你将会注意到所有读任务都需要等待一秒直到写任务完成。写任务完成之后，读任务会并发运行并且同时输出。  </p>
+<h3 id="StampedLock"><a href="#StampedLock" class="headerlink" title="StampedLock"></a>StampedLock</h3><p>Java8有一个新的锁叫做StampedLocked同样和上一个锁一样也支持读和写。不同于读写锁的是，这个StampedLock方法会返回一个戳的整形值。你可以使用这些戳来释放一个锁或者检查这个锁是否仍然合法。另外stamped locks 支持一种锁的模式叫做optimistic locking。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService executor = Executors.newFixedThreadPool(<span class="number">2</span>);</span><br><span class="line">Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">StampedLock lock = <span class="keyword">new</span> StampedLock();</span><br><span class="line"></span><br><span class="line">executor.submit(() -&gt; &#123;</span><br><span class="line">    <span class="keyword">long</span> stamp = lock.writeLock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        sleep(<span class="number">1</span>);</span><br><span class="line">        map.put(<span class="string">"foo"</span>, <span class="string">"bar"</span>);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlockWrite(stamp);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">Runnable readTask = () -&gt; &#123;</span><br><span class="line">    <span class="keyword">long</span> stamp = lock.readLock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        System.out.println(map.get(<span class="string">"foo"</span>));</span><br><span class="line">        sleep(<span class="number">1</span>);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlockRead(stamp);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">executor.submit(readTask);</span><br><span class="line">executor.submit(readTask);</span><br><span class="line"></span><br><span class="line">stop(executor);</span><br></pre></td></tr></table></figure>
+<p>通过readLock()，writeLock()来返回一个stamp并且之后用这个stamp来释放锁。需要记住的是，stamped Locks没有实现可重入的特性。每次调用锁都会返回一个新的stamp并且如果没有锁将会阻塞即使在同一个线程中已经持有锁了。所以你特别需要注意不要死锁。<br>就和前文所说的ReawriteLock例子一样，所有的读任务都要等待写任务完成，而读任务可以并发。<br>下面这个例子展示了乐观锁：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService executor = Executors.newFixedThreadPool(<span class="number">2</span>);</span><br><span class="line">StampedLock lock = <span class="keyword">new</span> StampedLock();</span><br><span class="line"></span><br><span class="line">executor.submit(() -&gt; &#123;</span><br><span class="line">    <span class="keyword">long</span> stamp = lock.tryOptimisticRead();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"Optimistic Lock Valid: "</span> + lock.validate(stamp));</span><br><span class="line">        sleep(<span class="number">1</span>);</span><br><span class="line">        System.out.println(<span class="string">"Optimistic Lock Valid: "</span> + lock.validate(stamp));</span><br><span class="line">        sleep(<span class="number">2</span>);</span><br><span class="line">        System.out.println(<span class="string">"Optimistic Lock Valid: "</span> + lock.validate(stamp));</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock(stamp);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">executor.submit(() -&gt; &#123;</span><br><span class="line">    <span class="keyword">long</span> stamp = lock.writeLock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"Write Lock acquired"</span>);</span><br><span class="line">        sleep(<span class="number">2</span>);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock(stamp);</span><br><span class="line">        System.out.println(<span class="string">"Write done"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">stop(executor);</span><br></pre></td></tr></table></figure>
+<p>和一般的读锁不同的是乐观锁并不阻止其他线程来即刻获取写锁。在第一个线程sleep后第二个线程获取了写锁而不需要等待乐观锁的释放。从这一刻开始，乐观锁将不再合法，即使是写锁已经被释放了以后。<em>所以当你使用乐观锁的是，你每次读完可变变量后都需要校验读锁是否合法</em>。<br>有时将一个读锁转换为写锁而无需使用unlocking和locking是很方便的事情。StampedLock提供tryConvertToWriteLock()的方法来达到这个目的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService executor = Executors.newFixedThreadPool(<span class="number">2</span>);</span><br><span class="line">StampedLock lock = <span class="keyword">new</span> StampedLock();</span><br><span class="line"></span><br><span class="line">executor.submit(() -&gt; &#123;</span><br><span class="line">    <span class="keyword">long</span> stamp = lock.readLock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (count == <span class="number">0</span>) &#123;</span><br><span class="line">            stamp = lock.tryConvertToWriteLock(stamp);</span><br><span class="line">            <span class="keyword">if</span> (stamp == <span class="number">0L</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">"Could not convert to write lock"</span>);</span><br><span class="line">                stamp = lock.writeLock();</span><br><span class="line">            &#125;</span><br><span class="line">            count = <span class="number">23</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(count);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock(stamp);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">stop(executor);</span><br></pre></td></tr></table></figure>
+<p>调用tryConvertToWriteLock()就不会阻塞，但是可能返回0代表现在没有写锁可用，这个时候代码需要使用writeLock()来阻塞当前的线程直到有写锁可用。  </p>
+<h2 id="Semaphores-信号"><a href="#Semaphores-信号" class="headerlink" title="Semaphores 信号"></a>Semaphores 信号</h2><p>除了锁，并发API也支持计数信号。锁事用来获取高端的变量或者资源的访问而信号是用来维护一套权限的。当你需要限制当前的并发访问的时候很有用。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService executor = Executors.newFixedThreadPool(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">Semaphore semaphore = <span class="keyword">new</span> Semaphore(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">Runnable longRunningTask = () -&gt; &#123;</span><br><span class="line">    <span class="keyword">boolean</span> permit = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        permit = semaphore.tryAcquire(<span class="number">1</span>, TimeUnit.SECONDS);</span><br><span class="line">        <span class="keyword">if</span> (permit) &#123;</span><br><span class="line">            System.out.println(<span class="string">"Semaphore acquired"</span>);</span><br><span class="line">            sleep(<span class="number">5</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">"Could not acquire semaphore"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(e);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (permit) &#123;</span><br><span class="line">            semaphore.release();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">IntStream.range(<span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">    .forEach(i -&gt; executor.submit(longRunningTask));</span><br><span class="line"></span><br><span class="line">stop(executor);</span><br></pre></td></tr></table></figure>
+<p>这个executor可以同时运行10个任务但是我们使用大小为5的信号量来限制并发数量为5.特别重要的是要使用try/finally来合适的释放信号如果有异常发生的时候。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sevenpan.com/2019/03/05/java/CoreJava/Java8 并发指南：同步和锁 Synchronization and Locks/" data-id="cjsx1n6bm0011sgrre29oaorh" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-多线程-Synchronization-Locks/">Java; 多线程; Synchronization; Locks</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/06/java/CoreJava/Java8 并发指南：原子变量和并发Map Atomic Variables and ConcurrentMap/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java8 并发指南：原子变量和并发Map(Atomic Variables and ConcurrentMap)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/03/04/java/CoreJava/Java8 并发指南：线程和执行者 Threads and Executors/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java8 并发指南：线程和执行者 Threads and Executors</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algo/">Algo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algotrading-pyalgotrade/">Algotrading, pyalgotrade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Alpha-factor/">Alpha factor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Alpha-factor-pair-trading/">Alpha factor; pair trading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-多线程-Atomic-Variables-ConcurrentMap/">Java; 多线程; Atomic Variables; ConcurrentMap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-多线程-Synchronization-Locks/">Java; 多线程; Synchronization; Locks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-多线程-Threads-Executors/">Java; 多线程; Threads; Executors</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning4j-spark/">deeplearning4j; spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx/">hexo,git,nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-git-nginx-ssh/">hexo,git,nginx,ssh,</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java；spring-IOC-DI/">java；spring;IOC;DI</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Algo/" style="font-size: 10px;">Algo</a> <a href="/tags/Algotrading-pyalgotrade/" style="font-size: 10px;">Algotrading, pyalgotrade</a> <a href="/tags/Alpha-factor/" style="font-size: 10px;">Alpha factor</a> <a href="/tags/Alpha-factor-pair-trading/" style="font-size: 10px;">Alpha factor; pair trading</a> <a href="/tags/Java-多线程-Atomic-Variables-ConcurrentMap/" style="font-size: 10px;">Java; 多线程; Atomic Variables; ConcurrentMap</a> <a href="/tags/Java-多线程-Synchronization-Locks/" style="font-size: 10px;">Java; 多线程; Synchronization; Locks</a> <a href="/tags/Java-多线程-Threads-Executors/" style="font-size: 10px;">Java; 多线程; Threads; Executors</a> <a href="/tags/deeplearning4j-spark/" style="font-size: 10px;">deeplearning4j; spark</a> <a href="/tags/hexo-git-nginx/" style="font-size: 10px;">hexo,git,nginx</a> <a href="/tags/hexo-git-nginx-ssh/" style="font-size: 10px;">hexo,git,nginx,ssh,</a> <a href="/tags/java；spring-IOC-DI/" style="font-size: 10px;">java；spring;IOC;DI</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/06/java/CoreJava/Java8 并发指南：原子变量和并发Map Atomic Variables and ConcurrentMap/">Java8 并发指南：原子变量和并发Map(Atomic Variables and ConcurrentMap)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/05/java/CoreJava/Java8 并发指南：同步和锁 Synchronization and Locks/">Java8 并发指南：同步和锁 Synchronization and Locks</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/04/java/CoreJava/Java8 并发指南：线程和执行者 Threads and Executors/">Java8 并发指南：线程和执行者 Threads and Executors</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/03/java/Spring/Spring 学习-- IOC容器和Dependency Injection 模式/">Spring 学习-- IOC容器和Dependency Injection 模式</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/03/基础建设和杂项比较/DevOps 笔记/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Pan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
