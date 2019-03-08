@@ -301,6 +301,203 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2019/03/08/nodeJs/NodeJs入门-何时，如何以及为何使用Nodejs作为你的后端/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pan"/>
+      <meta itemprop="description" content="computer, finance, some recording"/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eden"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/08/nodeJs/NodeJs入门-何时，如何以及为何使用Nodejs作为你的后端/" class="post-title-link" itemprop="url">NodeJs入门:何时，如何以及为何使用Nodejs作为你的后端</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-03-08 00:00:00 / Modified: 15:39:16" itemprop="dateCreated datePublished" datetime="2019-03-08T00:00:00+08:00">2019-03-08</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article"></span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time"></span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>From <a href="https://www.netguru.com/blog/use-node-js-backend" target="_blank" rel="noopener">When, How And Why Use Node.js as Your Backend</a></p>
+<h2 id="什么是Node-js"><a href="#什么是Node-js" class="headerlink" title="什么是Node.js"></a>什么是Node.js</h2><p>Node.js是一个应用运行环境，允许你使用javaScript来编写服务端代码。由于它独特的I/O模型，它擅长于扩展和实时的场景。同时它是轻量级，高效的，以及前后端都适用JavaScript为开发提供了另外一种形式。</p>
+<h2 id="Node-js和JavaScript的不同"><a href="#Node-js和JavaScript的不同" class="headerlink" title="Node.js和JavaScript的不同"></a>Node.js和JavaScript的不同</h2><p>Node.js和JavaScript之间在语言的使用上并没有什么不同。JavaScript是用在浏览器而Node.js也几乎相同。只不过Node.js使用的是不同的API集合。在浏览器中，你可以有一系列的DOM/Web API来帮助你和UI进行交互，而在Node.js中也有很多API用于后端的开发，例如对文件系统的支持，http请求，流，子流程等。浏览器也提供一些基本的对文件系统和http请求的的支持，但基于安全的考虑，十分有限。  </p>
+<h2 id="为什么值得在你的项目中使用Node-js"><a href="#为什么值得在你的项目中使用Node-js" class="headerlink" title="为什么值得在你的项目中使用Node.js"></a>为什么值得在你的项目中使用Node.js</h2><p>首先，使用Node.js作为服务端技术意味着你的前后端的代码都是一致的，这样可以给你的团队很大促进作用。这意味着你的团队会更加高效和跨功能性。另外，JavaScript是最流行的编程语言，所以你的应用代码将会更加容易被其他的工程师理解。同时前后端的代码也可以有一部分的复用，从而加速开发的进程。除此以外，Node.js社区在快速的发展，所以这门技术的知识基础是被广泛传播的。整个Node.js的技术栈是开源并且免费的。最后，Node 提供一个很好的包管理，npm，并且在npm注册中心可用的开源工具是很多的，并且还在快速增长。这些只是你应该考虑使用Node.js的众多优点的一小部分。。。  </p>
+<h2 id="好的使用案例"><a href="#好的使用案例" class="headerlink" title="好的使用案例"></a>好的使用案例</h2><h3 id="实时应用系统"><a href="#实时应用系统" class="headerlink" title="实时应用系统"></a>实时应用系统</h3><p>Node.js对于一个需要处理大量短消息并且要低延时的应用是一个好的请求。这一类的系统被称为Real-time application(RTAs)，并且她们可以很容易的使用Node.js进行开发。Node.js对于实时合作/编辑文件的apps会是一个很好的选择，这样你可以观看到文本被其他的人实时编辑(比如 Trello, Dropbox Paper或者Google Docs)。<br>RTAs可以被node.js很容易的开发的列表有很多。最流行的比如实时对话或者及时消息应用。(live-chat and instant-messaging).如果你想要创建一个视屏会议app，只要有合适的硬件设备或者VoIP就可以了。另外，你也许会考虑Node.js作为在线游戏应用或者电商交易软件，那些在线数据很重要。<br>Node.js对于实时应用非常有效，它可以方便的处理很多客户端请求，允许分享和复用共享库的代码，并且客户端和服务端的同步也很快。  </p>
+<h3 id="快速和扩展的环境"><a href="#快速和扩展的环境" class="headerlink" title="快速和扩展的环境"></a>快速和扩展的环境</h3><p>如果你有很多的请求，Ruby on Rails对于速度也需不那么足够。 Node.js将会比Rails更加快速和可扩展。Node可以在很短的响应时间里处理很多的请求，同时也可以在服务器和客户端之间共享如校验代码的能力让它很适合与需要在客户端进行很多处理的应用。基于上面的理由，Node.js是一个很流行的选择来建立“单页应用”网站，这样所有的渲染都是由客户端完成，而服务端只用提供JSON API。<br>Node.js 同样在你想要处理高容量IO请求的时候也很容易上手。如果需要很多的CPU来处理请求，可能就不会那么高效。但是如果只是将数据四处移动，它会很高效。</p>
+<h2 id="什么时候使用Node-js不是一个好的选择"><a href="#什么时候使用Node-js不是一个好的选择" class="headerlink" title="什么时候使用Node.js不是一个好的选择"></a>什么时候使用Node.js不是一个好的选择</h2><p>即使Node.js在大部分的时候都是很好，但是在下面的情况下，使用它不是一个明智的选择。  </p>
+<h3 id="CPU-Heavy-jobs"><a href="#CPU-Heavy-jobs" class="headerlink" title="CPU-Heavy jobs"></a>CPU-Heavy jobs</h3><p>第一就是CPU密集的任务。Node.js是一个事件驱动，非阻塞的I/O模型，并且只使用一个单一CPU。重CPU操作将会阻塞进来的请求，将Node.js最大的优点变得无用。如果你考虑构建一个重CPU计算的任务，请尝试一个其他的，更佳合适的技术。  </p>
+<h3 id="CRUD"><a href="#CRUD" class="headerlink" title="CRUD"></a>CRUD</h3><p>最后，对于简单的HTML或者CRUD应用使用Node.js将会是多余，在这个情况下，你不需要一个单独的api，所有的数据都是直接从服务端提供。如果使用Node.js你的应用可能只能提高一点扩展性，但不能期待可以承受过多的请求。在这个情况下，你应该继续使用可靠的框架比如Ruby。</p>
+<h3 id="包质量"><a href="#包质量" class="headerlink" title="包质量"></a>包质量</h3><p>在开始使用Node.js之前，还有很多东西需要考虑。很多Node.js应用的包都可以在npm上找到。这个社区是有活力的，技术也越来越成熟，并且npm是目前最大的仓库。然而不同的包有不同的质量。</p>
+<h2 id="从哪开始"><a href="#从哪开始" class="headerlink" title="从哪开始"></a>从哪开始</h2><p>首先，去Node.js的官网(<a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a>)并且下载这个Node.js的包。接下来我们需要安装Node.js包管理从而安装和管理我们的依赖。然后我们就可以开始写代码了。<br>最好开始Node.js的地方就是官方文档，这里你可以学到很多Node.js的核心观点。在<a href="https://nodejs.org/en/docs/guides/getting-started-guide/" target="_blank" rel="noopener">Node.js guide</a>中，你可以找到最重要的问题的答案，怎么建立一个简单的Node.js的服务器？<br>然后你可以看一些重要的Nodejs的框架比如 express.js，来学习JavaScript依赖是怎么使用的。(<a href="https://expressjs.com/" target="_blank" rel="noopener">expressjs.com</a>)Express.js 允许你构建一个高性能的，可扩展且易维护的应用。最好的学习路径是去express官网上，并且学习它最重要的功能，比如 routing，template engines和debugging。<br>在那之后，你已经准备好构建你自己的应用了。  </p>
+<h2 id="知识基础"><a href="#知识基础" class="headerlink" title="知识基础"></a>知识基础</h2><h3 id="学习材料和资源"><a href="#学习材料和资源" class="headerlink" title="学习材料和资源"></a>学习材料和资源</h3><ol>
+<li><a href="http://node.green/" target="_blank" rel="noopener">Node.js ES2015/ES6, ES2016 and ES2017 support</a></li>
+<li><a href="https://github.com/sindresorhus/awesome-nodejs#resources" target="_blank" rel="noopener">awesome-nodejs resources</a></li>
+<li><a href="https://github.com/workshopper/learnyounode" target="_blank" rel="noopener">learnyounode</a></li>
+</ol>
+<h3 id="Twitter上follow的人"><a href="#Twitter上follow的人" class="headerlink" title="Twitter上follow的人"></a>Twitter上follow的人</h3><p>略过。。。</p>
+<h3 id="Node-js-订阅"><a href="#Node-js-订阅" class="headerlink" title="Node.js 订阅"></a>Node.js 订阅</h3><ol>
+<li>Node Weekly</li>
+<li>JavaScript Weekly</li>
+<li>Awesome Node.js Newsletter</li>
+<li>Node Everywhere</li>
+</ol>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ol>
+<li><a href="https://www.netguru.com/blog/10-node.js-podcasts" target="_blank" rel="noopener">10 Node.js Podcasts</a></li>
+<li><a href="https://www.netguru.com/blog/10-nodejs-books" target="_blank" rel="noopener">10 Node.js Books</a></li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2019/03/06/java/CoreJava/Java8 并发指南：原子变量和并发Map Atomic Variables and ConcurrentMap/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2269,233 +2466,6 @@ worker.run(rsi2.RSI2, &quot;localhost&quot;, 5000, workerName=&quot;localworker&
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2018/10/13/基础建设和杂项比较/hexoWithGit/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Pan"/>
-      <meta itemprop="description" content="computer, finance, some recording"/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Eden"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/10/13/基础建设和杂项比较/hexoWithGit/" class="post-title-link" itemprop="url">Hexo With Git</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-10-13 22:18:38" itemprop="dateCreated datePublished" datetime="2018-10-13T22:18:38+08:00">2018-10-13</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-03-06 18:05:07" itemprop="dateModified" datetime="2019-03-06T18:05:07+08:00">2019-03-06</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-symbolscount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Symbols count in article: </span>
-                
-                <span title="Symbols count in article"></span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time"></span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="server"><a href="#server" class="headerlink" title="server"></a>server</h2><p>环境：  </p>
-<pre><code>ubuntu 16.01LTS
-</code></pre><p><b>nginx:</b><br>安装 nginx：</p>
-<pre><code>sudo apt-get update
-sudo apt-get install nginx
-</code></pre><p>配置：  </p>
-<pre><code>/etc/nginx/nginx.conf
-....
-server {
-          listen       80 default_server;
-          listen       [::]:80 default_server;
-          server_name  blog.example.com; # 填写个人域名
-          root         /home/where/your/blog/hexo;
-  }    
-  .....
-</code></pre><p>/etc/nginx/sites-enabled 中有一个default文件，如果不需要可以删除，否则启动nginx的时候会报端口冲突。<br>启动nginx：</p>
-<pre><code>sudo nginx -t
-sudo systemctl reload nginx.service
-</code></pre><p><b>git:</b><br>    本部分一大段来自：<a href="https://www.jianshu.com/p/e03e363713f9" target="_blank" rel="noopener">https://www.jianshu.com/p/e03e363713f9</a><br>    安装 git：</p>
-<pre><code>sudo apt-get install git-core
-mkdir -p /home/git/blog/hexo.git #Git仓库，不存储网站文件
-mkdir /home/git/blog/hexo #实际存储网站文件目录
-</code></pre><p>初始化空的Git仓库：</p>
-<pre><code>git init --bare /home/git/blog/hexo.git
-</code></pre><p>进入该仓库，配置post-update hooks（有的可能是post-receive）：</p>
-<pre><code>cd /home/git/blog/hexo.git/hooks
-sudo nano /home/git/blog/hexo.git/hooks/post-update.sample        
-git --work-tree=/home/git/blog/hexo --git-dir=/home/git/blog/hexo.git checkout -f
-chmod +x post-update
-</code></pre><h2 id="local"><a href="#local" class="headerlink" title="local"></a>local</h2><p>本机设置<br>安装hexo相关：</p>
-<pre><code>npm install hexo-cli hexo-server hexo-deployer-git -g
-</code></pre><p>安装完成后，初始化：</p>
-<pre><code>hexo init ~/myBlog
-</code></pre><p>修改hexo的配置可以参考：<a href="https://hexo.io/docs/configuration" target="_blank" rel="noopener">https://hexo.io/docs/configuration</a><br>其中 deploy部分需要修改如下：</p>
-<pre><code>deploy:     //发布对应的github账号
-type: git
-repo: user@remoteServer:/home/git/blog/hexo  //用户名@域名或 IP 地址:/home/git/blog/hexo
-branch: master
-</code></pre><p>然后还有一点，需要ssh-copy-key 将自己的公钥拷贝到远程机器上，这样可以无需密码访问，具体请自行搜索下。</p>
-<p>完成以上之后，部署三条命令：</p>
-<pre><code>hexo clean
-hexo generate
-hexo deploy
-</code></pre><h2 id="域名转换"><a href="#域名转换" class="headerlink" title="域名转换"></a>域名转换</h2><p>如果有自己的域名，可以在自己的域名服务商上进行设置，这样就可以直接访问域名了。<br>比如我这个是在name    上，进入<a href="https://www.name.com/zh-cn/account/domain/details/sevenpan.com#dns" target="_blank" rel="noopener">DNS</a>设置自己的ip就可以进行转发了。</p>
-<h2 id="Reference-Link"><a href="#Reference-Link" class="headerlink" title="Reference Link"></a>Reference Link</h2><p>Hexo: <a href="https://hexo.io/docs/" target="_blank" rel="noopener">https://hexo.io/docs/</a><br>nginx install :    <a href="https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04" target="_blank" rel="noopener">https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04</a><br><a href="https://websiteforstudents.com/migrate-nginx-root-directory-on-ubuntu-17-04-17-10/" target="_blank" rel="noopener">https://websiteforstudents.com/migrate-nginx-root-directory-on-ubuntu-17-04-17-10/</a><br>name.com 域名解析：<a href="http://www.webgou.info/content/netusage/453/" target="_blank" rel="noopener">http://www.webgou.info/content/netusage/453/</a><br>主要参考的两个网页：<br><a href="https://segmentfault.com/a/1190000010680022" target="_blank" rel="noopener">https://segmentfault.com/a/1190000010680022</a><br><a href="https://www.jianshu.com/p/e03e363713f9" target="_blank" rel="noopener">https://www.jianshu.com/p/e03e363713f9</a>  </p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2542,7 +2512,7 @@ hexo deploy
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2579,7 +2549,9 @@ hexo deploy
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">tags</span>
                   
                 </div>

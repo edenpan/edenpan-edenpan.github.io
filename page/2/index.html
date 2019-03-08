@@ -301,6 +301,233 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2018/10/13/基础建设和杂项比较/hexoWithGit/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pan"/>
+      <meta itemprop="description" content="computer, finance, some recording"/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eden"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/10/13/基础建设和杂项比较/hexoWithGit/" class="post-title-link" itemprop="url">Hexo With Git</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-10-13 22:18:38" itemprop="dateCreated datePublished" datetime="2018-10-13T22:18:38+08:00">2018-10-13</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-06 18:05:07" itemprop="dateModified" datetime="2019-03-06T18:05:07+08:00">2019-03-06</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article"></span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time"></span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="server"><a href="#server" class="headerlink" title="server"></a>server</h2><p>环境：  </p>
+<pre><code>ubuntu 16.01LTS
+</code></pre><p><b>nginx:</b><br>安装 nginx：</p>
+<pre><code>sudo apt-get update
+sudo apt-get install nginx
+</code></pre><p>配置：  </p>
+<pre><code>/etc/nginx/nginx.conf
+....
+server {
+          listen       80 default_server;
+          listen       [::]:80 default_server;
+          server_name  blog.example.com; # 填写个人域名
+          root         /home/where/your/blog/hexo;
+  }    
+  .....
+</code></pre><p>/etc/nginx/sites-enabled 中有一个default文件，如果不需要可以删除，否则启动nginx的时候会报端口冲突。<br>启动nginx：</p>
+<pre><code>sudo nginx -t
+sudo systemctl reload nginx.service
+</code></pre><p><b>git:</b><br>    本部分一大段来自：<a href="https://www.jianshu.com/p/e03e363713f9" target="_blank" rel="noopener">https://www.jianshu.com/p/e03e363713f9</a><br>    安装 git：</p>
+<pre><code>sudo apt-get install git-core
+mkdir -p /home/git/blog/hexo.git #Git仓库，不存储网站文件
+mkdir /home/git/blog/hexo #实际存储网站文件目录
+</code></pre><p>初始化空的Git仓库：</p>
+<pre><code>git init --bare /home/git/blog/hexo.git
+</code></pre><p>进入该仓库，配置post-update hooks（有的可能是post-receive）：</p>
+<pre><code>cd /home/git/blog/hexo.git/hooks
+sudo nano /home/git/blog/hexo.git/hooks/post-update.sample        
+git --work-tree=/home/git/blog/hexo --git-dir=/home/git/blog/hexo.git checkout -f
+chmod +x post-update
+</code></pre><h2 id="local"><a href="#local" class="headerlink" title="local"></a>local</h2><p>本机设置<br>安装hexo相关：</p>
+<pre><code>npm install hexo-cli hexo-server hexo-deployer-git -g
+</code></pre><p>安装完成后，初始化：</p>
+<pre><code>hexo init ~/myBlog
+</code></pre><p>修改hexo的配置可以参考：<a href="https://hexo.io/docs/configuration" target="_blank" rel="noopener">https://hexo.io/docs/configuration</a><br>其中 deploy部分需要修改如下：</p>
+<pre><code>deploy:     //发布对应的github账号
+type: git
+repo: user@remoteServer:/home/git/blog/hexo  //用户名@域名或 IP 地址:/home/git/blog/hexo
+branch: master
+</code></pre><p>然后还有一点，需要ssh-copy-key 将自己的公钥拷贝到远程机器上，这样可以无需密码访问，具体请自行搜索下。</p>
+<p>完成以上之后，部署三条命令：</p>
+<pre><code>hexo clean
+hexo generate
+hexo deploy
+</code></pre><h2 id="域名转换"><a href="#域名转换" class="headerlink" title="域名转换"></a>域名转换</h2><p>如果有自己的域名，可以在自己的域名服务商上进行设置，这样就可以直接访问域名了。<br>比如我这个是在name    上，进入<a href="https://www.name.com/zh-cn/account/domain/details/sevenpan.com#dns" target="_blank" rel="noopener">DNS</a>设置自己的ip就可以进行转发了。</p>
+<h2 id="Reference-Link"><a href="#Reference-Link" class="headerlink" title="Reference Link"></a>Reference Link</h2><p>Hexo: <a href="https://hexo.io/docs/" target="_blank" rel="noopener">https://hexo.io/docs/</a><br>nginx install :    <a href="https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04" target="_blank" rel="noopener">https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04</a><br><a href="https://websiteforstudents.com/migrate-nginx-root-directory-on-ubuntu-17-04-17-10/" target="_blank" rel="noopener">https://websiteforstudents.com/migrate-nginx-root-directory-on-ubuntu-17-04-17-10/</a><br>name.com 域名解析：<a href="http://www.webgou.info/content/netusage/453/" target="_blank" rel="noopener">http://www.webgou.info/content/netusage/453/</a><br>主要参考的两个网页：<br><a href="https://segmentfault.com/a/1190000010680022" target="_blank" rel="noopener">https://segmentfault.com/a/1190000010680022</a><br><a href="https://www.jianshu.com/p/e03e363713f9" target="_blank" rel="noopener">https://www.jianshu.com/p/e03e363713f9</a>  </p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2018/09/21/Algo/单因子说明以及计算结果/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2236,7 +2463,7 @@ Calculated as the difference between the number of upwards revisions minus the n
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2273,7 +2500,9 @@ Calculated as the difference between the number of upwards revisions minus the n
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">tags</span>
                   
                 </div>
