@@ -98,25 +98,24 @@
 
 
 
-  <meta name="description" content="server环境：   ubuntu 16.01LTS nginx:安装 nginx： sudo apt-get update sudo apt-get install nginx 配置：   /etc/nginx/nginx.conf .... server {           listen       80 default_server;           listen       [:">
-<meta name="keywords" content="hexo,git,nginx">
+  <meta name="description" content="环境介绍在linux(centos7)上进行的JDK8 的编译。具体步骤进行记录。 Mercurial安装增加repo文件：/etc/yum.repos.d/mercurial.selenic.com.repo  1234567[mercurial.selenic.com]name=mercurial.selenic.combaseurl=https://www.mercurial-scm.org">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo With Git">
-<meta property="og:url" content="http://blog.sevenpan.com/2018/10/13/基础建设和杂项比较/hexoWithGit/index.html">
+<meta property="og:title" content="buld_openJDK8">
+<meta property="og:url" content="http://blog.sevenpan.com/2019/03/11/java/build-openJDK8/index.html">
 <meta property="og:site_name" content="Eden">
-<meta property="og:description" content="server环境：   ubuntu 16.01LTS nginx:安装 nginx： sudo apt-get update sudo apt-get install nginx 配置：   /etc/nginx/nginx.conf .... server {           listen       80 default_server;           listen       [:">
+<meta property="og:description" content="环境介绍在linux(centos7)上进行的JDK8 的编译。具体步骤进行记录。 Mercurial安装增加repo文件：/etc/yum.repos.d/mercurial.selenic.com.repo  1234567[mercurial.selenic.com]name=mercurial.selenic.combaseurl=https://www.mercurial-scm.org">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-06T10:05:07.000Z">
+<meta property="og:updated_time" content="2019-03-11T05:42:01.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo With Git">
-<meta name="twitter:description" content="server环境：   ubuntu 16.01LTS nginx:安装 nginx： sudo apt-get update sudo apt-get install nginx 配置：   /etc/nginx/nginx.conf .... server {           listen       80 default_server;           listen       [:">
+<meta name="twitter:title" content="buld_openJDK8">
+<meta name="twitter:description" content="环境介绍在linux(centos7)上进行的JDK8 的编译。具体步骤进行记录。 Mercurial安装增加repo文件：/etc/yum.repos.d/mercurial.selenic.com.repo  1234567[mercurial.selenic.com]name=mercurial.selenic.combaseurl=https://www.mercurial-scm.org">
 
 
 
 
 
 
-  <link rel="canonical" href="http://blog.sevenpan.com/2018/10/13/基础建设和杂项比较/hexoWithGit/"/>
+  <link rel="canonical" href="http://blog.sevenpan.com/2019/03/11/java/build-openJDK8/"/>
 
 
 
@@ -126,7 +125,7 @@
   };
 </script>
 
-  <title>Hexo With Git | Eden</title>
+  <title>buld_openJDK8 | Eden</title>
   
 
 
@@ -302,7 +301,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2018/10/13/基础建设和杂项比较/hexoWithGit/"/>
+    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2019/03/11/java/build-openJDK8/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pan"/>
@@ -319,7 +318,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hexo With Git
+          <h1 class="post-title" itemprop="name headline">buld_openJDK8
 
               
             
@@ -345,24 +344,12 @@
                 
               
 
-              <time title="Created: 2018-10-13 22:18:38" itemprop="dateCreated datePublished" datetime="2018-10-13T22:18:38+08:00">2018-10-13</time>
+              <time title="Created: 2019-03-11 10:22:08 / Modified: 13:42:01" itemprop="dateCreated datePublished" datetime="2019-03-11T10:22:08+08:00">2019-03-11</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-03-06 18:05:07" itemprop="dateModified" datetime="2019-03-06T18:05:07+08:00">2019-03-06</time>
               
             
           </span>
@@ -424,51 +411,64 @@
       
 
       
-        <h2 id="server"><a href="#server" class="headerlink" title="server"></a>server</h2><p>环境：  </p>
-<pre><code>ubuntu 16.01LTS
-</code></pre><p><b>nginx:</b><br>安装 nginx：</p>
-<pre><code>sudo apt-get update
-sudo apt-get install nginx
-</code></pre><p>配置：  </p>
-<pre><code>/etc/nginx/nginx.conf
-....
-server {
-          listen       80 default_server;
-          listen       [::]:80 default_server;
-          server_name  blog.example.com; # 填写个人域名
-          root         /home/where/your/blog/hexo;
-  }    
-  .....
-</code></pre><p>/etc/nginx/sites-enabled 中有一个default文件，如果不需要可以删除，否则启动nginx的时候会报端口冲突。<br>启动nginx：</p>
-<pre><code>sudo nginx -t
-sudo systemctl reload nginx.service
-</code></pre><p><b>git:</b><br>    本部分一大段来自：<a href="https://www.jianshu.com/p/e03e363713f9" target="_blank" rel="noopener">https://www.jianshu.com/p/e03e363713f9</a><br>    安装 git：</p>
-<pre><code>sudo apt-get install git-core
-mkdir -p /home/git/blog/hexo.git #Git仓库，不存储网站文件
-mkdir /home/git/blog/hexo #实际存储网站文件目录
-</code></pre><p>初始化空的Git仓库：</p>
-<pre><code>git init --bare /home/git/blog/hexo.git
-</code></pre><p>进入该仓库，配置post-update hooks（有的可能是post-receive）：</p>
-<pre><code>cd /home/git/blog/hexo.git/hooks
-sudo nano /home/git/blog/hexo.git/hooks/post-update.sample        
-git --work-tree=/home/git/blog/hexo --git-dir=/home/git/blog/hexo.git checkout -f
-chmod +x post-update
-</code></pre><h2 id="local"><a href="#local" class="headerlink" title="local"></a>local</h2><p>本机设置<br>安装hexo相关：</p>
-<pre><code>npm install hexo-cli hexo-server hexo-deployer-git -g
-</code></pre><p>安装完成后，初始化：</p>
-<pre><code>hexo init ~/myBlog
-</code></pre><p>修改hexo的配置可以参考：<a href="https://hexo.io/docs/configuration" target="_blank" rel="noopener">https://hexo.io/docs/configuration</a><br>其中 deploy部分需要修改如下：</p>
-<pre><code>deploy:     //发布对应的github账号
-type: git
-repo: user@remoteServer:/home/git/blog/hexo  //用户名@域名或 IP 地址:/home/git/blog/hexo
-branch: master
-</code></pre><p>然后还有一点，需要ssh-copy-key 将自己的公钥拷贝到远程机器上，这样可以无需密码访问，具体请自行搜索下。</p>
-<p>完成以上之后，部署三条命令：</p>
-<pre><code>hexo clean
-hexo generate
-hexo deploy
-</code></pre><h2 id="域名转换"><a href="#域名转换" class="headerlink" title="域名转换"></a>域名转换</h2><p>如果有自己的域名，可以在自己的域名服务商上进行设置，这样就可以直接访问域名了。<br>比如我这个是在name    上，进入<a href="https://www.name.com/zh-cn/account/domain/details/sevenpan.com#dns" target="_blank" rel="noopener">DNS</a>设置自己的ip就可以进行转发了。</p>
-<h2 id="Reference-Link"><a href="#Reference-Link" class="headerlink" title="Reference Link"></a>Reference Link</h2><p>Hexo: <a href="https://hexo.io/docs/" target="_blank" rel="noopener">https://hexo.io/docs/</a><br>nginx install :    <a href="https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04" target="_blank" rel="noopener">https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04</a><br><a href="https://websiteforstudents.com/migrate-nginx-root-directory-on-ubuntu-17-04-17-10/" target="_blank" rel="noopener">https://websiteforstudents.com/migrate-nginx-root-directory-on-ubuntu-17-04-17-10/</a><br>name.com 域名解析：<a href="http://www.webgou.info/content/netusage/453/" target="_blank" rel="noopener">http://www.webgou.info/content/netusage/453/</a><br>主要参考的两个网页：<br><a href="https://segmentfault.com/a/1190000010680022" target="_blank" rel="noopener">https://segmentfault.com/a/1190000010680022</a><br><a href="https://www.jianshu.com/p/e03e363713f9" target="_blank" rel="noopener">https://www.jianshu.com/p/e03e363713f9</a>  </p>
+        <h2 id="环境介绍"><a href="#环境介绍" class="headerlink" title="环境介绍"></a>环境介绍</h2><p>在linux(centos7)上进行的JDK8 的编译。具体步骤进行记录。</p>
+<h2 id="Mercurial安装"><a href="#Mercurial安装" class="headerlink" title="Mercurial安装"></a>Mercurial安装</h2><p>增加repo文件：/etc/yum.repos.d/mercurial.selenic.com.repo </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[mercurial.selenic.com]</span><br><span class="line">name=mercurial.selenic.com</span><br><span class="line">baseurl=https://www.mercurial-scm.org/release/centos$releasever</span><br><span class="line">enabled=1</span><br><span class="line"># Temporary until we get a serious signing scheme in place,</span><br><span class="line"># check https://www.mercurial-scm.org/wiki/Download again</span><br><span class="line">gpgcheck=0</span><br></pre></td></tr></table></figure>
+<p>之后运行：<code>yum install mercurial</code>即可安装。  </p>
+<h2 id="获取源码"><a href="#获取源码" class="headerlink" title="获取源码"></a>获取源码</h2><p>在本机运行以下命令来获取OpenJDK源码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hg clone http://hg.openjdk.java.net/jdk8/jdk8 YourOpenJDK </span><br><span class="line">cd YourOpenJDK </span><br><span class="line">bash ./get_source.sh</span><br></pre></td></tr></table></figure>
+<p>之后就会开始下载源码，只是有的时候网络可能不太好，如果不能成功下载完成，需要多试几次。  </p>
+<p>下载的仓库如下：</p>
+<table>
+<thead>
+<tr>
+<th>仓库</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>. (root)</td>
+<td>普通配置以及makefile 逻辑</td>
+</tr>
+<tr>
+<td>hotspot</td>
+<td>OpenJDK Hotspot 虚拟机的源码以及makefile</td>
+</tr>
+<tr>
+<td>langtools</td>
+<td>OpenJDK的Javac和语言工具(?)的源码</td>
+</tr>
+<tr>
+<td>jdk</td>
+<td>OpenJDK的运行时库的源码和makefile以及Misc 文件</td>
+</tr>
+<tr>
+<td>jaxp</td>
+<td>OpenJDK JAXP功能的源码</td>
+</tr>
+<tr>
+<td>jaxws</td>
+<td>OpenJDK JAX-WS功能的源码</td>
+</tr>
+<tr>
+<td>corba</td>
+<td>OpenJDK Corba的源码</td>
+</tr>
+<tr>
+<td>nashorn</td>
+<td>OpenJDK的JavaScript实现的源码</td>
+</tr>
+</tbody>
+</table>
+<h2 id="构建-building"><a href="#构建-building" class="headerlink" title="构建 building"></a>构建 building</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bash ./configure</span><br><span class="line">make all</span><br></pre></td></tr></table></figure>
+<p>bash ./configure会检查环境是否满足JDK的安装，并且进行提示。  </p>
+<h3 id="下载jdk7作为bootstrap-JDK"><a href="#下载jdk7作为bootstrap-JDK" class="headerlink" title="下载jdk7作为bootstrap JDK"></a>下载jdk7作为bootstrap JDK</h3><p>根据<a href="https://openjdk.java.net/install/" target="_blank" rel="noopener">https://openjdk.java.net/install/</a>运行：<code>su -c &quot;yum install java-1.7.0-openjdk-devel&quot;</code>安装了1.7的sdk，并且由于本机以及安装了1.8的sdk，需要切换sdk，使用命令：<code>sudo update-alternatives --config java</code>进行切换。本机java包的位置为：<code>/usr/lib/jvm</code>.  </p>
+<p>使用<code>sh configure --with-boot-jdk=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.211-2.6.17.1.el7_6.x86_64</code>来指定下载的bootstrap JDK的位置。  </p>
+<h3 id="运行make"><a href="#运行make" class="headerlink" title="运行make"></a>运行make</h3><p>使用<code>make clean</code>     清除目录，然后运行<code>make all</code>编译源码。然后就是等待了。。<br>大概四十分钟，我的就全部构建完毕了。在build目录中，文件大小约3G。  </p>
+<h3 id="检验build成功"><a href="#检验build成功" class="headerlink" title="检验build成功"></a>检验build成功</h3><p>进入：build/linux-x86_64-normal-server-release/jdk/bin中运行 <code>./java -version</code>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openjdk version &quot;1.8.0-internal&quot;</span><br><span class="line">OpenJDK Runtime Environment (build 1.8.0-internal-eden_2019_03_11_12_47-b00)</span><br><span class="line">OpenJDK 64-Bit Server VM (build 25.0-b70, mixed mode)</span><br></pre></td></tr></table></figure>
+<h2 id="相关参考"><a href="#相关参考" class="headerlink" title="相关参考"></a>相关参考</h2><p><a href="http://hg.openjdk.java.net/jdk8/jdk8/raw-file/tip/README-builds.html" target="_blank" rel="noopener">OpenJDK Build README</a></p>
 
       
     </div>
@@ -490,12 +490,6 @@ hexo deploy
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/hexo-git-nginx/" rel="tag"># hexo,git,nginx</a>
-          
-        </div>
-      
 
       
       
@@ -505,8 +499,8 @@ hexo deploy
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/21/Algo/单因子说明以及计算结果/" rel="next" title="单因子说明以及计算结果">
-                <i class="fa fa-chevron-left"></i> 单因子说明以及计算结果
+              <a href="/2019/03/08/nodeJs/NodeJs入门-何时，如何以及为何使用Nodejs作为你的后端/" rel="next" title="NodeJs入门:何时，如何以及为何使用Nodejs作为你的后端">
+                <i class="fa fa-chevron-left"></i> NodeJs入门:何时，如何以及为何使用Nodejs作为你的后端
               </a>
             
           </div>
@@ -514,10 +508,6 @@ hexo deploy
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/17/Algo/Somethings About Pyalgotrade/" rel="prev" title="Somethings About Pyalgotrade  - the Optimizing">
-                Somethings About Pyalgotrade  - the Optimizing <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -666,7 +656,7 @@ hexo deploy
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#server"><span class="nav-number">1.</span> <span class="nav-text">server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#local"><span class="nav-number">2.</span> <span class="nav-text">local</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#域名转换"><span class="nav-number">3.</span> <span class="nav-text">域名转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference-Link"><span class="nav-number">4.</span> <span class="nav-text">Reference Link</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境介绍"><span class="nav-number">1.</span> <span class="nav-text">环境介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mercurial安装"><span class="nav-number">2.</span> <span class="nav-text">Mercurial安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取源码"><span class="nav-number">3.</span> <span class="nav-text">获取源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建-building"><span class="nav-number">4.</span> <span class="nav-text">构建 building</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载jdk7作为bootstrap-JDK"><span class="nav-number">4.1.</span> <span class="nav-text">下载jdk7作为bootstrap JDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行make"><span class="nav-number">4.2.</span> <span class="nav-text">运行make</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检验build成功"><span class="nav-number">4.3.</span> <span class="nav-text">检验build成功</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关参考"><span class="nav-number">5.</span> <span class="nav-text">相关参考</span></a></li></ol></div>
             
 
           </div>
@@ -833,7 +823,7 @@ hexo deploy
   
     <script>
   window.livereOptions = {
-    refer: '2018/10/13/基础建设和杂项比较/hexoWithGit/'
+    refer: '2019/03/11/java/build-openJDK8/'
   };
   (function(d, s) {
     var j, e = d.getElementsByTagName(s)[0];
