@@ -301,6 +301,230 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2018/11/07/Algo/配对交易策略RQ/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pan"/>
+      <meta itemprop="description" content="computer, finance, some recording"/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eden"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/11/07/Algo/配对交易策略RQ/" class="post-title-link" itemprop="url">配对交易策略</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-11-07 16:21:17" itemprop="dateCreated datePublished" datetime="2018-11-07T16:21:17+08:00">2018-11-07</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-06 17:58:50" itemprop="dateModified" datetime="2019-03-06T17:58:50+08:00">2019-03-06</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article"></span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time"></span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#配对交易策略 - 初1</p>
+<p>又名搬砖策略：<br><a href="https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c" target="_blank" rel="noopener">https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c</a>  </p>
+<p>几个基本的问题：</p>
+<ol>
+<li>如何找到股票相关性高的股票？</li>
+<li>怎么确定股票比较之间的长期稳定关系</li>
+<li>怎么依据长期稳定关系来建立策略</li>
+</ol>
+<h2 id="另外一个pariTrading的介绍"><a href="#另外一个pariTrading的介绍" class="headerlink" title="另外一个pariTrading的介绍"></a>另外一个pariTrading的介绍</h2><p><a href="https://medium.com/auquan/pairs-trading-data-science-7dbedafcfe5a" target="_blank" rel="noopener">https://medium.com/auquan/pairs-trading-data-science-7dbedafcfe5a</a><br>多重比较偏差：会有增加的错误生成一个明显的p-value的可能性当有太多的测试在运行的时候。 如果100个测试运行在随机数据上，我们应该期望看到5个p-value低于0.05.如果你比较n个证券，你将会执行n((n-1)/2次比较，你将会希望看到很多不正确的p-valus,他们将会随着你增加比较次数而增加。为了避免这个问题，你应该选择小数量的对来测试可能协整并且测试单独测试每一个。<br><b>？？？ 为啥测的多了可能会产生过多的错误的结果？还是不太懂。然后比较小的数量，这个数量应该怎么确定了？</b><br>接下来文章中介绍的是使用标普500的股票数据来产生交易对。文章提到：<br><b>This method is prone to multiple comparison bias and in practice the securities should be subject to a second verification step.</b><br>这里面的二次验证是指？  </p>
+<p>Z Score(Value) = (Value - Mean)/Standard Deviation<br>在实际操作中，常常试图对数据做一定的扩展，但是这是在假设了一个底部的分布时候。 通常是正太分布。然而，很多金融数据并不是正太分布的，我们必须很小心，而不是简单的假设为正太分布或者特定的分布，当生成统计时。真正的比率分布可能会十分的肥尾，倾向于极端的价值弄乱了我们的模型，并且产生很大的损失。  </p>
+<p><b>fat-tailed distribution</b><br>    <a href="https://en.wikipedia.org/wiki/Fat-tailed_distribution" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Fat-tailed_distribution</a></p>
+<pre><code>A fat-tailed distribution is a probability distribution that exhibits a large skewness or kurtosis, relative to that of either a normal distribution or an exponential distribution.  
+长尾分布是一个概率分布展示了很大的偏差或者峰度相对于一个正太分布或者一个预期内的分布而说。  
+</code></pre><p>产生一个交易信号有以下的几个步骤：  </p>
+<ol>
+<li>收集可靠的数据，清理数据</li>
+<li>从数据中创造特征来识别一个交易信号或者逻辑</li>
+<li>特征可以是Moving Average 或者价格数据的比例，相关性或者更多复杂的信号 — 将它们联合起来创造更多的特征。  </li>
+<li>通过这些特征来生成信号，比如交易品应该买，买或者中性。  </li>
+</ol>
+<p>在这篇文章中，产生一个配对交易策略的步骤可以如下：</p>
+<ol>
+<li>我们试图创造一个信号来告诉我们是否这个比例应买或者卖 在下一个时间里。比如这个ratio是Y<br> Y(t) = Sign(Ratio(t+1) - Ratio(t))</li>
+<li>获取数据，此处广告省略了。</li>
+<li>分割数据，70%用于训练，30%用于测试。</li>
+<li>特征构建<br> 相关特征应该是哪些？我们想要预测ratio的移动方向。我们已经看到两个证券是协整的，所以这个ratio将会在mean值之间上下运动。当前值和mean的差将会用于生成交易信号。<br> 我们使用以下的特征：  <ol>
+<li>60天移动平均线：滚动平均值的测量</li>
+<li>5天移动平均线： 测量的当前均值</li>
+<li>60天的标准偏差</li>
+<li>z score： (5d MA — 60d MA) /60d SD</li>
+</ol>
+</li>
+<li><p>模型的选择<br> 研究z-score的图表可以看出来，无论这个值太大或者太小它都将会回复到均值的水平。我们使用+1/-1作为阀值来代表过高或者太低，然后我们可以采用以下模型来生成一个交易信号：<br> Ratio 是buy(1)当z-score低于-1.0时，因为我们期望z score将会回到0，也就是增加.<br> Ratio 是sell(-1)当z-score高于1.0时，因为我们期望z score将会回到0，也就是降低.</p>
+</li>
+<li><p>训练，校验和优化</p>
+</li>
+</ol>
+<h3 id="避免过度拟合"><a href="#避免过度拟合" class="headerlink" title="避免过度拟合"></a>避免过度拟合</h3><p>在上述模型中，使用了rolling参数来创建而且也许希望来优化窗口大小。我们也许可以使用一个简单的迭代来计算全部的可能的窗口大小，然后使用最好的表现的窗口大小。但是就是会有过度拟合的问题。为了解决这个问题，这个文章里提到的是使用经济学的解释或者使用算法的特性来选择窗口长度。当然还有一个方法： Kalman filter，这个据说不需要制定一个特定的长度，我准备接下来看下这个。  </p>
+<h3 id="更多信息"><a href="#更多信息" class="headerlink" title="更多信息"></a>更多信息</h3><p>上述只是一个简单的开发pairtrading策略的过程，在现实中，我们应该使用更复杂的统计学方式，比如：</p>
+<pre><code>1. Hurst Exponent
+2. Half-life of mean reversion inferred from an Ornstein-Uhlenbeck process
+3. Kalman filters
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2018/10/17/Algo/Somethings About Pyalgotrade/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2455,204 +2679,11 @@ Calculated as the difference between the number of upwards revisions minus the n
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2018/04/02/SparkAndDeepLearning/LSTM/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Pan"/>
-      <meta itemprop="description" content="computer, finance, some recording"/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Eden"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/04/02/SparkAndDeepLearning/LSTM/" class="post-title-link" itemprop="url">LSTM Walk Through 翻译</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-04-02 14:05:05" itemprop="dateCreated datePublished" datetime="2018-04-02T14:05:05+08:00">2018-04-02</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-03-06 18:02:46" itemprop="dateModified" datetime="2019-03-06T18:02:46+08:00">2019-03-06</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-symbolscount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Symbols count in article: </span>
-                
-                <span title="Symbols count in article"></span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time"></span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="LSTM-Walk-Through"><a href="#LSTM-Walk-Through" class="headerlink" title="LSTM Walk Through"></a>LSTM Walk Through</h1><p>reference: <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank" rel="noopener">http://colah.github.io/posts/2015-08-Understanding-LSTMs/</a></p>
-<p>在下面这个LSTM模型中，需要决定的第一点就是我们将要丢掉什么从cell 状态中。<br>这个决定是被一个称为：“forget gate layer” 的sigmoid 层来决定的。它将 \( h_{t-1}\) 和 \(x_t\)作为输入，并且输出一个介于0到1之间的值在cell state \(C_{t-1}\). 1代表完全的保存而0代表完全丢掉。<br>接下来我们看回之前的语言模型，试图根据前一个值来预测下一个值。在这个问题中，这个Cell state可能包括包括当前客体的性别，所以正确的代词才会被使用。当我们看到一个新的客体时，我们想要忘掉老的客体。<br><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-focus-f.png" alt="LSTM3-focus-f"></p>
-<p>下一步是决定哪些新的信息我们想要存储到cell state中。这里有两个部分：  </p>
-<pre><code>1. 一个sigmoid层，称为“input gate layer”，决定哪些值，我们将会更新。
-2. 一个tanh层，创造一个新的候选值的向量，\\( C_t^~ \\),将会用来加入到状态中。在下一步，我们将会组合这两个然后来在状态里创造一个升级。
-</code></pre><p>在我们的语言模型中，我们想要增加新客体的性别到cell state中，来替换我们忘掉的老的。</p>
-<p><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-focus-i.png" alt="LSTM3-focus-i"><br>现在是时候升级老的cell state，\(C_{t-1} \)到新的cell state \( C_t\).前一个步骤已经实际决定了怎么做，我们只需要真正实施就好。<br>我们对老的state乘 \( f_t\),来忘记我们之前决定忘记的。然后我们加上 \( i_t * C_t^{~} \). 这是新的候选值，通过我们决定升级多少的状态来扩展。<br>在这个语言模型中，这是我们实际丢掉老客体的性别和添加它们新的信息的地方。<br><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-focus-C.png" alt="LSTM3-focus-C"></p>
-<p>最终我们需要决定我们想要输出什么。这个输出将会基于我们的cell state，但是将会是一个filtered 版本。首先我们运行一个sigmoid 层级，来决定cell state哪一部分我们将会输出，然后我们将这个cell state进行tanh处理（将这个值输出为-1 到 1 之间）然后和sigmoid gate的输出相乘，这样我们只输出我们想要的部分。  </p>
-<p>对于语言模型例子，由于它只是看到一个客体，也许想要输出信息和动词相关。比如它可能输出是否这个客体是单数或者复数，这样我们知道接下来应该使用什么形式的动词。<br><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/LSTM3-focus-o.png" alt="LSTM3-focus-o"></p>
-<h2 id="Variances-in-Code"><a href="#Variances-in-Code" class="headerlink" title="Variances in Code"></a>Variances in Code</h2><p><b>batch_size:</b>denotes the subset size of your training sample (e.g. 100 out of 1000) which is going to be used in order to train the network during its learning process. Each batch trains network in a successive order, taking into account the updated weights coming from the appliance of the previous batch. </p>
-<p>在学习过程中将会用来训练你的模型的数量。每一个batch训练network在一个连续的顺序，会不断的更新权重。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -2694,7 +2725,7 @@ Calculated as the difference between the number of upwards revisions minus the n
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-count">21</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>

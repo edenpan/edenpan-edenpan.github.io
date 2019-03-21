@@ -301,6 +301,193 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2019/03/21/WhyBuildReact/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pan"/>
+      <meta itemprop="description" content="computer, finance, some recording"/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eden"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/21/WhyBuildReact/" class="post-title-link" itemprop="url">WhyBuildReact</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-03-21 15:06:50" itemprop="dateCreated datePublished" datetime="2019-03-21T15:06:50+08:00">2019-03-21</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article"></span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time"></span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>From <a href="https://react-cn.github.io/react/blog/2013/06/05/why-react.html" target="_blank" rel="noopener">https://react-cn.github.io/react/blog/2013/06/05/why-react.html</a></p>
+<h2 id="React-不是一个MVC框架"><a href="#React-不是一个MVC框架" class="headerlink" title="React 不是一个MVC框架"></a>React 不是一个MVC框架</h2><p>React是一个用来构建用户界面的库。它鼓励创造可复用的UI组件来随着时间的改变来展示数据。</p>
+<h2 id="React并不使用模板"><a href="#React并不使用模板" class="headerlink" title="React并不使用模板"></a>React并不使用模板</h2><p>通常我们是直接通过模版或者HTML来直接构造web应用。这些模版决定了你可以用来构建你的UI的完整抽象集合。<br>React使用了完全不同的方式，通过将用户界面分为组件然后来构建它们。这意味着React使用一个真实的完全的编程语言来渲染界面，这在我们看来是一个相对于模版的优势，原因如下：</p>
+<ol>
+<li>JavaScript是一个灵活，有用的编程语言，可以用来构建抽象。对于大型的软件来说，这个很重要。</li>
+<li>通过统一标记和视图逻辑，React通常可以让视图更加容易维护和扩展。</li>
+<li>通过将对标记和内容的理解融入JavaScript中，这里没有手工的字符串连接，并且更少有XSS漏洞。</li>
+</ol>
+<p>同样我们也会创造JSX，一个可选择的语法扩展，如果你更偏向于HTML的可读性。  </p>
+<h2 id="Reactive-升级很简单"><a href="#Reactive-升级很简单" class="headerlink" title="Reactive 升级很简单"></a>Reactive 升级很简单</h2><p>当你的数据会随着时间变化的时候，React真的很好用。<br>在一个传统的JavaScript应用中，你需要知道数据哪里变化了并且即时将改变同步到DOM中。即使是Augular Js，通过命令(directive)和数据绑定提供了一个声明式的接口也需要一个连接函数来人工的更新DOM节点。  </p>
+<p>React使用另外一种方式。  </p>
+<p>当你的组件被初始化的时候，render方法将会被调用，生成一个你的视图的轻量级的表示。从那个表示开始，一个字符串的标记会被产生，并且注入到document中。当你的数据改变的时候，这个render方法将会再次调用。为了快速的更新，我们将render返回的新旧值进行比较，并且生成一个最小改变集合来应用到DOM中。  </p>
+<p><strong>render返回的数据既不是一个字符串也不是一个DOM节点，它是一个轻量级的描述DOM应该看起来像什么的描述符</strong></p>
+<p>我们将这个过程称为<strong>协调reconciliation</strong>。  </p>
+<h2 id="HTML只是开始"><a href="#HTML只是开始" class="headerlink" title="HTML只是开始"></a>HTML只是开始</h2><p>由于React有自己对文档轻量级的表示，我们可以做很多事情：</p>
+<ol>
+<li>Facebook有动态的图表来渲染，而不是HTML。</li>
+<li>Instagram是一个单页面的网站应用全部通过React和Backbone.Router来构建。设计师通过JSX来使用React。</li>
+<li>我们通过构建内部原型来运行React应用并且使用React来操作原生的iOS视图通过一个Object-c的bridge。</li>
+<li>你可以在服务器上进行代码开发，分享。</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2019/03/11/java/build-openJDK8/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2239,235 +2426,11 @@ REST：预约已经成功，这是详细的预约内容。
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2018/11/07/Algo/配对交易策略RQ/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Pan"/>
-      <meta itemprop="description" content="computer, finance, some recording"/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Eden"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/11/07/Algo/配对交易策略RQ/" class="post-title-link" itemprop="url">配对交易策略</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-11-07 16:21:17" itemprop="dateCreated datePublished" datetime="2018-11-07T16:21:17+08:00">2018-11-07</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-03-06 17:58:50" itemprop="dateModified" datetime="2019-03-06T17:58:50+08:00">2019-03-06</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-symbolscount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Symbols count in article: </span>
-                
-                <span title="Symbols count in article"></span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time"></span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>#配对交易策略 - 初1</p>
-<p>又名搬砖策略：<br><a href="https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c" target="_blank" rel="noopener">https://uqer.io/v3/community/share/57b6a1b4228e5b79a375925c</a>  </p>
-<p>几个基本的问题：</p>
-<ol>
-<li>如何找到股票相关性高的股票？</li>
-<li>怎么确定股票比较之间的长期稳定关系</li>
-<li>怎么依据长期稳定关系来建立策略</li>
-</ol>
-<h2 id="另外一个pariTrading的介绍"><a href="#另外一个pariTrading的介绍" class="headerlink" title="另外一个pariTrading的介绍"></a>另外一个pariTrading的介绍</h2><p><a href="https://medium.com/auquan/pairs-trading-data-science-7dbedafcfe5a" target="_blank" rel="noopener">https://medium.com/auquan/pairs-trading-data-science-7dbedafcfe5a</a><br>多重比较偏差：会有增加的错误生成一个明显的p-value的可能性当有太多的测试在运行的时候。 如果100个测试运行在随机数据上，我们应该期望看到5个p-value低于0.05.如果你比较n个证券，你将会执行n((n-1)/2次比较，你将会希望看到很多不正确的p-valus,他们将会随着你增加比较次数而增加。为了避免这个问题，你应该选择小数量的对来测试可能协整并且测试单独测试每一个。<br><b>？？？ 为啥测的多了可能会产生过多的错误的结果？还是不太懂。然后比较小的数量，这个数量应该怎么确定了？</b><br>接下来文章中介绍的是使用标普500的股票数据来产生交易对。文章提到：<br><b>This method is prone to multiple comparison bias and in practice the securities should be subject to a second verification step.</b><br>这里面的二次验证是指？  </p>
-<p>Z Score(Value) = (Value - Mean)/Standard Deviation<br>在实际操作中，常常试图对数据做一定的扩展，但是这是在假设了一个底部的分布时候。 通常是正太分布。然而，很多金融数据并不是正太分布的，我们必须很小心，而不是简单的假设为正太分布或者特定的分布，当生成统计时。真正的比率分布可能会十分的肥尾，倾向于极端的价值弄乱了我们的模型，并且产生很大的损失。  </p>
-<p><b>fat-tailed distribution</b><br>    <a href="https://en.wikipedia.org/wiki/Fat-tailed_distribution" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Fat-tailed_distribution</a></p>
-<pre><code>A fat-tailed distribution is a probability distribution that exhibits a large skewness or kurtosis, relative to that of either a normal distribution or an exponential distribution.  
-长尾分布是一个概率分布展示了很大的偏差或者峰度相对于一个正太分布或者一个预期内的分布而说。  
-</code></pre><p>产生一个交易信号有以下的几个步骤：  </p>
-<ol>
-<li>收集可靠的数据，清理数据</li>
-<li>从数据中创造特征来识别一个交易信号或者逻辑</li>
-<li>特征可以是Moving Average 或者价格数据的比例，相关性或者更多复杂的信号 — 将它们联合起来创造更多的特征。  </li>
-<li>通过这些特征来生成信号，比如交易品应该买，买或者中性。  </li>
-</ol>
-<p>在这篇文章中，产生一个配对交易策略的步骤可以如下：</p>
-<ol>
-<li>我们试图创造一个信号来告诉我们是否这个比例应买或者卖 在下一个时间里。比如这个ratio是Y<br> Y(t) = Sign(Ratio(t+1) - Ratio(t))</li>
-<li>获取数据，此处广告省略了。</li>
-<li>分割数据，70%用于训练，30%用于测试。</li>
-<li>特征构建<br> 相关特征应该是哪些？我们想要预测ratio的移动方向。我们已经看到两个证券是协整的，所以这个ratio将会在mean值之间上下运动。当前值和mean的差将会用于生成交易信号。<br> 我们使用以下的特征：  <ol>
-<li>60天移动平均线：滚动平均值的测量</li>
-<li>5天移动平均线： 测量的当前均值</li>
-<li>60天的标准偏差</li>
-<li>z score： (5d MA — 60d MA) /60d SD</li>
-</ol>
-</li>
-<li><p>模型的选择<br> 研究z-score的图表可以看出来，无论这个值太大或者太小它都将会回复到均值的水平。我们使用+1/-1作为阀值来代表过高或者太低，然后我们可以采用以下模型来生成一个交易信号：<br> Ratio 是buy(1)当z-score低于-1.0时，因为我们期望z score将会回到0，也就是增加.<br> Ratio 是sell(-1)当z-score高于1.0时，因为我们期望z score将会回到0，也就是降低.</p>
-</li>
-<li><p>训练，校验和优化</p>
-</li>
-</ol>
-<h3 id="避免过度拟合"><a href="#避免过度拟合" class="headerlink" title="避免过度拟合"></a>避免过度拟合</h3><p>在上述模型中，使用了rolling参数来创建而且也许希望来优化窗口大小。我们也许可以使用一个简单的迭代来计算全部的可能的窗口大小，然后使用最好的表现的窗口大小。但是就是会有过度拟合的问题。为了解决这个问题，这个文章里提到的是使用经济学的解释或者使用算法的特性来选择窗口长度。当然还有一个方法： Kalman filter，这个据说不需要制定一个特定的长度，我准备接下来看下这个。  </p>
-<h3 id="更多信息"><a href="#更多信息" class="headerlink" title="更多信息"></a>更多信息</h3><p>上述只是一个简单的开发pairtrading策略的过程，在现实中，我们应该使用更复杂的统计学方式，比如：</p>
-<pre><code>1. Hurst Exponent
-2. Half-life of mean reversion inferred from an Ornstein-Uhlenbeck process
-3. Kalman filters
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -2509,7 +2472,7 @@ REST：预约已经成功，这是详细的预约内容。
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-count">21</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
