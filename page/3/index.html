@@ -301,6 +301,208 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2018/04/02/SparkAndDeepLearning/sparkLearningNote/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pan"/>
+      <meta itemprop="description" content="computer, finance, some recording"/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eden"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/04/02/SparkAndDeepLearning/sparkLearningNote/" class="post-title-link" itemprop="url">Sparks 的一些名词</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-04-02 21:57:35" itemprop="dateCreated datePublished" datetime="2018-04-02T21:57:35+08:00">2018-04-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-06 18:04:58" itemprop="dateModified" datetime="2019-03-06T18:04:58+08:00">2019-03-06</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article"></span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time"></span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Some-terms-with-Spark"><a href="#Some-terms-with-Spark" class="headerlink" title="Some terms with Spark"></a>Some terms with Spark</h1><p><a href="https://spark.apache.org/docs/latest/cluster-overview.html" target="_blank" rel="noopener">https://spark.apache.org/docs/latest/cluster-overview.html</a></p>
+<h3 id="excutor"><a href="#excutor" class="headerlink" title="excutor"></a>excutor</h3><p>A process launched for an application on a worker node, that runs tasks and keeps data in memory or disk storage across them. Each application has its own executors.<br>在一个工作节点运行的一个进程，用来运行任务，保存数据在内存或者硬盘中。每一个应用有自己的executors。</p>
+<h3 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h3><p>User program built on Spark. Consists of a driver program and executors on the cluster.<br>在Spark上的用户程序。有一个驱动程序和executor在集群中组成。  </p>
+<h3 id="Application-jar"><a href="#Application-jar" class="headerlink" title="Application jar"></a>Application jar</h3><p>A jar containing the user’s Spark application. In some cases users will want to create an “uber jar” containing their application along with its dependencies. The user’s jar should never include Hadoop or Spark libraries, however, these will be added at runtime.  </p>
+<p><b>一个包含了用户spark应用的程序。在有的地方用户将会创造一个“混合jar”将她们的应用和依赖一起包含。这个用户的jar不应该包含hadoop或者spark的包，它们将会在运行时被添加。 ？？？ 这段没看懂</b></p>
+<h3 id="Driver-program"><a href="#Driver-program" class="headerlink" title="Driver program"></a>Driver program</h3><p>The process running the main() function of the application and creating the SparkContext<br>创造应用的main()函数并且创造SparkContext</p>
+<h3 id="Cluster-manager"><a href="#Cluster-manager" class="headerlink" title="Cluster manager"></a>Cluster manager</h3><p>An external service for acquiring resources on the cluster (e.g. standalone manager, Mesos, YARN)<br>一个外部的服务用于获取集群的资源。（比如standalone manager，Mesos， YARN）</p>
+<h3 id="Deploy-mode"><a href="#Deploy-mode" class="headerlink" title="Deploy mode"></a>Deploy mode</h3><p>Distinguishes where the driver process runs. In “cluster” mode, the framework launches the driver inside of the cluster. In “client” mode, the submitter launches the driver outside of the cluster.<br>区分驱动进程在哪运行。在“cluster”模式下，这个框架启动驱动在集群内部。在“client”模式下，submitter在集群外启动进程。  </p>
+<h3 id="Worker-node"><a href="#Worker-node" class="headerlink" title="Worker node"></a>Worker node</h3><p>Any node that can run application code in the cluster<br>在集群中任意节点可以运行应用代码。</p>
+<h3 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h3><p>A unit of work that will be sent to one executor<br>一组会被发送到一个executor的工作。</p>
+<h3 id="Job"><a href="#Job" class="headerlink" title="Job"></a>Job</h3><p>A parallel computation consisting of multiple tasks that gets spawned in response to a Spark action (e.g. save, collect); you’ll see this term used in the driver’s logs.<br>一个包含了多个任务的并行计算用来响应一个Spark action。</p>
+<h3 id="Stage"><a href="#Stage" class="headerlink" title="Stage"></a>Stage</h3><p>Each job gets divided into smaller sets of tasks called stages that depend on each other (similar to the map and reduce stages in MapReduce); you’ll see this term used in the driver’s logs.<br>每一个工作被分为很小的任务集被称为stages；你可以在driver的日志中看到它们。</p>
+<h2 id="组成部分"><a href="#组成部分" class="headerlink" title="组成部分"></a>组成部分</h2><p>Spark application是作为一个独立的进程集合在集群上运行，通过你的主程序（称为driver program）中的SparkContext来协调工作。<br>特别的，在集群上运行，SparkContext可以链接不同的集群管理（either Spark’s own standalone cluster manager, Mesos or YARN），用来在应用中分配资源。一旦连接，Spark获取集群中节点上的executors，是你应用中的进程用于计算和存储数据。下一步它会发送你的应用程序（通过JAR或者Python文件定义的传递给SparkContext）到executors。最终，SparkContext发送任务到exexutor来运行。<br>在这个架构中有以下一些事情需要注意：  </p>
+<ol>
+<li>每一个应用获取它自己的executor进程，那些进程会在整个应用中启动，并且运行任务在多个线程里。<br> 这有利于对每一个应用进行隔离，在调度方面（每一个驱动调度自己的任务）和执行方面（不同的应用在不同的JVM中运行）。这也意味着数据不能在不同的Spart 应用中共享（SparkContext的实例）除非将它们写到一个另外的存储系统中。</li>
+<li>Spark对于底层的集群管理是不可知的。只要它可以获取到处理器的进程，以及它们之间的通讯，它可以很容易的在支持其他的应用的集群管理器上运行。  </li>
+<li>Driver程序在它的生命周期必须监听并且从它的executor中接受会来的连接。所以driven程序必须网络可达对于worker节点。  </li>
+<li>由于driver 在集群中调度task，它应该在接近worker节点的地方运行，偏向于在同一个网络。如果你想要远程发送请求，那么最好对driver打开RPC并且从附近提交操作而不是运行一个很遥远的driver。  </li>
+</ol>
+<p><b>When running Spark on YARN, each Spark executor runs as a YARN container.<br>Where MapReduce schedules a container and starts a JVM for each task, Spark hosts multiple tasks within the same container.</b><br>所以executor就是对应的container，然后原来MapReduce是一个Container运行一个任务，Spark可以在一个Container中运行多任务。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2018/04/02/SparkAndDeepLearning/LSTM/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -525,7 +727,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-count">22</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -564,7 +766,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">12</span>
+                      
+                    
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">tags</span>
                   
                 </div>

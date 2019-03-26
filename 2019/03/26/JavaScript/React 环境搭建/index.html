@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="React 环境搭建在cmd中查看自己的nodejs版本以及npm的版本： 12node -vnpm -v 创建全局的react，在cmd中输入以下命令行： npm install -g create-react-app 之后就是进入想要创建工程的目录，创建工程名： create-react-app basicProject 这样就会构建一个基本工程。 项目文件结构解析ref：React 项目文件">
+<meta name="keywords" content="React, webpack, babel, redux, ajax">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React学习笔记">
+<meta property="og:url" content="http://blog.sevenpan.com/2019/03/26/JavaScript/React 环境搭建/index.html">
+<meta property="og:site_name" content="Eden">
+<meta property="og:description" content="React 环境搭建在cmd中查看自己的nodejs版本以及npm的版本： 12node -vnpm -v 创建全局的react，在cmd中输入以下命令行： npm install -g create-react-app 之后就是进入想要创建工程的目录，创建工程名： create-react-app basicProject 这样就会构建一个基本工程。 项目文件结构解析ref：React 项目文件">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://blog.sevenpan.com/2019/03/26/JavaScript/React%20环境搭建/nodejsProjectStruct.png">
+<meta property="og:image" content="http://blog.sevenpan.com/2019/03/26/JavaScript/React%20环境搭建/init1.png">
+<meta property="og:image" content="http://blog.sevenpan.com/2019/03/26/JavaScript/React%20环境搭建/init2.png">
+<meta property="og:image" content="http://blog.sevenpan.com/2019/03/26/JavaScript/React%20环境搭建/init3.png">
+<meta property="og:image" content="http://blog.sevenpan.com/2019/03/26/JavaScript/React%20环境搭建/init4.png">
+<meta property="og:image" content="http://blog.sevenpan.com/2019/03/26/JavaScript/React%20环境搭建/init5.png">
+<meta property="og:updated_time" content="2019-03-26T15:40:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React学习笔记">
+<meta name="twitter:description" content="React 环境搭建在cmd中查看自己的nodejs版本以及npm的版本： 12node -vnpm -v 创建全局的react，在cmd中输入以下命令行： npm install -g create-react-app 之后就是进入想要创建工程的目录，创建工程名： create-react-app basicProject 这样就会构建一个基本工程。 项目文件结构解析ref：React 项目文件">
+<meta name="twitter:image" content="http://blog.sevenpan.com/2019/03/26/JavaScript/React%20环境搭建/nodejsProjectStruct.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://blog.sevenpan.com/2019/03/26/JavaScript/React 环境搭建/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>React学习笔记 | Eden</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=[object Object]"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-135755004-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Eden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2019/03/26/JavaScript/React 环境搭建/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pan"/>
+      <meta itemprop="description" content="computer, finance, some recording"/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eden"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">React学习笔记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-03-26 00:00:00 / Modified: 23:40:35" itemprop="dateCreated datePublished" datetime="2019-03-26T00:00:00+08:00">2019-03-26</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article"></span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time"></span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="React-环境搭建"><a href="#React-环境搭建" class="headerlink" title="React 环境搭建"></a>React 环境搭建</h2><p>在cmd中查看自己的nodejs版本以及npm的版本：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+<p>创建全局的react，在cmd中输入以下命令行：</p>
+<pre><code>npm install -g create-react-app
+</code></pre><p>之后就是进入想要创建工程的目录，创建工程名：</p>
+<pre><code>create-react-app basicProject
+</code></pre><p>这样就会构建一个基本工程。</p>
+<h3 id="项目文件结构解析"><a href="#项目文件结构解析" class="headerlink" title="项目文件结构解析"></a>项目文件结构解析</h3><p>ref：<a href="https://my.oschina.net/korabear/blog/1815170" target="_blank" rel="noopener">React 项目文件结构解析</a>  </p>
+<p>项目结构如下：<br><img src="nodejsProjectStruct.png" alt="nodejsProjectStruct.png"> </p>
+<h3 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h3><p>管理下载的依赖包，然后可以允许的npm的命令也在这里。比如，<code>npm start</code>/<code>npm build</code>          </p>
+<h3 id="public-文件夹"><a href="#public-文件夹" class="headerlink" title="public 文件夹"></a>public 文件夹</h3><h4 id="favicon-ico"><a href="#favicon-ico" class="headerlink" title="favicon.ico"></a>favicon.ico</h4><p>浏览器tab上的图标，这个项目的标志logo。可替换</p>
+<h3 id="index-html"><a href="#index-html" class="headerlink" title="index.html"></a>index.html</h3><p><code>&lt;div id=&quot;root&quot;&gt;&lt;/div&gt;</code>是项目的总容器，所有的内容存储在这个容器中。这个容器有且只能有一个。</p>
+<h3 id="src文件夹"><a href="#src文件夹" class="headerlink" title="src文件夹"></a>src文件夹</h3><h4 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h4><p>初始化出来的项目中，该文件为空。</p>
+<h4 id="App-js"><a href="#App-js" class="headerlink" title="App.js"></a>App.js</h4><p>初始化后文件内容如下:  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> logo <span class="keyword">from</span> <span class="string">'./logo.svg'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'./App.css'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div className=<span class="string">"App"</span>&gt;</span><br><span class="line">        &lt;header className=<span class="string">"App-header"</span>&gt;</span><br><span class="line">          &lt;img src=&#123;logo&#125; className=<span class="string">"App-logo"</span> alt=<span class="string">"logo"</span> /&gt;</span><br><span class="line">          &lt;p&gt;</span><br><span class="line">            Edit &lt;code&gt;src/App.js&lt;<span class="regexp">/code&gt; and save to reload.</span></span><br><span class="line"><span class="regexp">          &lt;/</span>p&gt;</span><br><span class="line">          &lt;a</span><br><span class="line">            className=<span class="string">"App-link"</span></span><br><span class="line">            href=<span class="string">"https://reactjs.org"</span></span><br><span class="line">            target=<span class="string">"_blank"</span></span><br><span class="line">            rel=<span class="string">"noopener noreferrer"</span></span><br><span class="line">          &gt;</span><br><span class="line">            Learn React</span><br><span class="line">          &lt;<span class="regexp">/a&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>header&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default App;</span></span><br></pre></td></tr></table></figure>
+<p>App.js 继承了component，需要使用render进行渲染。return的内容为类似html结构的内容，也就是jsx。在这个文件中，只可以用一个div容器，如果在div同级目录中添加别的内容，便会报错。   </p>
+<p>className=”App”，是引用App.css的样式。内容样式是就近原则，首先用App.css样式，index.css是全局的样式。  </p>
+<h2 id="从空白的工程开始构建"><a href="#从空白的工程开始构建" class="headerlink" title="从空白的工程开始构建"></a>从空白的工程开始构建</h2><p>上面用了create-react-app命令构建出来的项目，直接开始可以看到一个react的hello界面，但是我自己从零开始，还想希望可以一点点弄清楚里面的文件都是干啥的。所以又参考了另外一个连接，对这个工程进行调整。<br>ref：<a href="https://reactjs.org/tutorial/tutorial.html" target="_blank" rel="noopener">Tutorial: Intro to React</a>  </p>
+<p>将工程中的src目录清空，并且添加文件如下：<br>index.css</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line">	<span class="selector-tag">body</span> &#123;</span><br><span class="line">	  <span class="attribute">font</span>: <span class="number">14px</span> <span class="string">"Century Gothic"</span>, Futura, sans-serif;</span><br><span class="line">	  <span class="attribute">margin</span>: <span class="number">20px</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="selector-tag">ol</span>, <span class="selector-tag">ul</span> &#123;</span><br><span class="line">	  <span class="attribute">padding-left</span>: <span class="number">30px</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="selector-class">.board-row</span><span class="selector-pseudo">:after</span> &#123;</span><br><span class="line">	  <span class="attribute">clear</span>: both;</span><br><span class="line">	  <span class="attribute">content</span>: <span class="string">""</span>;</span><br><span class="line">	  <span class="attribute">display</span>: table;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="selector-class">.status</span> &#123;</span><br><span class="line">	  <span class="attribute">margin-bottom</span>: <span class="number">10px</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="selector-class">.square</span> &#123;</span><br><span class="line">	  <span class="attribute">background</span>: <span class="number">#fff</span>;</span><br><span class="line">	  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#999</span>;</span><br><span class="line">	  <span class="attribute">float</span>: left;</span><br><span class="line">	  <span class="attribute">font-size</span>: <span class="number">24px</span>;</span><br><span class="line">	  <span class="attribute">font-weight</span>: bold;</span><br><span class="line">	  <span class="attribute">line-height</span>: <span class="number">34px</span>;</span><br><span class="line">	  <span class="attribute">height</span>: <span class="number">34px</span>;</span><br><span class="line">	  <span class="attribute">margin-right</span>: -<span class="number">1px</span>;</span><br><span class="line">	  <span class="attribute">margin-top</span>: -<span class="number">1px</span>;</span><br><span class="line">	  <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">	  <span class="attribute">text-align</span>: center;</span><br><span class="line">	  <span class="attribute">width</span>: <span class="number">34px</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="selector-class">.square</span><span class="selector-pseudo">:focus</span> &#123;</span><br><span class="line">	  <span class="attribute">outline</span>: none;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="selector-class">.kbd-navigation</span> <span class="selector-class">.square</span><span class="selector-pseudo">:focus</span> &#123;</span><br><span class="line">	  <span class="attribute">background</span>: <span class="number">#ddd</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="selector-class">.game</span> &#123;</span><br><span class="line">	  <span class="attribute">display</span>: flex;</span><br><span class="line">	  <span class="attribute">flex-direction</span>: row;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="selector-class">.game-info</span> &#123;</span><br><span class="line">	  <span class="attribute">margin-left</span>: <span class="number">20px</span>;</span><br><span class="line">	&#125;</span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">index</span><span class="selector-class">.js</span></span><br><span class="line"></span><br><span class="line">```<span class="selector-tag">js</span></span><br><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">Square</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.Component</span> &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="selector-tag">return</span> (</span><br><span class="line">      &lt;button className="square"&gt;</span><br><span class="line">        &#123;<span class="comment">/* TODO */</span>&#125;</span><br><span class="line">      &lt;/button&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">Board</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.Component</span> &#123;</span><br><span class="line">  renderSquare(i) &#123;</span><br><span class="line">    return &lt;Square /&gt;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-tag">render</span>() &#123;</span><br><span class="line">    const status = 'Next player: X';</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">return</span> (</span><br><span class="line">      &lt;<span class="selector-tag">div</span>&gt;</span><br><span class="line">        &lt;div className="status"&gt;&#123;status&#125;&lt;/div&gt;</span><br><span class="line">        &lt;div className="board-row"&gt;</span><br><span class="line">          &#123;this.renderSquare(0)&#125;</span><br><span class="line">          &#123;this.renderSquare(1)&#125;</span><br><span class="line">          &#123;this.renderSquare(2)&#125;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div className="board-row"&gt;</span><br><span class="line">          &#123;this.renderSquare(3)&#125;</span><br><span class="line">          &#123;this.renderSquare(4)&#125;</span><br><span class="line">          &#123;this.renderSquare(5)&#125;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div className="board-row"&gt;</span><br><span class="line">          &#123;this.renderSquare(6)&#125;</span><br><span class="line">          &#123;this.renderSquare(7)&#125;</span><br><span class="line">          &#123;this.renderSquare(8)&#125;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">Game</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.Component</span> &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="selector-tag">return</span> (</span><br><span class="line">      &lt;div className="game"&gt;</span><br><span class="line">        &lt;div className="game-board"&gt;</span><br><span class="line">          &lt;Board /&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div className="game-info"&gt;</span><br><span class="line">          &lt;div&gt;&#123;/* status */&#125;&lt;/div&gt;</span><br><span class="line">          &lt;ol&gt;&#123;/* TODO */&#125;&lt;/ol&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// ========================================</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">ReactDOM</span><span class="selector-class">.render</span>(</span><br><span class="line">  &lt;Game /&gt;,</span><br><span class="line">  document.getElementById('root')</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>效果如下：  </p>
+<p><img src="init1.png" alt="init1.png"></p>
+<p>ok，这上面 就是一个tutorial的棋盘了，但是我的目标是<strong>一个输入框和提交后台的button</strong>。所以对它们进行裁剪和添加吧。<br>修改后的文件如下，index.js：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'./index.css'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Board</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">    render() &#123;</span><br><span class="line">      <span class="keyword">const</span> status = <span class="string">'Next player: X'</span>;</span><br><span class="line">  </span><br><span class="line">      <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">          &lt;div className=<span class="string">"status"</span>&gt;&#123;status&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">          &lt;div className="board-row"&gt;</span></span><br><span class="line"><span class="regexp">            &lt;p&gt;hello&lt;/</span>p&gt;</span><br><span class="line">            &lt;ol&gt;&#123;<span class="comment">/* TODO */</span>&#125;&lt;<span class="regexp">/ol&gt;</span></span><br><span class="line"><span class="regexp">          &lt;/</span>div&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">  </span></span><br><span class="line"><span class="regexp">  class App extends React.Component &#123;</span></span><br><span class="line"><span class="regexp">    render() &#123;</span></span><br><span class="line"><span class="regexp">      return (</span></span><br><span class="line"><span class="regexp">        &lt;div className="app"&gt;</span></span><br><span class="line"><span class="regexp">          &lt;div className="app-board"&gt;</span></span><br><span class="line"><span class="regexp">            &lt;Board /</span>&gt;</span><br><span class="line">          &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">          &lt;div className="app-info"&gt;</span></span><br><span class="line"><span class="regexp">            &lt;div&gt;&#123;/</span>* status *<span class="regexp">/&#125;&lt;/</span>div&gt;</span><br><span class="line">            &lt;ol&gt;&#123;<span class="comment">/* TODO */</span>&#125;&lt;<span class="regexp">/ol&gt;</span></span><br><span class="line"><span class="regexp">          &lt;/</span>div&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">  </span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ ========================================</span></span><br><span class="line"><span class="regexp">  </span></span><br><span class="line"><span class="regexp">  ReactDOM.render(</span></span><br><span class="line"><span class="regexp">    &lt;App /</span>&gt;,</span><br><span class="line">    <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>)</span><br><span class="line">  );</span><br></pre></td></tr></table></figure>
+<p>index.html文件</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">font</span>: <span class="number">14px</span> <span class="string">"Century Gothic"</span>, Futura, sans-serif;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">ol</span>, <span class="selector-tag">ul</span> &#123;</span><br><span class="line">  <span class="attribute">padding-left</span>: <span class="number">30px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.board-row</span><span class="selector-pseudo">:after</span> &#123;</span><br><span class="line">  <span class="attribute">clear</span>: both;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">""</span>;</span><br><span class="line">  <span class="attribute">display</span>: table;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.status</span> &#123;</span><br><span class="line">  <span class="attribute">margin-bottom</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="selector-class">.kbd-navigation</span> <span class="selector-class">.square</span><span class="selector-pseudo">:focus</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#ddd</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.app</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex-direction</span>: row;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.app-info</span> &#123;</span><br><span class="line">  <span class="attribute">margin-left</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>展示如下：</p>
+<p><img src="init2.png" alt="init2"></p>
+<p>对index.js中的Board进行修改可以获得如下button：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Board</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;<span class="attr">isToggleOn</span>: <span class="literal">true</span>&#125;;</span><br><span class="line">    </span><br><span class="line">        <span class="comment">// This binding is necessary to make `this` work in the callback</span></span><br><span class="line">        <span class="keyword">this</span>.handleClick = <span class="keyword">this</span>.handleClick.bind(<span class="keyword">this</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    </span><br><span class="line">    handleClick() &#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(<span class="function"><span class="params">prevState</span> =&gt;</span> (&#123;</span><br><span class="line">        isToggleOn: !prevState.isToggleOn</span><br><span class="line">    &#125;));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">      <span class="keyword">const</span> status = <span class="string">'Next player: X'</span>;</span><br><span class="line">    </span><br><span class="line">      <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">          &lt;div className=<span class="string">"status"</span>&gt;&#123;status&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">          &lt;div className="board-row"&gt;</span></span><br><span class="line"><span class="regexp">            &lt;p&gt;hello&lt;/</span>p&gt;</span><br><span class="line">            &lt;button onClick=&#123;<span class="keyword">this</span>.handleClick&#125;&gt;</span><br><span class="line">                &#123;<span class="keyword">this</span>.state.isToggleOn ? <span class="string">'ON'</span> : <span class="string">'OFF'</span>&#125;</span><br><span class="line">            &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">          &lt;/</span>div&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br></pre></td></tr></table></figure>
+<p><img src="init3.png" alt="init3.png"><br>接下来参考<a href="https://react.docschina.org/docs/forms.html" target="_blank" rel="noopener">https://react.docschina.org/docs/forms.html</a>  </p>
+<p>当然上面那个是button怎么调用对应的函数，如果只要最简单的input和button样式存在，那么index.js代码改成：  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Board</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            </span><br><span class="line">            &lt;div className=<span class="string">"board-row"</span>&gt;</span><br><span class="line">            </span><br><span class="line">            &lt;form&gt;</span><br><span class="line">                &lt;label&gt;</span><br><span class="line">                    IP:</span><br><span class="line">                    &lt;input type=<span class="string">"text"</span> name=<span class="string">"name"</span> /&gt;</span><br><span class="line">                &lt;<span class="regexp">/label&gt;</span></span><br><span class="line"><span class="regexp">                &lt;input type="submit" value="Submit" /</span>&gt;</span><br><span class="line">                &lt;<span class="regexp">/form&gt;</span></span><br><span class="line"><span class="regexp">            &lt;/</span>div&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>就可以获得：<br><img src="init4.png" alt="init4"></p>
+<p>在对Board进行修改后：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Board</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;<span class="attr">value</span>: <span class="string">''</span>&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.handleChange = <span class="keyword">this</span>.handleChange.bind(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">this</span>.handleSubmit = <span class="keyword">this</span>.handleSubmit.bind(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    handleChange(event)&#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;<span class="attr">value</span>: event.target.value&#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    handleSubmit(event)&#123;</span><br><span class="line">        alert(<span class="string">'A name was submitted: '</span> + <span class="keyword">this</span>.state.value);</span><br><span class="line">        event.preventDefault();</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            </span><br><span class="line">            &lt;div className=<span class="string">"board-row"</span>&gt;</span><br><span class="line">            </span><br><span class="line">            &lt;form onSubmit=&#123;<span class="keyword">this</span>.handleSubmit&#125;&gt;</span><br><span class="line">                &lt;label&gt;</span><br><span class="line">                    IP:</span><br><span class="line">                    &lt;input type=<span class="string">"text"</span> value=&#123;<span class="keyword">this</span>.state.value&#125; onChange=&#123;<span class="keyword">this</span>.handleChange&#125; /&gt;</span><br><span class="line">                &lt;<span class="regexp">/label&gt;</span></span><br><span class="line"><span class="regexp">                &lt;input type="submit" value="Submit" /</span>&gt;</span><br><span class="line">                &lt;<span class="regexp">/form&gt;</span></span><br><span class="line"><span class="regexp">            &lt;/</span>div&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>表现可以如下了：<br><img src="init5.png" alt="init5"></p>
+<p>some references:<br><a href="https://reactjs.org/docs/hello-world.html" target="_blank" rel="noopener">Hello World
+</a><br><a href="https://reactjs.org/docs/react-api.html?#createelement" target="_blank" rel="noopener">React Top-Level API</a><br><a href="https://reactjs.org/docs/react-without-jsx.html" target="_blank" rel="noopener">React Without JSX</a>  </p>
+<h3 id="Ajax请求后台的接口"><a href="#Ajax请求后台的接口" class="headerlink" title="Ajax请求后台的接口"></a>Ajax请求后台的接口</h3><p>ref:<a href="http://api.jquery.com/jquery.ajax/" target="_blank" rel="noopener">http://api.jquery.com/jquery.ajax/</a>  </p>
+<p>将index.js中Board.class 代码改成：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Board</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;<span class="attr">value</span>: <span class="string">''</span>&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.handleChange = <span class="keyword">this</span>.handleChange.bind(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">this</span>.handleSubmit = <span class="keyword">this</span>.handleSubmit.bind(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">this</span>.get = <span class="keyword">this</span>.get.bind(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    handleChange(event)&#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;<span class="attr">value</span>: event.target.value&#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    handleSubmit(event)&#123;</span><br><span class="line">        alert(<span class="string">'A name was submitted: '</span> + <span class="keyword">this</span>.state.value);</span><br><span class="line">        event.preventDefault();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    get(event)&#123;</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            type:<span class="string">'get'</span>,</span><br><span class="line">            url:<span class="string">'http://127.0.0.1:8080/ipTrans/'</span> + <span class="keyword">this</span>.state.value,</span><br><span class="line">            success:<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(res);</span><br><span class="line">            &#125;,</span><br><span class="line">            error:<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(res);</span><br><span class="line">            &#125;,</span><br><span class="line">            complete: <span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">"just prove"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).done(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            alert( <span class="string">"success"</span> );</span><br><span class="line">          &#125;)</span><br><span class="line">          .fail(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            alert( <span class="string">"error"</span> );</span><br><span class="line">          &#125;)</span><br><span class="line">          .always(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            alert( <span class="string">"complete"</span> );</span><br><span class="line">          &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            </span><br><span class="line">            &lt;div className=<span class="string">"board-row"</span>&gt;</span><br><span class="line">            </span><br><span class="line">            &lt;form onSubmit=&#123;<span class="keyword">this</span>.get&#125;&gt;</span><br><span class="line">                &lt;label&gt;</span><br><span class="line">                    IP:</span><br><span class="line">                    &lt;input type=<span class="string">"text"</span> value=&#123;<span class="keyword">this</span>.state.value&#125; onChange=&#123;<span class="keyword">this</span>.handleChange&#125; /&gt;</span><br><span class="line">                &lt;<span class="regexp">/label&gt;</span></span><br><span class="line"><span class="regexp">                &lt;input type="submit" value="Submit" /</span>&gt;</span><br><span class="line">            &lt;<span class="regexp">/form&gt;</span></span><br><span class="line"><span class="regexp">            &lt;/</span>div&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>并且对这个工程运行：<code>yarn build</code>，工程将会产生一个build文件，将该目录都移到另外一个我以及弄好的springboot项目中，将其直接放到src/main/resources/static中即可访问。  </p>
+<p><strong>碰到了一个报错，粗看以为比较麻烦的跨域问题，再一细看报错，其实是我访问地址为: http:localhost:8080,而点完请求以后，自动请求的是http:127.0.0.1:8080，就被浏览器判断为跨域了，所以，修改下请求地址就没有这个问题。</strong></p>
+<p>我修改了以后，发现可以把请求传到后端了，但是怎么将结果展示到input是另外一个问题；目前的修改代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'./index.css'</span>;</span><br><span class="line"><span class="keyword">import</span> $ <span class="keyword">from</span> <span class="string">'jquery'</span>;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Board</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;<span class="attr">value</span>: <span class="string">''</span>, <span class="attr">result</span>: <span class="string">''</span>&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.handleChange = <span class="keyword">this</span>.handleChange.bind(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">this</span>.get = <span class="keyword">this</span>.get.bind(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    handleChange(event)&#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;<span class="attr">value</span>: event.target.value&#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    get(event)&#123;</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            type:<span class="string">'get'</span>,</span><br><span class="line">            url:<span class="string">'ipTrans/'</span> + <span class="keyword">this</span>.state.value,</span><br><span class="line">        &#125;).done(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.state.result = res;</span><br><span class="line">            alert( <span class="string">"result"</span> + <span class="keyword">this</span>.state.result);</span><br><span class="line">          &#125;)</span><br><span class="line">          .fail(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            alert( <span class="string">"error"</span> );</span><br><span class="line">          &#125;)</span><br><span class="line">          .always(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            alert( <span class="string">"complete"</span> );</span><br><span class="line">          &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            </span><br><span class="line">            &lt;div className=<span class="string">"board-row"</span>&gt;</span><br><span class="line">            </span><br><span class="line">            &lt;form onSubmit=&#123;<span class="keyword">this</span>.get&#125;&gt;</span><br><span class="line">                &lt;label&gt;</span><br><span class="line">                    IP:</span><br><span class="line">                    &lt;input type=<span class="string">"text"</span> value=&#123;<span class="keyword">this</span>.state.value&#125; onChange=&#123;<span class="keyword">this</span>.handleChange&#125; /&gt;</span><br><span class="line">                &lt;<span class="regexp">/label&gt;</span></span><br><span class="line"><span class="regexp">                &lt;input type="submit" value="Submit" /</span>&gt;</span><br><span class="line">                &lt;label&gt;</span><br><span class="line">                    result: </span><br><span class="line">                    &lt;input type=<span class="string">"text"</span> value=&#123;<span class="keyword">this</span>.state.result&#125; /&gt;</span><br><span class="line">                &lt;<span class="regexp">/label&gt;</span></span><br><span class="line"><span class="regexp">            &lt;/</span>form&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>div&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">      <span class="keyword">return</span> (</span><br><span class="line">        &lt;div className=<span class="string">"app"</span>&gt;</span><br><span class="line">          &lt;div className=<span class="string">"app-board"</span>&gt;</span><br><span class="line">            &lt;Board /&gt;</span><br><span class="line">          &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">          &lt;div className="app-info"&gt;</span></span><br><span class="line"><span class="regexp">            &lt;div&gt;&#123;/</span>* status *<span class="regexp">/&#125;&lt;/</span>div&gt;</span><br><span class="line">            &lt;ol&gt;&#123;<span class="comment">/* TODO */</span>&#125;&lt;<span class="regexp">/ol&gt;</span></span><br><span class="line"><span class="regexp">          &lt;/</span>div&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">  </span></span><br><span class="line"><span class="regexp">  </span></span><br><span class="line"><span class="regexp">  ReactDOM.render(</span></span><br><span class="line"><span class="regexp">    &lt;App /</span>&gt;,</span><br><span class="line">    <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>)</span><br><span class="line">  );</span><br></pre></td></tr></table></figure>
+<p><strong>可以成功请求了，但是获得的结果之后会重新刷新页面，获得的结果会很快的刷掉了，我要看看能不能另外解决。</strong></p>
+<h3 id="webpack打包"><a href="#webpack打包" class="headerlink" title="webpack打包"></a>webpack打包</h3><p>由于有指定要用webpack打包，先学习下这个。ref:<a href="https://www.valentinog.com/blog/react-webpack-babel/" target="_blank" rel="noopener">How to set up React, webpack, and Babel</a>  </p>
+<p>webpack吸取React的组件产生可以被几乎任何浏览器理解的JavaScript的代码。<br>安装并且运行webpack:</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i webpack --save-dev</span><br><span class="line">npm i webpack-cli --save-dev</span><br></pre></td></tr></table></figure>
+<p>并且在工程的<code>package.json</code>中添加如下代码：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">  "build": "webpack --<span class="built_in">mode</span> production"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>目前不需要给webpack写一行配置文件。老的webpack版本会自动的查找一个配置文件，但是在版本4之后，你可以直接开始开发。</p>
+<h4 id="Babel"><a href="#Babel" class="headerlink" title="Babel"></a>Babel</h4><p>React 组件大部分是在JS ES6中编写的。 但是ES6不能被很多老的浏览器所理解。比如<strong>class</strong>关键词。有状态的React组件被声明为classes。为了让ES6可以在老的浏览器中工作，我们需要一种转换。<br>这个转换叫做<strong>transpiling</strong>。Webpack不知道怎么转换ES6到ES5，但是它有一个观念叫做loaders：可以被当成转换器。<br>babel-loader是Webpack loader用于将ES6代码并且使它们可以被选择浏览器所理解。<br>明显的babel-loader利用了Babel。并且Babel需要预先配置以下：</p>
+<ol>
+<li>babel preset env用于编译ES6到ES5（babel-preset-es2015已经过期了）</li>
+<li>babel preset react 用来编译JSX和其他的为JS。</li>
+</ol>
+<p>安装依赖如下：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i @babel/core babel-loader @babel/preset-env @babel/preset-react --save-dev</span><br></pre></td></tr></table></figure>
+<p>并且在project中创建一个.babelrc文件：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  "presets": ["@babel/preset-env", "@babel/preset-react"]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个阶段，我们需要定义一个最小的webpack 配置文件, webpack.config.js：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line"><span class="function">  module: &#123;</span></span><br><span class="line"><span class="function">    <span class="title">rules</span>: [</span></span><br><span class="line"><span class="function">      &#123;</span></span><br><span class="line"><span class="function">        <span class="title">test</span>: /\.(<span class="title">js</span>|<span class="title">jsx</span>)$/,</span></span><br><span class="line"><span class="function">        <span class="title">exclude</span>: /<span class="title">node_modules</span>/,</span></span><br><span class="line"><span class="function">        <span class="title">use</span>: &#123;</span></span><br><span class="line"><span class="function">          <span class="title">loader</span>: "<span class="title">babel</span>-<span class="title">loader</span>"</span></span><br><span class="line"><span class="function">        &#125;</span></span><br><span class="line"><span class="function">      &#125;</span></span><br><span class="line"><span class="function">    ]</span></span><br><span class="line"><span class="function">  &#125;</span></span><br><span class="line"><span class="function">&#125;;</span></span><br></pre></td></tr></table></figure>
+<p>这个配置很简单，就是对任何一个js/jsx的文件，webpack通过babel-loader将ES6转为ES5.</p>
+<h4 id="writing-React-components"><a href="#writing-React-components" class="headerlink" title="writing React components"></a>writing React components</h4><p>文中根据Container/Presentation principle创造两个React 组件。<br><strong>container Component</strong>是遵循函数是为了处理状态变化的逻辑，内部的组件状态等等的原则。<strong>presentation</strong>只是用来展示内部的标记。 Presentational 组件是纯js函数用来接受从container组件比如props的数据。<br>我们的第一个presentational React组件将是一个<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text" target="_blank" rel="noopener">text input</a>.一个<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text" target="_blank" rel="noopener">HTML input</a>将会有以下的属性：</p>
+<ul>
+<li>type 类型</li>
+<li>class 类</li>
+<li>id </li>
+<li>value 值</li>
+<li>required </li>
+</ul>
+<p>这些属性会变成props然后那些容器组件将会将它传给presentational child。  </p>
+<h4 id="the-HTML-webpack-plugin"><a href="#the-HTML-webpack-plugin" class="headerlink" title="the HTML webpack plugin"></a>the HTML webpack plugin</h4><p>为了展示React form，我们需要告诉Webpack来产生一个html页面。这个结果生成的包将放在脚本标记内。<br>Webpacks需要另外两个组件来处理HTML：html-webpack-plugin和html-loader。<br>安装这两个依赖：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i html-webpack-plugin html-loader --save-dev</span><br></pre></td></tr></table></figure>
+<p>并且更新webpack配置文件：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebPackPlugin = require("html-webpack-plugin");</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.(js|jsx)$/,</span><br><span class="line">        exclude: /node_modules/,</span><br><span class="line">        use: &#123;</span><br><span class="line">          loader: "babel-loader"</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.html$/,</span><br><span class="line">        use: [</span><br><span class="line">          &#123;</span><br><span class="line">            loader: "html-loader"</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    new HtmlWebPackPlugin(&#123;</span><br><span class="line">      template: "./src/index.html",</span><br><span class="line">      filename: "./index.html"</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>然后创造html到src中。并且运行<code>npm run build</code>之后可以在dist中看到html文件。<br>使用webpack你不需要在你的html文件包含JS文件：这个bundle将会自动注入到页面。  </p>
+<h4 id="我项目的更改"><a href="#我项目的更改" class="headerlink" title="我项目的更改"></a>我项目的更改</h4><p>根据上面的描述，使用webpack，增加了一个<code>webpack.config.js</code>,内容如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="built_in">module</span>: &#123;</span><br><span class="line">      rules: [</span><br><span class="line">        &#123;</span><br><span class="line">          test: <span class="regexp">/\.(js|jsx)$/</span>,</span><br><span class="line">          exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">          use: &#123;</span><br><span class="line">            loader: <span class="string">"babel-loader"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">            loader: <span class="string">"style-loader!css-loader"</span></span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
+<p>增加一个<code>.babelrc</code>文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"presets"</span>: [<span class="string">"@babel/preset-env"</span>, <span class="string">"@babel/preset-react"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>并且修改了package.json文件中的script：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">"build": "webpack --mode production",</span><br></pre></td></tr></table></figure>
+<p>在这之后，运行<code>npm run build</code>可以看到新产生一个dist目录，并且产生了main.js文件。将该文件放到后端文件就可以了。另外这个ref的文章里面的例子也有实现，在我自己的git 上的webpackSample分支上。  </p>
+<h3 id="redux"><a href="#redux" class="headerlink" title="redux"></a>redux</h3><p>ref:<a href="https://www.valentinog.com/blog/redux/" target="_blank" rel="noopener">React Redux tutorial</a><br>嗯，为了使用redux，又找了一个指南，关于redux的，希望看完以后，可以知道怎么结合这两使用。</p>
+<h4 id="What-is-State"><a href="#What-is-State" class="headerlink" title="What is State"></a>What is State</h4><p>一个<strong>stateful React compoment</strong>是一个JSES6类(虽然，可能会被React Hooks替换掉)。<br>每一个stateful React compoment有自己的状态。<br>在一个React组件中，state持有数据，并且这个组件将会将这个数据渲染给用户。<br>这个state将会随着action和event进行改变，在React中，你可以使用setState更新本地的组件状态。<br>什么是state。state不仅仅是在React中，JS应用也有state，比如：  </p>
+<blockquote>
+<p>这个用户点击了一个按钮<br>然后一个模块展现了<br>接下来的交互我们需要state来处理 </p>
+</blockquote>
+<p>比如最开始的状态我们使用一个JS对象：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> state = &#123;</span><br><span class="line">  buttonClicked: <span class="string">'no'</span>,</span><br><span class="line">  modalOpen: <span class="string">'no'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后随着用户点击按钮，我们有：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> state = &#123;</span><br><span class="line">  buttonClicked: <span class="string">'yes'</span>,</span><br><span class="line">  modalOpen: <span class="string">'yes'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除了将state存储在一个对象中，你还能怎么追踪这些东西？有没有包可以帮助我们追踪这些state？  </p>
+<h4 id="what-problem-does-Redux-solve"><a href="#what-problem-does-Redux-solve" class="headerlink" title="what problem does Redux solve?"></a>what problem does Redux solve?</h4><p>通常JS应用有很多的state，比如：</p>
+<ul>
+<li>用户看见了什么</li>
+<li>我们获取到的数据</li>
+<li>我们需要给用户展示的链接</li>
+<li>页面中被选中的对象</li>
+<li>应用中是否有错误，这个也是state。</li>
+</ul>
+<p>State在JS中到处都是，但是你可以想象一个React应用中有多少的state么？<br>有时我们也许想要有一个一致的方法来追踪状态的改变。但是前端永远不应该考虑业务逻辑。<br>所以对于React组件来说，Redux是一个选择来管理state。<br><strong>Redux解决了在一开始并不清楚的一个问题：</strong>它帮助给每一个React组件所需要的准确的状态。<br>Redux单独定位持有这个状态。<br>通过使用Redux，获取并且管理状态的逻辑独立于React之外。</p>
+<h4 id="why-should-I-learn-Redux"><a href="#why-should-I-learn-Redux" class="headerlink" title="why should I learn Redux?"></a>why should I learn Redux?</h4><p>Redux并不难。只是要有激情去学它(看起来像句废话)。<br>State在JS中是普遍的并且难的，所以在JS中，state的管理仍然是一个问题。<br>另外一个事实是：真实世界的JS项目都会使用一个状态管理包。  </p>
+<h4 id="should-I-use-Redux"><a href="#should-I-use-Redux" class="headerlink" title="should I use Redux?"></a>should I use Redux?</h4><p>是否使用Redux或者Flux(或者Mobx)取决于你。它们会增加另外一层抽象在你的应用中。<br>但是还是可以把Redux当成一种投资而不是消耗。在采取Redux之前，可以尝试另外一种模式，特别是React的state和props。<a href="https://daveceddia.com/context-api-vs-redux/" target="_blank" rel="noopener">children props as an alternative before reaching for Redux.</a>  可以看一看。<br>很多。。。就是说在大的应用里面用上redux比较有用，不过我这是学习，继续往下了。</p>
+<h4 id="Getting-to-know-the-Redux-store"><a href="#Getting-to-know-the-Redux-store" class="headerlink" title="Getting to know the Redux store"></a>Getting to know the Redux store</h4><p><strong>store编排Redux中所有移动的部分</strong>。在Redux中，store就像是人类的大脑。这个Redux store是基础：整个应用的状态都生存在store中。<br>所以为了开始使用Redux我们应该创造一个store来存储state。</p>
+<p>创造代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/store/index.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">"redux"</span>;</span><br><span class="line"><span class="keyword">import</span> rootReducer <span class="keyword">from</span> <span class="string">"../reducers/index"</span>;</span><br><span class="line"><span class="keyword">const</span> store = createStore(rootReducer);</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> store;</span><br></pre></td></tr></table></figure>
+<p>就如你所见到的，store是createStore的结果，也就是redux包的一个函数。createStore接受一个reducer作为第一个参数，并且在我们的例子中，我们传递rootReducer。<br>你也可以传递一个初始状态给createStore，这对于服务器端渲染很有帮助。<br>最重要的观点是：redux中的state是从reducers获取的。更清楚一些的说：reducers产生你应用的状态。<br>有这些知识以后，让我们开始我们的第一个Redux reducer。  </p>
+<h4 id="Getting-to-know-Redux-reducers"><a href="#Getting-to-know-Redux-reducers" class="headerlink" title="Getting to know Redux reducers"></a>Getting to know Redux reducers</h4><p>一个初始话的状态对于客户端渲染是很有用的，在Redux中，这个状态必须是完全从reducers中返回的，但是，什么是reducers？<br><strong>一个reducer只是一个js的函数。</strong>一个reducer有两个参数：当前的状态和一个action。(state and action).<br>在一个标准的React组件中，本地的状态变化是随着setState改变的。在Redux中，你不能这样做。Redux的第三个原则是状态是不可变的，不能就地更改。<br>这就是为什么reduer需要是纯净的。一个纯函数是如果给定了输入，那么输出也是一定的。<br>创造一个reducer并不那么困难。它是一个有两个参数的JS函数。<br>在我们的例子中，我们将会创造一个简单的reducer以初始状态作为第一个参数，第二个参数是一个提供的action。<br>reducer代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/reducers/index.js</span></span><br><span class="line"><span class="keyword">const</span> initialState = &#123;</span><br><span class="line">  articles: []</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">rootReducer</span>(<span class="params">state = initialState, action</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> state;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> rootReducer;</span><br></pre></td></tr></table></figure>
+<p>这个reducer会直接返回state而不做任何的处理。<br>在接下来我们会添加action来让事情变的更加有趣。  </p>
+<h4 id="Getting-to-know-Redux-actions"><a href="#Getting-to-know-Redux-actions" class="headerlink" title="Getting to know Redux actions"></a>Getting to know Redux actions</h4><p>Redux的reducers毫无疑问是redux中最重要的观点。Reducers产生这个应用的状态。<br>但是一个reducer是怎么知道应该产生下一个状态了？<br>第二个Redux的原则是：为了改变状态的方法是发送一个信号给store。这个信号就是一个action。“分发一个action”就是发送这个信号的过程。<br>但是你还是不知道如何修改一个不可变的状态。这个结果的状态就是当前的状态加上新的数据。这里包含了很多东西…<br>不过，Redux actions也只是一个JS对象。这是一个action看起来的样子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  type: <span class="string">'ADD_ARTICLE'</span>,</span><br><span class="line">  payload: &#123; <span class="attr">title</span>: <span class="string">'React Redux Tutorial'</span>, <span class="attr">id</span>: <span class="number">1</span> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每一个action需要一个类型属性来描述这个state应该怎么修改。你也可以指定一个payload，比如在上面的例子中，payload是一个新的文章。Reducer稍后将会添加这个文章到当前的状态中。<br>最好的操作时将每一个action都包含进一个函数中。这样这个函数就是一个action的创造者。<br>action的代码如下：  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/actions/index.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">addArticle</span>(<span class="params">payload</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123; <span class="attr">type</span>: <span class="string">"ADD_ARTICLE"</span>, payload &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这样这个type类型只是一个string。<br>这个reducer将会使用这个string来决定怎么计算接下来的状态。<br>由于Strings容易被打错和复制，更好的是将action类型声明为常量。<br>这个方法可以避免难以debug的错误。<br>创造新的文件如下：  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/constants/action-types.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> ADD_ARTICLE = <span class="string">"ADD_ARTICLE"</span>;</span><br></pre></td></tr></table></figure>
+<p>并更新<code>src/js/actions/index.js</code>的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/actions/index.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; ADD_ARTICLE &#125; <span class="keyword">from</span> <span class="string">"../constants/action-types"</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">addArticle</span>(<span class="params">payload</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123; <span class="attr">type</span>: ADD_ARTICLE, payload &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Refactoring-the-reducer"><a href="#Refactoring-the-reducer" class="headerlink" title="Refactoring the reducer"></a>Refactoring the reducer</h4><p>继续之前，总结下Redux的主要观点：</p>
+<ul>
+<li>Redux store 就像是大脑：它负责编排所有移动的部分</li>
+<li>应用的state是一个单独的不可改变的对象在store中。</li>
+<li>只要store收到一个action，它将会触发一个reducer</li>
+<li>这个reducer返回下一个阶段。</li>
+</ul>
+<p>Redux 的reducer是由什么组成的？<br>它是一个JS函数有两个参数：state和action。一个Reducer函数也许使用一个<strong>switch statement</strong>来处理每一个action的类型。<br>这个reducer基于当前的action的类型来计算下一个阶段的state。如果没有action类型复合，那么最少应该返回一个初始话的状态。<br>当action类型满足一个合法的条款，这个reducer将会计算下一个状态并且返回一个新的对象。<br>现在我们修改之前的reducer：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/reducers/index.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; ADD_ARTICLE &#125; <span class="keyword">from</span> <span class="string">"../constants/action-types"</span>;</span><br><span class="line"><span class="keyword">const</span> initialState = &#123;</span><br><span class="line">  articles: []</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">rootReducer</span>(<span class="params">state = initialState, action</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (action.type === ADD_ARTICLE) &#123;</span><br><span class="line">    state.articles.push(action.payload);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> state;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> rootReducer;</span><br></pre></td></tr></table></figure>
+<p><strong>但是这上面的代码破坏了Redux主要的原则：不可变。</strong><br>Array.prototype.push是一个impure函数，它改变了原来的数组。所以代码进行了改变：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; ADD_ARTICLE &#125; <span class="keyword">from</span> <span class="string">"../constants/action-types"</span>;</span><br><span class="line"><span class="keyword">const</span> initialState = &#123;</span><br><span class="line">  articles: []</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">rootReducer</span>(<span class="params">state = initialState, action</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (action.type === ADD_ARTICLE) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Object</span>.assign(&#123;&#125;, state, &#123;</span><br><span class="line">      articles: state.articles.concat(action.payload)</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> state;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> rootReducer;</span><br></pre></td></tr></table></figure>
+<p>这样初始的状态就不会改变了。初始的文章数组也没有修改。返回的结果是初始状态的副本。为了避免Redux进行修改，需要关注两个点：</p>
+<ul>
+<li>对于arrays使用<a href="https://egghead.io/lessons/react-redux-avoiding-array-mutations-with-concat-slice-and-spread" target="_blank" rel="noopener">Using concat()，slice()and …spread</a></li>
+<li>对于对象使用<a href="https://egghead.io/lessons/react-redux-avoiding-object-mutations-with-object-assign-and-spread" target="_blank" rel="noopener">Using Object.assign() and …spread</a></li>
+</ul>
+<h4 id="Redux-store-methods"><a href="#Redux-store-methods" class="headerlink" title="Redux store methods"></a>Redux store methods</h4><p>Redux是一个很小的包(2KB).Redux有一个简单的API来管理state。最重要的方法如下：</p>
+<ul>
+<li>getState 来获取当前的应用状态</li>
+<li>dispatch 来分发action</li>
+<li>subscribe 来监听状态的改变</li>
+</ul>
+<p>我们将会在控制台中看到上面的方法。<br>我们需要将store和action导出全局变量。创建一个文件：src/js/index.js，并且文件内容如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">"../js/store/index"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; addArticle &#125; <span class="keyword">from</span> <span class="string">"../js/actions/index"</span>;</span><br><span class="line"><span class="built_in">window</span>.store = store;</span><br><span class="line"><span class="built_in">window</span>.addArticle = addArticle;</span><br></pre></td></tr></table></figure>
+<p>并且更新src/index.js文件为如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> index <span class="keyword">from</span> <span class="string">"./js/index"</span></span><br></pre></td></tr></table></figure>
+<p>这之后运行</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br><span class="line">npm <span class="built_in">start</span></span><br></pre></td></tr></table></figure>
+<p>来运行这个项目，并且在浏览器中打开console(F12),输入如下的代码：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">store.getState()</span><br><span class="line">&#123;articles: Array(<span class="number">0</span>)&#125;</span><br><span class="line"># 订阅回掉函数</span><br><span class="line">store.subscribe(() =&gt; console.log('Look ma, Redux!!'))</span><br><span class="line"># 不过这里我会报错。</span><br><span class="line">store.dispatch( addArticle(&#123; <span class="built_in">title</span>: 'React Redux Tutorial <span class="keyword">for</span> Beginners', id: <span class="number">1</span> &#125;) )</span><br><span class="line"># 会输出 ：Look ma, Redux!!</span><br><span class="line">store.getState()</span><br><span class="line"># 输出： &#123;articles: Array(<span class="number">1</span>)&#125;</span><br></pre></td></tr></table></figure>
+<p><em>上述代码可以在redux分支的”put pure simple redux”commit处看到</em></p>
+<h4 id="Connecting-React-with-Redux"><a href="#Connecting-React-with-Redux" class="headerlink" title="Connecting React with Redux"></a>Connecting React with Redux</h4><p>在上面的学习之后，我知道了redux并不复杂，我知道怎么通过getstate来访问当前的状态。怎么使用dispathc分发一个action以及怎么使用subscribe来监听当前状态的改变。<br>但是怎么将react和redux联合起来了？<br>Redux有自己的框架，你可以只是使用js来使用它。但是也可以和你喜欢的框架一起使用。<br>对于react，是<strong>react-redux</strong>。<br>运行<code>npm i react-redux --save-dev</code>来安装react-redux。为了演示React和Redux是怎么一起工作的，我们将会构建一个很简单的应用，这个应用有以下组件：</p>
+<ul>
+<li>一个App component</li>
+<li>一个List component来展示文章</li>
+<li>一个Form component来添加新文章</li>
+</ul>
+<h4 id="what-is-react-redux"><a href="#what-is-react-redux" class="headerlink" title="what is react-redux?"></a>what is react-redux?</h4><p>react-redux是一个Redux连接器React。它是一个很小的包用于连接Redux和React。<br>其中最重要的方法是connect。<br><strong>connect</strong>就是连接React组件和Redux的store的。<br>你也需会使用2到3个参数来连接。基础的需要知道的事情是：</p>
+<ul>
+<li>mapStateToProps 函数：连接Redux的state到React的组件的props。这样一个连接的React组件将可以访问它所需要的store。</li>
+<li>mapDispatchToProps 函数：连接Redux的actions到React的props。这样连接的组件将可以分发actions。</li>
+</ul>
+<h4 id="App-component-and-Redux-store"><a href="#App-component-and-Redux-store" class="headerlink" title="App component and Redux store"></a>App component and Redux store</h4><p>为了开始连接Redux和React，我们需要使用Provider。<br>Provider是react-redux的高层级的组件。<br>Provider包装你的React 应用，并且让它察觉整个Redux的store。<br>为什么如此？我们看到在Redux中，store管理一切，React必须和store交流来获取state并且分发actions。<br>更改src/index.js 文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; render &#125; <span class="keyword">from</span> <span class="string">"react-dom"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Provider &#125; <span class="keyword">from</span> <span class="string">"react-redux"</span>;</span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">"./store/index"</span>;</span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">"./components/App.jsx"</span>;</span><br><span class="line"><span class="comment">// if you're in create-react-app import the files as:</span></span><br><span class="line"><span class="comment">// import store from "./js/store/index";</span></span><br><span class="line"><span class="comment">// import App from "./js/components/App.jsx";</span></span><br><span class="line">render(</span><br><span class="line">  &lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">    &lt;App /&gt;</span><br><span class="line">  &lt;<span class="regexp">/Provider&gt;,</span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ The target element might be either root or app,</span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ depending on your development environment</span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ document.getElementById("app")</span></span><br><span class="line"><span class="regexp">  document.getElementById("root")</span></span><br><span class="line"><span class="regexp">);</span></span><br></pre></td></tr></table></figure>
+<p>可以看到，Provider包含你的全部React应用，并且获得store作为属性。<br>现在让我们创造App组件。这个组件需要引入一个list并且渲染它。<br>创建App.jsx文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/components/App.jsx</span></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> List <span class="keyword">from</span> <span class="string">"./List"</span>;</span><br><span class="line"><span class="keyword">const</span> App = <span class="function"><span class="params">()</span> =&gt;</span> (</span><br><span class="line">  &lt;div className=<span class="string">"row mt-5"</span>&gt;</span><br><span class="line">    &lt;div className=<span class="string">"col-md-4 offset-md-1"</span>&gt;</span><br><span class="line">    &lt;h2&gt;Articles&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">      &lt;List /</span>&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>div&gt;</span><br><span class="line">);</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> App;</span><br></pre></td></tr></table></figure>
+<p>接下来我们需要创建List。</p>
+<h4 id="List-component-and-Redux-state"><a href="#List-component-and-Redux-state" class="headerlink" title="List component and Redux state"></a>List component and Redux state</h4><p>我们新组件List，将会和Redux store交互。重复一遍：Redux和React连接的组件是<a href="https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options" target="_blank" rel="noopener">connect</a>。<br>connect最少有一个参数。由于我们想要List来获取一个文章的列表，这就是将state.article和组件相连，我们需要使用<strong> mapStateToProps</strong>。<br>添加如下代码文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/components/List.jsx</span></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; connect &#125; <span class="keyword">from</span> <span class="string">"react-redux"</span>;</span><br><span class="line"><span class="keyword">const</span> mapStateToProps = <span class="function"><span class="params">state</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123; <span class="attr">articles</span>: state.articles &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> ConnectedList = <span class="function">(<span class="params">&#123; articles &#125;</span>) =&gt;</span> (</span><br><span class="line">  &lt;ul className=<span class="string">"list-group list-group-flush"</span>&gt;</span><br><span class="line">    &#123;articles.map(<span class="function"><span class="params">el</span> =&gt;</span> (</span><br><span class="line">      &lt;li className=<span class="string">"list-group-item"</span> key=&#123;el.id&#125;&gt;</span><br><span class="line">        &#123;el.title&#125;</span><br><span class="line">      &lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">    ))&#125;</span></span><br><span class="line"><span class="regexp">  &lt;/u</span>l&gt;</span><br><span class="line">);</span><br><span class="line"><span class="keyword">const</span> List = connect(mapStateToProps)(ConnectedList);</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> List;</span><br></pre></td></tr></table></figure>
+<p>List组件将会接受我们看到的Redux状态中的articles 数组的副本作为articles的属性。在reducer中，代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> initialState = &#123;</span><br><span class="line">  articles: []</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">rootReducer</span>(<span class="params">state = initialState, action</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (action.type === ADD_ARTICLE) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Object</span>.assign(&#123;&#125;, state, &#123;</span><br><span class="line">      articles: state.articles.concat(action.payload)</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> state;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要记住，redux中的状态是从reducers来的。然后就是使用这个prop来产生一个文章列表了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;articles.map(<span class="function"><span class="params">el</span> =&gt;</span> (</span><br><span class="line">  &lt;li className=<span class="string">"list-group-item"</span> key=&#123;el.id&#125;&gt;</span><br><span class="line">    &#123;el.title&#125;</span><br><span class="line">  &lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">))&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="Form-component-and-Redux-actions"><a href="#Form-component-and-Redux-actions" class="headerlink" title="Form component and Redux actions"></a>Form component and Redux actions</h4><p>Form组件更佳复杂，它用来添加新的items到应用中。同时它也是一个stateful 组件。<br>React中一个stateful组件就是它自己携带有本身的state。<br>甚至当我们使用Redux的时候，有stateful组件也是可以的。不是所有的状态都要去Redux。<br>它也可以接受一个Redux action。它可以通过dispatching addArticle action来更新全局状态。<br>代码添加如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/components/Form.jsx</span></span><br><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; connect &#125; <span class="keyword">from</span> <span class="string">"react-redux"</span>;</span><br><span class="line"><span class="keyword">import</span> uuidv1 <span class="keyword">from</span> <span class="string">"uuid"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; addArticle &#125; <span class="keyword">from</span> <span class="string">"../actions/index"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mapDispatchToProps</span>(<span class="params">dispatch</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    addArticle: <span class="function"><span class="params">article</span> =&gt;</span> dispatch(addArticle(article))</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConnectedForm</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">super</span>();</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      title: <span class="string">""</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">this</span>.handleChange = <span class="keyword">this</span>.handleChange.bind(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">this</span>.handleSubmit = <span class="keyword">this</span>.handleSubmit.bind(<span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  handleChange(event) &#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123; [event.target.id]: event.target.value &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  handleSubmit(event) &#123;</span><br><span class="line">    event.preventDefault();</span><br><span class="line">    <span class="keyword">const</span> &#123; title &#125; = <span class="keyword">this</span>.state;</span><br><span class="line">    <span class="keyword">const</span> id = uuidv1();</span><br><span class="line">    <span class="keyword">this</span>.props.addArticle(&#123; title, id &#125;);</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123; <span class="attr">title</span>: <span class="string">""</span> &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; title &#125; = <span class="keyword">this</span>.state;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;form onSubmit=&#123;<span class="keyword">this</span>.handleSubmit&#125;&gt;</span><br><span class="line">        &lt;div className=<span class="string">"form-group"</span>&gt;</span><br><span class="line">          &lt;label htmlFor=<span class="string">"title"</span>&gt;Title&lt;<span class="regexp">/label&gt;</span></span><br><span class="line"><span class="regexp">          &lt;input</span></span><br><span class="line"><span class="regexp">            type="text"</span></span><br><span class="line"><span class="regexp">            className="form-control"</span></span><br><span class="line"><span class="regexp">            id="title"</span></span><br><span class="line"><span class="regexp">            value=&#123;title&#125;</span></span><br><span class="line"><span class="regexp">            onChange=&#123;this.handleChange&#125;</span></span><br><span class="line"><span class="regexp">          /</span>&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        &lt;button type="submit" className="btn btn-success btn-lg"&gt;</span></span><br><span class="line"><span class="regexp">          SAVE</span></span><br><span class="line"><span class="regexp">        &lt;/</span>button&gt;</span><br><span class="line">      &lt;<span class="regexp">/form&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">const Form = connect(null, mapDispatchToProps)(ConnectedForm);</span></span><br><span class="line"><span class="regexp">export default Form;</span></span><br></pre></td></tr></table></figure>
+<p>并且更新App代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> List <span class="keyword">from</span> <span class="string">"./List.jsx"</span>;</span><br><span class="line"><span class="keyword">import</span> Form <span class="keyword">from</span> <span class="string">"./Form.jsx"</span>;</span><br><span class="line"><span class="keyword">const</span> App = <span class="function"><span class="params">()</span> =&gt;</span> (</span><br><span class="line">  &lt;div className=<span class="string">"row mt-5"</span>&gt;</span><br><span class="line">    &lt;div className=<span class="string">"col-md-4 offset-md-1"</span>&gt;</span><br><span class="line">      &lt;h2&gt;Articles&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">      &lt;List /</span>&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;div className="col-md-4 offset-md-1"&gt;</span></span><br><span class="line"><span class="regexp">      &lt;h2&gt;Add a new article&lt;/</span>h2&gt;</span><br><span class="line">      &lt;Form /&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>div&gt;</span><br><span class="line">);</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> App;</span><br></pre></td></tr></table></figure>
+<p>安装uuid：<code>npm i uuid --save-dev</code>,然后运行：<code>npm start</code>就可以看到效果了，每次增加以后，list都可以看到增加的内容。  </p>
+<p><strong>我想要的基本效果有了，我准备停在这里改改我自己的代码了。文章后面的部分等我完成了自己需要做的再回来看吧。</strong><br><em>代码可以看分支redux(commit:a react and redux app–simple:’Form component and Redux actions’)</em></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React-webpack-babel-redux-ajax/" rel="tag"># React, webpack, babel, redux, ajax</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/21/WhyBuildReact/" rel="next" title="WhyBuildReact">
+                <i class="fa fa-chevron-left"></i> WhyBuildReact
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MzA1Mi8xOTU5OA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Pan</p>
+              <div class="site-description motion-element" itemprop="description">computer, finance, some recording</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#React-环境搭建"><span class="nav-number">1.</span> <span class="nav-text">React 环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#项目文件结构解析"><span class="nav-number">1.1.</span> <span class="nav-text">项目文件结构解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#package-json"><span class="nav-number">1.2.</span> <span class="nav-text">package.json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#public-文件夹"><span class="nav-number">1.3.</span> <span class="nav-text">public 文件夹</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#favicon-ico"><span class="nav-number">1.3.1.</span> <span class="nav-text">favicon.ico</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#index-html"><span class="nav-number">1.4.</span> <span class="nav-text">index.html</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#src文件夹"><span class="nav-number">1.5.</span> <span class="nav-text">src文件夹</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#index-js"><span class="nav-number">1.5.1.</span> <span class="nav-text">index.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#App-js"><span class="nav-number">1.5.2.</span> <span class="nav-text">App.js</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从空白的工程开始构建"><span class="nav-number">2.</span> <span class="nav-text">从空白的工程开始构建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ajax请求后台的接口"><span class="nav-number">2.1.</span> <span class="nav-text">Ajax请求后台的接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#webpack打包"><span class="nav-number">2.2.</span> <span class="nav-text">webpack打包</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Babel"><span class="nav-number">2.2.1.</span> <span class="nav-text">Babel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#writing-React-components"><span class="nav-number">2.2.2.</span> <span class="nav-text">writing React components</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#the-HTML-webpack-plugin"><span class="nav-number">2.2.3.</span> <span class="nav-text">the HTML webpack plugin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#我项目的更改"><span class="nav-number">2.2.4.</span> <span class="nav-text">我项目的更改</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redux"><span class="nav-number">2.3.</span> <span class="nav-text">redux</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#What-is-State"><span class="nav-number">2.3.1.</span> <span class="nav-text">What is State</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#what-problem-does-Redux-solve"><span class="nav-number">2.3.2.</span> <span class="nav-text">what problem does Redux solve?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#why-should-I-learn-Redux"><span class="nav-number">2.3.3.</span> <span class="nav-text">why should I learn Redux?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#should-I-use-Redux"><span class="nav-number">2.3.4.</span> <span class="nav-text">should I use Redux?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Getting-to-know-the-Redux-store"><span class="nav-number">2.3.5.</span> <span class="nav-text">Getting to know the Redux store</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Getting-to-know-Redux-reducers"><span class="nav-number">2.3.6.</span> <span class="nav-text">Getting to know Redux reducers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Getting-to-know-Redux-actions"><span class="nav-number">2.3.7.</span> <span class="nav-text">Getting to know Redux actions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Refactoring-the-reducer"><span class="nav-number">2.3.8.</span> <span class="nav-text">Refactoring the reducer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Redux-store-methods"><span class="nav-number">2.3.9.</span> <span class="nav-text">Redux store methods</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Connecting-React-with-Redux"><span class="nav-number">2.3.10.</span> <span class="nav-text">Connecting React with Redux</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#what-is-react-redux"><span class="nav-number">2.3.11.</span> <span class="nav-text">what is react-redux?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#App-component-and-Redux-store"><span class="nav-number">2.3.12.</span> <span class="nav-text">App component and Redux store</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#List-component-and-Redux-state"><span class="nav-number">2.3.13.</span> <span class="nav-text">List component and Redux state</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Form-component-and-Redux-actions"><span class="nav-number">2.3.14.</span> <span class="nav-text">Form component and Redux actions</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total"></span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="Reading time total"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+
+  
+    <script>
+  window.livereOptions = {
+    refer: '2019/03/26/JavaScript/React 环境搭建/'
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
