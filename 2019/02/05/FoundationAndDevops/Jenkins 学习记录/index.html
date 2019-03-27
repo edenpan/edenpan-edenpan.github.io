@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Jenkins 学习记录https://jenkins.io/doc/ guidetourhttps://jenkins.io/doc/pipeline/tour/getting-started/这个指南介绍了Jenkis最基本的使用和它主要的特点，Jenkins pipeline。 这个指南使用了”standalone”模式，只是运行在你自己的机器上。按照步骤安装好了以后，ip:8080/jen">
+<meta name="keywords" content="devops, Jenkins">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jenkins 学习记录">
+<meta property="og:url" content="http://blog.sevenpan.com/2019/02/05/FoundationAndDevops/Jenkins 学习记录/index.html">
+<meta property="og:site_name" content="Eden">
+<meta property="og:description" content="Jenkins 学习记录https://jenkins.io/doc/ guidetourhttps://jenkins.io/doc/pipeline/tour/getting-started/这个指南介绍了Jenkis最基本的使用和它主要的特点，Jenkins pipeline。 这个指南使用了”standalone”模式，只是运行在你自己的机器上。按照步骤安装好了以后，ip:8080/jen">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-03-27T04:23:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jenkins 学习记录">
+<meta name="twitter:description" content="Jenkins 学习记录https://jenkins.io/doc/ guidetourhttps://jenkins.io/doc/pipeline/tour/getting-started/这个指南介绍了Jenkis最基本的使用和它主要的特点，Jenkins pipeline。 这个指南使用了”standalone”模式，只是运行在你自己的机器上。按照步骤安装好了以后，ip:8080/jen">
+
+
+
+
+
+
+  <link rel="canonical" href="http://blog.sevenpan.com/2019/02/05/FoundationAndDevops/Jenkins 学习记录/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Jenkins 学习记录 | Eden</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-135755004-1"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-135755004-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Eden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2019/02/05/FoundationAndDevops/Jenkins 学习记录/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pan"/>
+      <meta itemprop="description" content="computer, finance, some recording"/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eden"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Jenkins 学习记录
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-02-05 16:20:00" itemprop="dateCreated datePublished" datetime="2019-02-05T16:20:00+08:00">2019-02-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-27 12:23:25" itemprop="dateModified" datetime="2019-03-27T12:23:25+08:00">2019-03-27</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article"></span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time"></span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Jenkins-学习记录"><a href="#Jenkins-学习记录" class="headerlink" title="Jenkins 学习记录"></a>Jenkins 学习记录</h2><p><a href="https://jenkins.io/doc/" target="_blank" rel="noopener">https://jenkins.io/doc/</a></p>
+<h3 id="guidetour"><a href="#guidetour" class="headerlink" title="guidetour"></a>guidetour</h3><p><a href="https://jenkins.io/doc/pipeline/tour/getting-started/" target="_blank" rel="noopener">https://jenkins.io/doc/pipeline/tour/getting-started/</a><br>这个指南介绍了Jenkis最基本的使用和它主要的特点，Jenkins pipeline。 这个指南使用了”standalone”模式，只是运行在你自己的机器上。<br>按照步骤安装好了以后，ip:8080/jenkins上就可以看到对应的管理界面了。  </p>
+<h3 id="Creating-your-first-Pipeline"><a href="#Creating-your-first-Pipeline" class="headerlink" title="Creating your first Pipeline"></a>Creating your first Pipeline</h3><p><a href="https://jenkins.io/doc/pipeline/tour/hello-world/" target="_blank" rel="noopener">https://jenkins.io/doc/pipeline/tour/hello-world/</a><br>Jenkins Pipeline 是一组Jenkins中支持和实现集成持续交付的流水线的插件。<br>持续交付流水线是一个你的进程的自动化的表达表示从版本控制中获取软件到交付到你的用户和客户手上。<br>Jenkins Pipeline通常被写在文件里，并被提交到一个项目的源代码控制仓库中。  </p>
+<p><a href="https://jenkins.io/doc/tutorials/build-a-python-app-with-pyinstaller/" target="_blank" rel="noopener">https://jenkins.io/doc/tutorials/build-a-python-app-with-pyinstaller/</a></p>
+<h3 id="在Linux上运行Jenkins"><a href="#在Linux上运行Jenkins" class="headerlink" title="在Linux上运行Jenkins"></a>在Linux上运行Jenkins</h3><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker run \</span><br><span class="line">  --rm \</span><br><span class="line">  -u root \</span><br><span class="line">  -p <span class="number">8080</span>:<span class="number">8080</span> \</span><br><span class="line">  -v jenkins-data:/var/jenkins_home \ </span><br><span class="line">  -v /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line">  -v "$HOME":/home \ </span><br><span class="line">  jenkinsci/blueocean</span><br></pre></td></tr></table></figure>
+<p>或者无换行：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm -u root -p <span class="number">8080</span>:<span class="number">8080</span> -v jenkins-data:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v "$HOME":/home  jenkinsci/blueocean</span><br></pre></td></tr></table></figure>
+<p>设置好以后，进行基本的设置就可以使用了。如果想要停止Jenkins直接停止这个container就好，由于数据已经映射出来了，所以即使删掉了这个image，也是可以读取回来之前的设置的。(如果想要删掉没有用到的Volume，可以用这个命令：docker system prune –volumes)  </p>
+<h4 id="对一个项目构造pipeline"><a href="#对一个项目构造pipeline" class="headerlink" title="对一个项目构造pipeline"></a>对一个项目构造pipeline</h4><p>有一个simple 项目：<a href="https://github.com/jenkins-docs/simple-python-pyinstaller-app" target="_blank" rel="noopener">simple-python-pyinstaller-app</a>    可以fork到自己的github下并且clone到本地。然后：  </p>
+<ol>
+<li>回到Jenkins，点击”create new jobs”或者“New Item” </li>
+<li>输入名称，如simple-python-pyinstaller-app</li>
+<li>点击 Pipeline，然后点 OK。</li>
+<li>在下一页可以输入描述用于描述你的流水线。</li>
+<li>点击Pipeline tab滑动到Pipeline节</li>
+<li>在 Definition 区域，选择  Pipeline script from SCM 。</li>
+<li>从SCM中选择Git。</li>
+<li>在Repository URL字段，指定你的代码仓库路径。</li>
+<li>点击保存。保存你的新项目，你现在可以开始创建你的Jenkinsfile。</li>
+</ol>
+<h4 id="创造你初始化Pipeline做为Jenkinsfile"><a href="#创造你初始化Pipeline做为Jenkinsfile" class="headerlink" title="创造你初始化Pipeline做为Jenkinsfile"></a>创造你初始化Pipeline做为Jenkinsfile</h4><p>现在你准备好创造你自己的Pipeline来自动化构建你的Python 应用使用PyInstaller在Jenkins中。你的流水线将会被创造为一个Jenkinsfile，将会提交到你本地克隆仓库。<br>这是”Pipeline-as-Code”的基础，将持续交付流水线作为这个应用的一部分同样也被用来版本和review。<a href="https://jenkins.io/doc/book/pipeline" target="_blank" rel="noopener">pipeline</a> 和<a href="https://jenkins.io/doc/book/pipeline/jenkinsfile" target="_blank" rel="noopener">Using a Jenkisfile</a>对Pipeline和Jenkinsfile有更详细的介绍。<br>首先，创建一个初始化的Pipeline在”Build”阶段来执行所有产品流程的第一部分。这个“build”阶段下载了一个Python Docker 镜像并且将它运行为一个Docker 容器，用来编译你的简单Python应用为字节码。  </p>
+<ol>
+<li>在你的代码仓库创建并且保存一个文件Jenkinsfile</li>
+<li>在Jenkinsfile中添加如下流水线代码：</li>
+</ol>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent none </span><br><span class="line">    stages &#123;</span><br><span class="line">        stage('Build') &#123; </span><br><span class="line">            agent &#123;</span><br><span class="line">                docker &#123;</span><br><span class="line">                    image 'python:<span class="number">2</span>-alpine' </span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh 'python -m py_compile sources/add2vals.py sources/calc.py' </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>保存Jenkinsfile 并且使用git提交文件。</li>
+<li>回到Jenkins并且点击 打开Blue Ocean 按钮来访问Jenkins Blue Ocean界面。</li>
+<li>在 “This job has not been run”的消息框中点击运行， 然后点击对应的行来查看详情</li>
+<li>回到主要的Blue Ocean 界面。</li>
+</ol>
+<h4 id="在你的流水线中增加一个测试环节"><a href="#在你的流水线中增加一个测试环节" class="headerlink" title="在你的流水线中增加一个测试环节"></a>在你的流水线中增加一个测试环节</h4><ol>
+<li>打开你的Jenkinsfile文件</li>
+<li>在文件build环节下增加下面一段：</li>
+</ol>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"> stage('Test') &#123;</span><br><span class="line">    agent &#123;</span><br><span class="line">        docker &#123;</span><br><span class="line">            image 'qnib/pytest'</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    steps &#123;</span><br><span class="line">        sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'</span><br><span class="line">    &#125;</span><br><span class="line">    post &#123;</span><br><span class="line">        always &#123;</span><br><span class="line">            junit 'test-reports/results.xml'</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">```        </span><br><span class="line"><span class="number">3</span>. git提交修改的文件</span><br><span class="line"><span class="number">4</span>. 回到Jenkins上进入Blue Ocean界面点击左侧的运行按钮。</span><br><span class="line"></span><br><span class="line">#### 在流水线中增加一个发布过程</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>. 打开你的Jenkinsfile文件</span><br><span class="line"><span class="number">2</span>. 在文件test环节下增加下面一段：</span><br></pre></td></tr></table></figure>
+<p>stage(‘Deliver’) {<br>    agent {<br>        docker {<br>            image ‘cdrx/pyinstaller-linux:python2’<br>        }<br>    }<br>    steps {<br>        sh ‘pyinstaller –onefile sources/add2vals.py’<br>    }<br>    post {<br>        success {<br>            archiveArtifacts ‘dist/add2vals’<br>        }<br>    }<br>}<br><code>`</code>                </p>
+<ol start="3">
+<li>git 提交你的修改</li>
+<li>回到Jenkins上进入Blue Ocean界面点击左侧的运行按钮。</li>
+</ol>
+<p><a href="https://jenkins.io/doc/tutorials/create-a-pipeline-in-blue-ocean/" target="_blank" rel="noopener">https://jenkins.io/doc/tutorials/create-a-pipeline-in-blue-ocean/</a></p>
+<h4 id="在Blue-Ocean中创建你的Pipeline"><a href="#在Blue-Ocean中创建你的Pipeline" class="headerlink" title="在Blue Ocean中创建你的Pipeline"></a>在Blue Ocean中创建你的Pipeline</h4><ol>
+<li>登录Jenkins并且打开 Blue Ocean界面</li>
+<li>点击 Create a new Pipeline 来开始创建Pipeline</li>
+<li>选择GitHub，并且点击创建一个访问key，github中的设置选择默认就好了，并且将该key复制到blue Ocean上。</li>
+<li>在Blue Ocean上选择对应的github账户，并且选择之前fork的仓库代码(<a href="https://github.com/jenkins-docs/creating-a-pipeline-in-blue-ocean" target="_blank" rel="noopener">https://github.com/jenkins-docs/creating-a-pipeline-in-blue-ocean</a>)</li>
+<li>点击  Create Pipeline。<br> Blue Ocean检测到这个仓库的master 分支的root级别上没有Jenkinsfile，将会帮助你创建一个。<br> 一个Pipeline项目被通过Blue Ocean 创建通常是”multibranch Pipeline”。所以，Jenkins会在你的每一个分支中查找最少一个Jenkinsfile。</li>
+</ol>
+<h4 id="创建你自己的初始化Pipeline"><a href="#创建你自己的初始化Pipeline" class="headerlink" title="创建你自己的初始化Pipeline"></a>创建你自己的初始化Pipeline</h4><ol>
+<li>在页面右侧代理选择 docker，然后image填写node:6-alpine,参数填写：-p 3000:3000</li>
+<li>回到主Pipeline编辑器，点击+号，从而打开一个新的stage在右侧。</li>
+<li>在这个面板输入名字为build，然后点击 Add Step按钮，选择Shell Script，然后在打开的Build/Shell Script面板中输入“npm install”    </li>
+<li>点击保存来保存你的当前的Pipeline</li>
+<li>在Save Pipeline对话框中，填写描述（ Add initial Pipeline (Jenkinsfile)）。选择Commit to master.然后点击 Save&amp;Run。</li>
+</ol>
+<h3 id="构建一个多分支的Pipeline项目"><a href="#构建一个多分支的Pipeline项目" class="headerlink" title="构建一个多分支的Pipeline项目"></a>构建一个多分支的Pipeline项目</h3><p><a href="https://jenkins.io/doc/tutorials/build-a-multibranch-pipeline-project/" target="_blank" rel="noopener">https://jenkins.io/doc/tutorials/build-a-multibranch-pipeline-project/</a> </p>
+<ol>
+<li>将<a href="https://github.com/jenkins-docs/building-a-multibranch-pipeline-project" target="_blank" rel="noopener">building-a-multibranch-pipeline-project</a>项目fork到自己仓库来。并将代码clone到本地。  </li>
+<li><p>输入’git branch development’和 ‘git branch production’ 创建两个分支。<br><em>运行npm install的时候总会碰到exit code:137然后退出运行，经查可能是内存不足，无法运行，准备杀掉些进程，或者增加swap。<a href="https://www.thegeekstuff.com/2010/08/how-to-add-swap-space/" target="_blank" rel="noopener">增加swap</a></em></p>
+</li>
+<li></li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/devops-Jenkins/" rel="tag"># devops, Jenkins</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/03/FoundationAndDevops/DevOps 笔记/" rel="next" title="DevOps 介绍">
+                <i class="fa fa-chevron-left"></i> DevOps 介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/03/java/Spring/Spring 学习-- IOC容器和Dependency Injection 模式/" rel="prev" title="Spring 学习-- IOC容器和Dependency Injection 模式">
+                Spring 学习-- IOC容器和Dependency Injection 模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MzA1Mi8xOTU5OA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Pan</p>
+              <div class="site-description motion-element" itemprop="description">computer, finance, some recording</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">24</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Jenkins-学习记录"><span class="nav-number">1.</span> <span class="nav-text">Jenkins 学习记录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#guidetour"><span class="nav-number">1.1.</span> <span class="nav-text">guidetour</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Creating-your-first-Pipeline"><span class="nav-number">1.2.</span> <span class="nav-text">Creating your first Pipeline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在Linux上运行Jenkins"><span class="nav-number">1.3.</span> <span class="nav-text">在Linux上运行Jenkins</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#对一个项目构造pipeline"><span class="nav-number">1.3.1.</span> <span class="nav-text">对一个项目构造pipeline</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创造你初始化Pipeline做为Jenkinsfile"><span class="nav-number">1.3.2.</span> <span class="nav-text">创造你初始化Pipeline做为Jenkinsfile</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在你的流水线中增加一个测试环节"><span class="nav-number">1.3.3.</span> <span class="nav-text">在你的流水线中增加一个测试环节</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在Blue-Ocean中创建你的Pipeline"><span class="nav-number">1.3.4.</span> <span class="nav-text">在Blue Ocean中创建你的Pipeline</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建你自己的初始化Pipeline"><span class="nav-number">1.3.5.</span> <span class="nav-text">创建你自己的初始化Pipeline</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建一个多分支的Pipeline项目"><span class="nav-number">1.4.</span> <span class="nav-text">构建一个多分支的Pipeline项目</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total"></span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="Reading time total"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+
+  
+    <script>
+  window.livereOptions = {
+    refer: '2019/02/05/FoundationAndDevops/Jenkins 学习记录/'
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -130,7 +130,7 @@
 
 
 
-  <script async src="//www.googletagmanager.com/gtag/js?id=[object Object]"></script>
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-135755004-1"></script>
   <script>
     var host = window.location.hostname;
     if (host !== "localhost" || !true) {
@@ -363,7 +363,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-03-27 12:12:01" itemprop="dateModified" datetime="2019-03-27T12:12:01+08:00">2019-03-27</time>
+                <time title="Modified: 2019-03-27 12:12:45" itemprop="dateModified" datetime="2019-03-27T12:12:45+08:00">2019-03-27</time>
               
             
           </span>
@@ -664,7 +664,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2019/03/21/WhyBuildReact/"/>
+    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2019/03/21/JavaScript/JS的再次介绍/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pan"/>
@@ -684,7 +684,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/03/21/WhyBuildReact/" class="post-title-link" itemprop="url">WhyBuildReact</a>
+                <a href="/2019/03/21/JavaScript/JS的再次介绍/" class="post-title-link" itemprop="url">A Re-Introduction to JavaScript (JS Tutorial)</a>
               
             
           </h1>
@@ -709,9 +709,13 @@
                 
               
 
-              <time title="Created: 2019-03-21 15:06:50" itemprop="dateCreated datePublished" datetime="2019-03-21T15:06:50+08:00">2019-03-21</time>
+              <time title="Created: 2019-03-21 16:12:30 / Modified: 19:48:51" itemprop="dateCreated datePublished" datetime="2019-03-21T16:12:30+08:00">2019-03-21</time>
             
 
+            
+              
+
+              
             
           </span>
 
@@ -774,27 +778,316 @@
       
         
           
-            <p>From <a href="https://react-cn.github.io/react/blog/2013/06/05/why-react.html" target="_blank" rel="noopener">https://react-cn.github.io/react/blog/2013/06/05/why-react.html</a></p>
-<h2 id="React-不是一个MVC框架"><a href="#React-不是一个MVC框架" class="headerlink" title="React 不是一个MVC框架"></a>React 不是一个MVC框架</h2><p>React是一个用来构建用户界面的库。它鼓励创造可复用的UI组件来随着时间的改变来展示数据。</p>
-<h2 id="React并不使用模板"><a href="#React并不使用模板" class="headerlink" title="React并不使用模板"></a>React并不使用模板</h2><p>通常我们是直接通过模版或者HTML来直接构造web应用。这些模版决定了你可以用来构建你的UI的完整抽象集合。<br>React使用了完全不同的方式，通过将用户界面分为组件然后来构建它们。这意味着React使用一个真实的完全的编程语言来渲染界面，这在我们看来是一个相对于模版的优势，原因如下：</p>
+            <p>From: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript" target="_blank" rel="noopener">A re-introduction to JavaScript (JS tutorial)
+</a></p>
+<p>为啥是re-introduction？因为JavaScript已经变成了<a href="http://crockford.com/javascript/javascript.html" target="_blank" rel="noopener">世界上最难懂的编程语言了</a>（这个吐槽js的文章写的还挺有意思的）。但是JavaScript现在被用在很多应用中，非常的重要了。  </p>
+<p>JavaScript在1995年被Brendan Eich发明。本来叫做LiveScript，但是为了追潮流，就改名叫JavaScript了，开始了它的迷惑之路。  </p>
+<p>网景将JavaScript提交到Ecma 国际，一个欧洲标准组织，之后，1999年有了<a href="http://www.ecma-international.org/publications/standards/Ecma-262.htm" target="_blank" rel="noopener">ECMAScript edition 3</a>，第四版被废弃，而第四版的很多部分组成了ECMAScript第五版，（2009.12）,第六版在2015年六月发布。<br>JavaScript没有输入或者输出的概念。它被设计用来作为一个脚本语言运行在一个主机环境，并且它根据主机环境来提供和外界沟通的机制。同时JavaScript解释器也可以在很多其他地方找到，比如Nodejs，NoSQL DB等。  </p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>JavaScript是一个多范式，动态语言，有类型，操作符，标准内建对象以及方法。它的语法是基于Java和C的。它也通过object prototypes来支持面向对象编程。JavaScript也支持函数化编程，因为它们是对象，函数可以被存在变量中，并且被传递给另外的对象。  </p>
+<p>让我们从基本数据类型开始，JavaScript有以下类型：</p>
+<ol>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" target="_blank" rel="noopener">Number</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank" rel="noopener">String</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" target="_blank" rel="noopener">Boolean</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank" rel="noopener">Function</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank" rel="noopener">Object</a><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank" rel="noopener">Function</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_blank" rel="noopener">Array</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" rel="noopener">Date</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp" target="_blank" rel="noopener">RegExp</a></li>
+</ul>
+</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol" target="_blank" rel="noopener">Symbol</a>（2015年新定义的）</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined" target="_blank" rel="noopener">undefined</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null" target="_blank" rel="noopener">null</a></li>
+</ol>
+<h2 id="数字Numbers"><a href="#数字Numbers" class="headerlink" title="数字Numbers"></a>数字Numbers</h2><p>Js中数字是”双精度64字节格式IEEE 754Value”。在JS中没有整数，所以需要小心如下的事情：</p>
+<pre><code>0.1 + 0.2 == 0.30000000000000004;
+</code></pre><p>在实践中，整数被作为32字节整数对待，有些实现甚至是这样存储知道它被要求是一个数字而不是在32-bit 整数时。<br>标准的算术操作是被支持的，包括加法，减法，模运算。这里同样也有内建对象<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math" target="_blank" rel="noopener">Math</a>来提供高级的数学函数和常量：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Math</span>.sin(<span class="number">3.5</span>);</span><br><span class="line"><span class="keyword">var</span> circumference = <span class="number">2</span> * <span class="built_in">Math</span>.PI * r;</span><br></pre></td></tr></table></figure>
+<p>你可以使用parseInt函数将一个字符串转换为string。这个函数的第二参数是可选的用于表示进制：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">parseInt</span>(<span class="string">'123'</span>, <span class="number">10</span>); <span class="comment">// 123</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'010'</span>, <span class="number">10</span>); <span class="comment">// 10</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'010'</span>);  <span class="comment">//  8</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'0x10'</span>); <span class="comment">// 16</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'hello'</span>, <span class="number">10</span>); <span class="comment">// NaN</span></span><br><span class="line"><span class="string">``</span><span class="string">`	</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">如果不是数字就会返回NaN(Not a Number)。NaN是可以传递的，如果你对NaN进行任何一个算术操作，返回的结果仍然是NaN。</span></span><br><span class="line"><span class="string">	</span></span><br><span class="line"><span class="string">	NaN + 5; // NaN</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">## 字符串 Strings</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Strings在JS中是一串[Unicode 字符](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Values,_variables,_and_literals#Unicode)。更准确来说，它们是UTF-16字节码组合；每一个code unit是被一个16-bit数字所代表。每一个Unicode字符串是被1到2个code unit所表示。  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">一些操作：</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="string">``</span>js</span><br><span class="line"><span class="string">'hello'</span>.length; <span class="comment">// 5</span></span><br><span class="line"><span class="string">'hello'</span>.charAt(<span class="number">0</span>); <span class="comment">// "h"</span></span><br><span class="line"><span class="string">'hello, world'</span>.replace(<span class="string">'world'</span>, <span class="string">'mars'</span>); <span class="comment">// "hello, mars"</span></span><br><span class="line"><span class="string">'hello'</span>.toUpperCase(); <span class="comment">// "HELLO"</span></span><br></pre></td></tr></table></figure>
+<h2 id="其他类型"><a href="#其他类型" class="headerlink" title="其他类型"></a>其他类型</h2><p>JS区分null和undifined。null是故意的没有值，而undefined是没有初始化的值。如果你定义了一个变量而没有对它赋值，那这个变量的类型就是<code>undefined</code>. <code>undefined</code>实际上是一个变量。  </p>
+<p>JS有布尔类型，而且任何值都可以转成boolean，根据以下的规则：</p>
+<ol>
+<li><code>false</code>, <code>0</code>,<code>&quot;&quot;</code>, <code>NaN</code>, <code>undefined</code> ,<code>null</code>都为<code>false</code></li>
+<li>其他的是<code>true</code>.</li>
+</ol>
+<p>如下代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Boolean</span>(<span class="string">''</span>);  <span class="comment">// false</span></span><br><span class="line"><span class="built_in">Boolean</span>(<span class="number">234</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>JS使用三个关键字来声明变量：<code>let</code>, <code>const</code>或者 <code>var</code>。  </p>
+<p><code>let</code>允许你代码段内声明变量：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// myLetVariable is *not* visible out here</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> myLetVariable = <span class="number">0</span>; myLetVariable &lt; <span class="number">5</span>; myLetVariable++) &#123;</span><br><span class="line">  <span class="comment">// myLetVariable is only visible in here</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// myLetVariable is *not* visible out here</span></span><br><span class="line"><span class="string">``</span><span class="string">`	</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="keyword">const</span><span class="string">`用于声明常量。  </span></span><br><span class="line"><span class="string">`</span><span class="keyword">var</span><span class="string">`是最普通的声明方式，它没有其他两种方式的限制。因为它是JavaScript最传统的声明变量的方式。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="string">``</span>js</span><br><span class="line"><span class="comment">// myVarVariable *is* visible out here </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> myVarVariable = <span class="number">0</span>; myVarVariable &lt; <span class="number">5</span>; myVarVariable++) &#123; </span><br><span class="line">  <span class="comment">// myVarVariable is visible to the whole function </span></span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">// myVarVariable *is* visible out here</span></span><br></pre></td></tr></table></figure>
+<p>JavaScript和其他语言的一个很大差别是代码块是没有范围的，只有函数有范围。所以如果一个变量是通过<code>var</code>来定义的，比如在一个if结构里面，它也会在整个函数中可见。然而，从ECMAScript2015开始，let和const声明允许你创造代码段范围的变量。  </p>
+<h2 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h2><p>JS的数字操作符是+，-，*，／以及%。变量通过=赋值。并且也支持复合操作符，比如<code>+=</code>,<code>-=</code>,<code>++</code>和<code>--</code>。+操作符还可以做字符串连接。如下的例子</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'hello'</span> + <span class="string">' world'</span>; <span class="comment">// "hello world"</span></span><br><span class="line"><span class="string">'3'</span> + <span class="number">4</span> + <span class="number">5</span>;  <span class="comment">// "345"</span></span><br><span class="line"> <span class="number">3</span> + <span class="number">4</span> + <span class="string">'5'</span>; <span class="comment">// "75"</span></span><br></pre></td></tr></table></figure>
+<p>JS也可以使用<code>&gt;</code>,<code>&lt;</code>, <code>&gt;=</code>和<code>&lt;=</code>来比较。等于有一点点不直接，比如下面会有类型转换，导致有有趣的结果,避免类型自动转换，可以使用三个等于号：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">123</span> == <span class="string">'123'</span>; <span class="comment">// true</span></span><br><span class="line"><span class="number">1</span> == <span class="literal">true</span>; <span class="comment">// true</span></span><br><span class="line"><span class="number">123</span> === <span class="string">'123'</span>; <span class="comment">// false</span></span><br><span class="line"><span class="number">1</span> === <span class="literal">true</span>;    <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<h3 id="控制结构"><a href="#控制结构" class="headerlink" title="控制结构"></a>控制结构</h3><p>JS有和C语言家族相同的控制集合。条件语句是if和else。同样也有 while 和do-while循环。以及for语句。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//if</span></span><br><span class="line"><span class="keyword">var</span> name = <span class="string">'kittens'</span>;</span><br><span class="line"><span class="keyword">if</span> (name == <span class="string">'puppies'</span>) &#123;</span><br><span class="line">  name += <span class="string">' woof'</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (name == <span class="string">'kittens'</span>) &#123;</span><br><span class="line">  name += <span class="string">' meow'</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  name += <span class="string">'!'</span>;</span><br><span class="line">&#125;</span><br><span class="line">name == <span class="string">'kittens meow'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//while</span></span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">  <span class="comment">// an infinite loop!</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> input;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">  input = get_input();</span><br><span class="line">&#125; <span class="keyword">while</span> (inputIsNotValid(input));</span><br><span class="line"></span><br><span class="line"><span class="comment">//for loop</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">  <span class="comment">// Will execute 5 times</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//for...of</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> value <span class="keyword">of</span> array) &#123;</span><br><span class="line">  <span class="comment">// do something with value</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//for...in</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> property <span class="keyword">in</span> object) &#123;</span><br><span class="line">  <span class="comment">// do something with object property</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&amp;&amp;和||使用短线路逻辑，第二个条件是否执行取决于第一个逻辑。<br>switch()将会一直往下走，如果没有break的话。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (action) &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">'draw'</span>:</span><br><span class="line">    drawIt();</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">'eat'</span>:</span><br><span class="line">    eatIt();</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    doNothing();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span> (a) &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="number">1</span>: <span class="comment">// fallthrough</span></span><br><span class="line">  <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">    eatIt();</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    doNothing();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><p>JS的对象可以被想成某些简单的名字-址对的集合。比如它和：</p>
+<ul>
+<li>Python中的字典</li>
+<li>Perl和Ruby中的Hashes</li>
+<li>C/C++的Hash Table</li>
+<li>Java中的HashMaps</li>
+<li>PHP中的Associative arrays</li>
+</ul>
+<p>名字部分是一个JavaScript的字符串而值可以是任何JavaScript的值包括很多对象。这允许你构建任意复杂度的数据结构。<br>下面有两种方式来构建一个空对象：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p>对象字面语法可以用来完全的初始化一个对象：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  name: <span class="string">'Carrot'</span>,</span><br><span class="line">  <span class="keyword">for</span>: <span class="string">'Max'</span>, <span class="comment">// 'for' is a reserved word, use '_for' instead.</span></span><br><span class="line">  details: &#123;</span><br><span class="line">    color: <span class="string">'orange'</span>,</span><br><span class="line">    size: <span class="number">12</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>属性可以被串在一起：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">obj.details.color; <span class="comment">// orange</span></span><br><span class="line">obj[<span class="string">'details'</span>][<span class="string">'size'</span>]; <span class="comment">// 12</span></span><br></pre></td></tr></table></figure>
+<p>接下来的例子创建了一个对象原型，Person以及这个原型的实例 you。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Define an object</span></span><br><span class="line"><span class="keyword">var</span> you = <span class="keyword">new</span> Person(<span class="string">'You'</span>, <span class="number">24</span>); </span><br><span class="line"><span class="comment">// We are creating a new person named "You" aged 24.</span></span><br></pre></td></tr></table></figure>
+<p>一旦创建，一个对象的属性可以被再次访问：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dot notation</span></span><br><span class="line">obj.name = <span class="string">'Simon'</span>;</span><br><span class="line"><span class="keyword">var</span> name = obj.name;</span><br><span class="line"><span class="comment">// bracket notation</span></span><br><span class="line">obj[<span class="string">'name'</span>] = <span class="string">'Simon'</span>;</span><br><span class="line"><span class="keyword">var</span> name = obj[<span class="string">'name'</span>];</span><br><span class="line"><span class="comment">// can use a variable to define a key</span></span><br><span class="line"><span class="keyword">var</span> user = prompt(<span class="string">'what is your key?'</span>)</span><br><span class="line">obj[user] = prompt(<span class="string">'what is its value?'</span>)</span><br><span class="line">obj.for = <span class="string">'Simon'</span>; <span class="comment">// Syntax error, because 'for' is a reserved word</span></span><br><span class="line">obj[<span class="string">'for'</span>] = <span class="string">'Simon'</span>; <span class="comment">// works fine</span></span><br></pre></td></tr></table></figure>
+<p><strong>从ECMAScript2015开始，对象keys可以通过变量定义通过使用方括号。{[phoneType]: 12345}可以用来替换代：var userPhone = {}; userPhone[phoneType] = 12345.</strong></p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p>JS中数组是一个特殊的对象，它们和普通的对象十分像，但是它们有一个神奇的属性<code>&quot;length&quot;</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">a[<span class="number">0</span>] = <span class="string">'dog'</span>;</span><br><span class="line">a[<span class="number">1</span>] = <span class="string">'cat'</span>;</span><br><span class="line">a[<span class="number">2</span>] = <span class="string">'hen'</span>;</span><br><span class="line">a.length; <span class="comment">// 3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = [<span class="string">'dog'</span>, <span class="string">'cat'</span>, <span class="string">'hen'</span>];</span><br><span class="line">a.length; <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+<p>需要注意的是，数组的长度是最大的索引加一：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="string">'dog'</span>, <span class="string">'cat'</span>, <span class="string">'hen'</span>];</span><br><span class="line">a[<span class="number">100</span>] = <span class="string">'fox'</span>;</span><br><span class="line">a.length; <span class="comment">// 101</span></span><br><span class="line"><span class="keyword">typeof</span> a[<span class="number">90</span>]; <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>除了对象，函数是理解JS的一个重要部分。最基础的函数如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> total = x + y;</span><br><span class="line">  <span class="keyword">return</span> total;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add(); <span class="comment">// NaN</span></span><br><span class="line"><span class="comment">// You can't perform addition on undefined</span></span><br><span class="line"></span><br><span class="line">add(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>); <span class="comment">// 5</span></span><br><span class="line"><span class="comment">// added the first two; 4 was ignored</span></span><br></pre></td></tr></table></figure>
+<p>函数可以接受0到多个参数，并且可以在函数中定义任意多的便利。return可以用来返回一个值，中终结这个函数。如果没有return，JS会返回<code>undefined</code>.<br>同时函数可以在它们函数体内访问另外的参数，通过<code>arguments</code>，代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> sum = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, j = <span class="built_in">arguments</span>.length; i &lt; j; i++) &#123;</span><br><span class="line">    sum += <span class="built_in">arguments</span>[i];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>); <span class="comment">// 14</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">avg</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> sum = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, j = <span class="built_in">arguments</span>.length; i &lt; j; i++) &#123;</span><br><span class="line">    sum += <span class="built_in">arguments</span>[i];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> sum / <span class="built_in">arguments</span>.length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">avg(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>); <span class="comment">// 3.5</span></span><br></pre></td></tr></table></figure>
+<p>同时我们可以使用<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters" target="_blank" rel="noopener">Rest parameter syntax</a>来进行多参数的使用。代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">avg</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> sum = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> value <span class="keyword">of</span> args) &#123;</span><br><span class="line">    sum += value;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> sum / args.length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">avg(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>); <span class="comment">// 3.5</span></span><br></pre></td></tr></table></figure>
+<p><strong>如果你将…args放到后面，那么第一个参数就会被赋值给第一个参数，比如：avg(firstValue, …args)第一个参数传递给firstValue而其他的放进args。</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">avgArray</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> sum = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, j = arr.length; i &lt; j; i++) &#123;</span><br><span class="line">    sum += arr[i];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> sum / arr.length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">avgArray([<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]); <span class="comment">// 3.5</span></span><br></pre></td></tr></table></figure>
+<p>如果你想要对函数传递array参数，可以使用apply方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">avg.apply(<span class="literal">null</span>, [<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]); <span class="comment">// 3.5</span></span><br></pre></td></tr></table></figure>
+<p>JS允许你创建匿名方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> avg = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> sum = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, j = <span class="built_in">arguments</span>.length; i &lt; j; i++) &#123;</span><br><span class="line">    sum += <span class="built_in">arguments</span>[i];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> sum / <span class="built_in">arguments</span>.length;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个语法上和function avg()相同。它允许你放置一个完全的函数定义在任何可能你只是放置表达式的地方。比如隐藏一些本地变量：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> b = <span class="number">3</span>;</span><br><span class="line">  a += b;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">a; <span class="comment">// 4</span></span><br><span class="line">b; <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<p>JavaScript允许你递归调用函数，这在处理树结构的时候特别有用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">countChars</span>(<span class="params">elm</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (elm.nodeType == <span class="number">3</span>) &#123; <span class="comment">// TEXT_NODE</span></span><br><span class="line">    <span class="keyword">return</span> elm.nodeValue.length;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, child; child = elm.childNodes[i]; i++) &#123;</span><br><span class="line">    count += countChars(child);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果是匿名函数你应该怎么调用了，JS可以让你在这个情况下对函数命名：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> charsInBody = (<span class="function"><span class="keyword">function</span> <span class="title">counter</span>(<span class="params">elm</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (elm.nodeType == <span class="number">3</span>) &#123; <span class="comment">// TEXT_NODE</span></span><br><span class="line">    <span class="keyword">return</span> elm.nodeValue.length;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, child; child = elm.childNodes[i]; i++) &#123;</span><br><span class="line">    count += counter(child);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> count;</span><br><span class="line">&#125;)(<span class="built_in">document</span>.body);</span><br></pre></td></tr></table></figure>
+<p>这个函数的名字只是在这个函数范围内有效。这样可以允许引擎做更多的优化并且使代码的可读性更好。<br>需要注意的是，JS的函数也是对象，就像其他的任何事物一样，你可以增加或者修改它们的属性。  </p>
+<h2 id="自定义对象"><a href="#自定义对象" class="headerlink" title="自定义对象"></a>自定义对象</h2><p>对于js是不是面向对象的语言，可以参考<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript" target="_blank" rel="noopener">Introduction to Object-Oriented JavaScript</a>.<br>JS 是一个基于原型的语言(prototype-based)，不包含类声明。JS使用函数作为类。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makePerson</span>(<span class="params">first, last</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    first: first,</span><br><span class="line">    last: last</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">personFullName</span>(<span class="params">person</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> person.first + <span class="string">' '</span> + person.last;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">personFullNameReversed</span>(<span class="params">person</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> person.last + <span class="string">', '</span> + person.first;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> s = makePerson(<span class="string">'Simon'</span>, <span class="string">'Willison'</span>);</span><br><span class="line">personFullName(s); <span class="comment">// "Simon Willison"</span></span><br><span class="line">personFullNameReversed(s); <span class="comment">// "Willison, Simon"</span></span><br></pre></td></tr></table></figure>
+<p>这个可以工作，但是太丑了，在你的全局空间中有太多的函数。我们真正需要的是将函数附在一个对象上。由于函数就是对象，这就很简单：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makePerson</span>(<span class="params">first, last</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    first: first,</span><br><span class="line">    last: last,</span><br><span class="line">    fullName: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.first + <span class="string">' '</span> + <span class="keyword">this</span>.last;</span><br><span class="line">    &#125;,</span><br><span class="line">    fullNameReversed: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.last + <span class="string">', '</span> + <span class="keyword">this</span>.first;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> s = makePerson(<span class="string">'Simon'</span>, <span class="string">'Willison'</span>);</span><br><span class="line">s.fullName(); <span class="comment">// "Simon Willison"</span></span><br><span class="line">s.fullNameReversed(); <span class="comment">// "Willison, Simon"</span></span><br></pre></td></tr></table></figure>
+<p>这里有我们之前没有见到的关键字：this。在函数内使用，它代表的是当前的对象。比如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s = makePerson(<span class="string">'Simon'</span>, <span class="string">'Willison'</span>);</span><br><span class="line"><span class="keyword">var</span> fullName = s.fullName;</span><br><span class="line">fullName(); <span class="comment">// undefined undefined</span></span><br></pre></td></tr></table></figure>
+<p>然后我们可以提高代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">first, last</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.first = first;</span><br><span class="line">  <span class="keyword">this</span>.last = last;</span><br><span class="line">  <span class="keyword">this</span>.fullName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.first + <span class="string">' '</span> + <span class="keyword">this</span>.last;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">this</span>.fullNameReversed = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.last + <span class="string">', '</span> + <span class="keyword">this</span>.first;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> Person(<span class="string">'Simon'</span>, <span class="string">'Willison'</span>);</span><br></pre></td></tr></table></figure>
+<p><code>new</code>关键词和this很相关。它创建一个全新的空对象，然后调用指定的函数，并将此设置为该新对象。但是上面的代码每次我们创造一个新对象的时候，我们也要创造两个新的函数对象，改进如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">personFullName</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.first + <span class="string">' '</span> + <span class="keyword">this</span>.last;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">personFullNameReversed</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.last + <span class="string">', '</span> + <span class="keyword">this</span>.first;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">first, last</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.first = first;</span><br><span class="line">  <span class="keyword">this</span>.last = last;</span><br><span class="line">  <span class="keyword">this</span>.fullName = personFullName;</span><br><span class="line">  <span class="keyword">this</span>.fullNameReversed = personFullNameReversed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更好一点？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">first, last</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.first = first;</span><br><span class="line">  <span class="keyword">this</span>.last = last;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.fullName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.first + <span class="string">' '</span> + <span class="keyword">this</span>.last;</span><br><span class="line">&#125;;</span><br><span class="line">Person.prototype.fullNameReversed = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.last + <span class="string">', '</span> + <span class="keyword">this</span>.first;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>Person.prototype</code>是一个对象被所有的Person实例所共享。它形成了一个查找链，每当你想要访问一个Person不存在的属性时，JS将会检查它们是否存在在Person.prototype中。所以，任何被赋值给Person.prototype的属性将会对这个对象所有实例可见。<br>你也可以修改JS的内建对象，比如String：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> Person(<span class="string">'Simon'</span>, <span class="string">'Willison'</span>);</span><br><span class="line">s.firstNameCaps(); <span class="comment">// TypeError on line 1: s.firstNameCaps is not a function</span></span><br><span class="line"></span><br><span class="line">Person.prototype.firstNameCaps = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.first.toUpperCase();</span><br><span class="line">&#125;;</span><br><span class="line">s.firstNameCaps(); <span class="comment">// "SIMON"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> s = <span class="string">'Simon'</span>;</span><br><span class="line">s.reversed(); <span class="comment">// TypeError on line 1: s.reversed is not a function</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">String</span>.prototype.reversed = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> r = <span class="string">''</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="keyword">this</span>.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">    r += <span class="keyword">this</span>[i];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> r;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">s.reversed(); <span class="comment">// nomiS</span></span><br></pre></td></tr></table></figure>
+<p><strong>Not Finished</strong></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2019/03/21/JavaScript/WhyBuildReact/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pan"/>
+      <meta itemprop="description" content="computer, finance, some recording"/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eden"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/21/JavaScript/WhyBuildReact/" class="post-title-link" itemprop="url">WhyBuildReact</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-03-21 15:55:33" itemprop="dateCreated datePublished" datetime="2019-03-21T15:55:33+08:00">2019-03-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-25 12:17:02" itemprop="dateModified" datetime="2019-03-25T12:17:02+08:00">2019-03-25</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article"></span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time"></span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Why-react"><a href="#Why-react" class="headerlink" title="Why-react"></a>Why-react</h2><p>From <a href="https://react-cn.github.io/react/blog/2013/06/05/why-react.html" target="_blank" rel="noopener">https://react-cn.github.io/react/blog/2013/06/05/why-react.html</a></p>
+<h3 id="React-不是一个MVC框架"><a href="#React-不是一个MVC框架" class="headerlink" title="React 不是一个MVC框架"></a>React 不是一个MVC框架</h3><p>React是一个用来构建用户界面的库。它鼓励创造可复用的UI组件来随着时间的改变来展示数据。</p>
+<h3 id="React并不使用模板"><a href="#React并不使用模板" class="headerlink" title="React并不使用模板"></a>React并不使用模板</h3><p>通常我们是直接通过模版或者HTML来直接构造web应用。这些模版决定了你可以用来构建你的UI的完整抽象集合。<br>React使用了完全不同的方式，通过将用户界面分为组件然后来构建它们。这意味着React使用一个真实的完全的编程语言来渲染界面，这在我们看来是一个相对于模版的优势，原因如下：</p>
 <ol>
 <li>JavaScript是一个灵活，有用的编程语言，可以用来构建抽象。对于大型的软件来说，这个很重要。</li>
 <li>通过统一标记和视图逻辑，React通常可以让视图更加容易维护和扩展。</li>
 <li>通过将对标记和内容的理解融入JavaScript中，这里没有手工的字符串连接，并且更少有XSS漏洞。</li>
 </ol>
 <p>同样我们也会创造JSX，一个可选择的语法扩展，如果你更偏向于HTML的可读性。  </p>
-<h2 id="Reactive-升级很简单"><a href="#Reactive-升级很简单" class="headerlink" title="Reactive 升级很简单"></a>Reactive 升级很简单</h2><p>当你的数据会随着时间变化的时候，React真的很好用。<br>在一个传统的JavaScript应用中，你需要知道数据哪里变化了并且即时将改变同步到DOM中。即使是Augular Js，通过命令(directive)和数据绑定提供了一个声明式的接口也需要一个连接函数来人工的更新DOM节点。  </p>
+<h3 id="Reactive-升级很简单"><a href="#Reactive-升级很简单" class="headerlink" title="Reactive 升级很简单"></a>Reactive 升级很简单</h3><p>当你的数据会随着时间变化的时候，React真的很好用。<br>在一个传统的JavaScript应用中，你需要知道数据哪里变化了并且即时将改变同步到DOM中。即使是Augular Js，通过命令(directive)和数据绑定提供了一个声明式的接口也需要一个连接函数来人工的更新DOM节点。  </p>
 <p>React使用另外一种方式。  </p>
 <p>当你的组件被初始化的时候，render方法将会被调用，生成一个你的视图的轻量级的表示。从那个表示开始，一个字符串的标记会被产生，并且注入到document中。当你的数据改变的时候，这个render方法将会再次调用。为了快速的更新，我们将render返回的新旧值进行比较，并且生成一个最小改变集合来应用到DOM中。  </p>
 <p><strong>render返回的数据既不是一个字符串也不是一个DOM节点，它是一个轻量级的描述DOM应该看起来像什么的描述符</strong></p>
 <p>我们将这个过程称为<strong>协调reconciliation</strong>。  </p>
-<h2 id="HTML只是开始"><a href="#HTML只是开始" class="headerlink" title="HTML只是开始"></a>HTML只是开始</h2><p>由于React有自己对文档轻量级的表示，我们可以做很多事情：</p>
+<h3 id="HTML只是开始"><a href="#HTML只是开始" class="headerlink" title="HTML只是开始"></a>HTML只是开始</h3><p>由于React有自己对文档轻量级的表示，我们可以做很多事情：</p>
 <ol>
 <li>Facebook有动态的图表来渲染，而不是HTML。</li>
 <li>Instagram是一个单页面的网站应用全部通过React和Backbone.Router来构建。设计师通过JSX来使用React。</li>
 <li>我们通过构建内部原型来运行React应用并且使用React来操作原生的iOS视图通过一个Object-c的bridge。</li>
 <li>你可以在服务器上进行代码开发，分享。</li>
 </ol>
+<h2 id="React-Tutorial学习"><a href="#React-Tutorial学习" class="headerlink" title="React Tutorial学习"></a>React Tutorial学习</h2><p>from：<a href="https://reactjs.org/tutorial/tutorial.html" target="_blank" rel="noopener">https://reactjs.org/tutorial/tutorial.html</a></p>
 
           
         
@@ -2110,7 +2403,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2019/02/03/基础建设和杂项比较/DevOps 笔记/"/>
+    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2019/02/05/FoundationAndDevops/Jenkins 学习记录/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pan"/>
@@ -2130,7 +2423,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/02/03/基础建设和杂项比较/DevOps 笔记/" class="post-title-link" itemprop="url">Untitled</a>
+                <a href="/2019/02/05/FoundationAndDevops/Jenkins 学习记录/" class="post-title-link" itemprop="url">Jenkins 学习记录</a>
               
             
           </h1>
@@ -2155,7 +2448,7 @@
                 
               
 
-              <time title="Created: 2019-02-03 15:43:16" itemprop="dateCreated datePublished" datetime="2019-02-03T15:43:16+08:00">2019-02-03</time>
+              <time title="Created: 2019-02-05 16:20:00" itemprop="dateCreated datePublished" datetime="2019-02-05T16:20:00+08:00">2019-02-05</time>
             
 
             
@@ -2172,7 +2465,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-02-11 12:41:01" itemprop="dateModified" datetime="2019-02-11T12:41:01+08:00">2019-02-11</time>
+                <time title="Modified: 2019-03-27 12:23:25" itemprop="dateModified" datetime="2019-03-27T12:23:25+08:00">2019-03-27</time>
               
             
           </span>
@@ -2236,315 +2529,70 @@
       
         
           
-            <h1 id="DevOps"><a href="#DevOps" class="headerlink" title="DevOps"></a>DevOps</h1><p>找了一个关于devops的文章，想看看详细的实践是怎么做的。<br>from: <a href="https://medium.com/@devfire" target="_blank" rel="noopener">https://medium.com/@devfire</a><br> <a href="https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d" target="_blank" rel="noopener">https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d</a></p>
-<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><p><a href="https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-366097df7737" target="_blank" rel="noopener">https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-366097df7737</a><br>基础列的就是三部分:Linux, Python 以及 AWS.<br>然后六个部分：  </p>
-<pre><code>configure配置：Terraform - Ansible
-Version版本：Git+GitHub - GitLab
-package包:Docker - Lambda
-Deploy部署:Jenkins - codeDeploy 
-Run运行:ECS - Kubernetes
-Monitoer监控：ELK Stack - Prometheus
-</code></pre><h2 id="configure-配置"><a href="#configure-配置" class="headerlink" title="configure 配置"></a>configure 配置</h2><p><a href="https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d" target="_blank" rel="noopener">https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d</a><br>配置就是将机器配置好基础设施来让代码运行。以前的话可能是一步一步的安装，而新的方法是将基础设施也编码(infrastructure-as-code).这也是这个阶段需要做的事情。<br><em>作为最佳实践，基础设施作为代码要求提供计算资源所需的任何工作都必须通过代码来完成。</em><br>计算资源是指：计算，存储，网络，数据库等等。<br>在Devops中，我们将会：</p>
+            <h2 id="Jenkins-学习记录"><a href="#Jenkins-学习记录" class="headerlink" title="Jenkins 学习记录"></a>Jenkins 学习记录</h2><p><a href="https://jenkins.io/doc/" target="_blank" rel="noopener">https://jenkins.io/doc/</a></p>
+<h3 id="guidetour"><a href="#guidetour" class="headerlink" title="guidetour"></a>guidetour</h3><p><a href="https://jenkins.io/doc/pipeline/tour/getting-started/" target="_blank" rel="noopener">https://jenkins.io/doc/pipeline/tour/getting-started/</a><br>这个指南介绍了Jenkis最基本的使用和它主要的特点，Jenkins pipeline。 这个指南使用了”standalone”模式，只是运行在你自己的机器上。<br>按照步骤安装好了以后，ip:8080/jenkins上就可以看到对应的管理界面了。  </p>
+<h3 id="Creating-your-first-Pipeline"><a href="#Creating-your-first-Pipeline" class="headerlink" title="Creating your first Pipeline"></a>Creating your first Pipeline</h3><p><a href="https://jenkins.io/doc/pipeline/tour/hello-world/" target="_blank" rel="noopener">https://jenkins.io/doc/pipeline/tour/hello-world/</a><br>Jenkins Pipeline 是一组Jenkins中支持和实现集成持续交付的流水线的插件。<br>持续交付流水线是一个你的进程的自动化的表达表示从版本控制中获取软件到交付到你的用户和客户手上。<br>Jenkins Pipeline通常被写在文件里，并被提交到一个项目的源代码控制仓库中。  </p>
+<p><a href="https://jenkins.io/doc/tutorials/build-a-python-app-with-pyinstaller/" target="_blank" rel="noopener">https://jenkins.io/doc/tutorials/build-a-python-app-with-pyinstaller/</a></p>
+<h3 id="在Linux上运行Jenkins"><a href="#在Linux上运行Jenkins" class="headerlink" title="在Linux上运行Jenkins"></a>在Linux上运行Jenkins</h3><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker run \</span><br><span class="line">  --rm \</span><br><span class="line">  -u root \</span><br><span class="line">  -p <span class="number">8080</span>:<span class="number">8080</span> \</span><br><span class="line">  -v jenkins-data:/var/jenkins_home \ </span><br><span class="line">  -v /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line">  -v "$HOME":/home \ </span><br><span class="line">  jenkinsci/blueocean</span><br></pre></td></tr></table></figure>
+<p>或者无换行：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm -u root -p <span class="number">8080</span>:<span class="number">8080</span> -v jenkins-data:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v "$HOME":/home  jenkinsci/blueocean</span><br></pre></td></tr></table></figure>
+<p>设置好以后，进行基本的设置就可以使用了。如果想要停止Jenkins直接停止这个container就好，由于数据已经映射出来了，所以即使删掉了这个image，也是可以读取回来之前的设置的。(如果想要删掉没有用到的Volume，可以用这个命令：docker system prune –volumes)  </p>
+<h4 id="对一个项目构造pipeline"><a href="#对一个项目构造pipeline" class="headerlink" title="对一个项目构造pipeline"></a>对一个项目构造pipeline</h4><p>有一个simple 项目：<a href="https://github.com/jenkins-docs/simple-python-pyinstaller-app" target="_blank" rel="noopener">simple-python-pyinstaller-app</a>    可以fork到自己的github下并且clone到本地。然后：  </p>
 <ol>
-<li>在<a href="https://www.terraform.io/" target="_blank" rel="noopener">Terraform</a>中填写我们需要的设施</li>
-<li>将它保存在我们源代码管理中</li>
-<li>通过一个PR来获取反馈</li>
-<li>测试</li>
-<li>执行用来提供所有需要的资源。</li>
+<li>回到Jenkins，点击”create new jobs”或者“New Item” </li>
+<li>输入名称，如simple-python-pyinstaller-app</li>
+<li>点击 Pipeline，然后点 OK。</li>
+<li>在下一页可以输入描述用于描述你的流水线。</li>
+<li>点击Pipeline tab滑动到Pipeline节</li>
+<li>在 Definition 区域，选择  Pipeline script from SCM 。</li>
+<li>从SCM中选择Git。</li>
+<li>在Repository URL字段，指定你的代码仓库路径。</li>
+<li>点击保存。保存你的新项目，你现在可以开始创建你的Jenkinsfile。</li>
 </ol>
-<p><img src="TerraformAndAnsible.png" alt="TerraformAndAnsible"><br>同时Ansible可能后面会慢慢淘汰，因为 immutable deployments的推行。所有的环境配置都是一致的无需改变的。<br>怎么开始： Terraform+AWS 套餐可以看下。  </p>
-<h2 id="版本version"><a href="#版本version" class="headerlink" title="版本version"></a>版本version</h2><p>使用git进行版本控制。<br>最少你应该精通以下：</p>
+<h4 id="创造你初始化Pipeline做为Jenkinsfile"><a href="#创造你初始化Pipeline做为Jenkinsfile" class="headerlink" title="创造你初始化Pipeline做为Jenkinsfile"></a>创造你初始化Pipeline做为Jenkinsfile</h4><p>现在你准备好创造你自己的Pipeline来自动化构建你的Python 应用使用PyInstaller在Jenkins中。你的流水线将会被创造为一个Jenkinsfile，将会提交到你本地克隆仓库。<br>这是”Pipeline-as-Code”的基础，将持续交付流水线作为这个应用的一部分同样也被用来版本和review。<a href="https://jenkins.io/doc/book/pipeline" target="_blank" rel="noopener">pipeline</a> 和<a href="https://jenkins.io/doc/book/pipeline/jenkinsfile" target="_blank" rel="noopener">Using a Jenkisfile</a>对Pipeline和Jenkinsfile有更详细的介绍。<br>首先，创建一个初始化的Pipeline在”Build”阶段来执行所有产品流程的第一部分。这个“build”阶段下载了一个Python Docker 镜像并且将它运行为一个Docker 容器，用来编译你的简单Python应用为字节码。  </p>
 <ol>
-<li>Fork一个仓库</li>
-<li>创建分支</li>
-<li>从upstream中合并改变，并且回来</li>
-<li>创建一个Pull Requests。</li>
+<li>在你的代码仓库创建并且保存一个文件Jenkinsfile</li>
+<li>在Jenkinsfile中添加如下流水线代码：</li>
 </ol>
-<h2 id="打包-Package"><a href="#打包-Package" class="headerlink" title="打包 Package"></a>打包 Package</h2><p><a href="https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-4-package-47677ca2f058" target="_blank" rel="noopener">https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-4-package-47677ca2f058</a><br>虚拟化技术可以节省等待时间并且更快部署。  </p>
-<h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><p>Docker就是基于一个很久以前的想法：在同样的操作系统中对每个单独的进程进行隔离。这不是’full virtualization’:在同一物理主机上并行运行虚拟机。<br>Docker 是和微服务同步兴起的，它可以解决不同的app有环境冲突的问题。比如python，java应用需要的环境配置都是不一样的。  </p>
-<h3 id="Lambda"><a href="#Lambda" class="headerlink" title="Lambda"></a>Lambda</h3><p>运行Docker仍然是运行服务器，服务器都是易碎，脆弱的。他们都需要被管理，打补丁等等。<br>同时Docker并不是100%安全的。运行容器托管的大公司都是在虚拟机中进行的而不是在裸机上运行，这样可以获得虚拟机的安全性和容器的快速。<br>最后，没有人只是运行Docker。大部分都是将它作为一个复杂容器编排结构的一部分。<br>AWS lambda允许您在不设置或管理服务器的情况下运行代码。您只需支付您所花费的计算时间-当您的代码没有运行时，不收取任何费用。<br>这尼玛是广告吧。。。<br>但是这个环境怎么实现的？？可以看看。。serverless嘛。。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2019/01/22/基础建设和杂项比较/一台VPS所需要的安装/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Pan"/>
-      <meta itemprop="description" content="computer, finance, some recording"/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Eden"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/01/22/基础建设和杂项比较/一台VPS所需要的安装/" class="post-title-link" itemprop="url">一台VPS所需要的操作</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2019-01-22 16:20:00" itemprop="dateCreated datePublished" datetime="2019-01-22T16:20:00+08:00">2019-01-22</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-03-08 09:30:51" itemprop="dateModified" datetime="2019-03-08T09:30:51+08:00">2019-03-08</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-symbolscount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Symbols count in article: </span>
-                
-                <span title="Symbols count in article"></span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time"></span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="一台VPS所需要的操作"><a href="#一台VPS所需要的操作" class="headerlink" title="一台VPS所需要的操作"></a>一台VPS所需要的操作</h2><p>又弄了一台VPS，记录下我需要的下载的工具作为一个列表。免得每次都没啥头绪。</p>
-<ol>
-<li><a href="###创建自己的用户">创建自己的用户</a></li>
-<li><a href="###创建SSH以及无密码登陆">创建SSH以及无密码登陆</a></li>
-<li><a href="###安装FTP服务器">安装FTP服务器</a></li>
-<li><a href="###firewall建立防火墙">firewall 建立防火墙</a></li>
-<li><a href="###安装Python，git以及Shadowsock">安装Python，git以及Shadowsock</a></li>
-<li><a href="###将自己的个人博客转到这个服务器上">将自己的个人博客转到这个服务器上</a></li>
-<li>安装Python，Java，Docker，git, PGSQL…</li>
-</ol>
-<h3 id="创建自己的用户"><a href="#创建自己的用户" class="headerlink" title="创建自己的用户"></a>创建自己的用户</h3><p><a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-on-centos-quickstart" target="_blank" rel="noopener">https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-on-centos-quickstart</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">adduser -p password -Um user</span><br><span class="line">#检查用户是否创建成功</span><br><span class="line">id user</span><br><span class="line">&gt;uid=500(user) gid=500(user) groups=500(user)</span><br><span class="line"># 添加它到root和wheel组</span><br><span class="line">usermod -aG wheel user</span><br><span class="line">usermod -aG root user</span><br><span class="line"># 运行sudo操作</span><br><span class="line">more sudoers</span><br><span class="line">visudoers</span><br><span class="line">#将其中的	# 这里注释掉就好了。</span><br><span class="line">## Allows people in group wheel to run all commands</span><br><span class="line"># %wheel	ALL=(ALL)	ALL</span><br></pre></td></tr></table></figure>
-<p>git 用户：</p>
-<pre><code>sudo adduser git
-su git
-cd
-mkdir .ssh &amp;&amp; chmod 700 .ssh
-touch .ssh/authorized_keys &amp;&amp; chmod 600 .ssh/authorized_keys
-</code></pre><h3 id="创建SSH-以及无密码登陆"><a href="#创建SSH-以及无密码登陆" class="headerlink" title="创建SSH 以及无密码登陆"></a>创建SSH 以及无密码登陆</h3><p>搬瓦工自带了ssh，我配置下无须密码输入的登陆就好了，修改本机的.bash_profiles：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ssh user@ip -p port mkdir -p .ssh</span><br><span class="line">cat .ssh/id_rsa.pub | ssh  user@ip -p port &apos;cat &gt;&gt; .ssh/authorized_keys&apos;</span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line">结果这般操作后还是不能无密码登陆，还有一些东西需要确认。</span><br><span class="line"></span><br><span class="line">```term</span><br><span class="line">chmod 750 ~  </span><br><span class="line">chmod 700 ~/.ssh</span><br><span class="line">chmod 600 ~/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
-<p>以及ssh的配置文件中的：<br>/etc/ssh/sshd_config  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br></pre></td></tr></table></figure>
-<p>需要解开注释。  </p>
-<h3 id="安装FTP服务器"><a href="#安装FTP服务器" class="headerlink" title="安装FTP服务器"></a>安装FTP服务器</h3><p><a href="https://www.unixmen.com/install-configure-ftp-server-centos-7/" target="_blank" rel="noopener">https://www.unixmen.com/install-configure-ftp-server-centos-7/</a><br>在centos上安装ftp</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install vsftpd ftp -y</span><br></pre></td></tr></table></figure>
-<p>编辑修改/etc/vsftpd/vsftpd.conf文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">## Disable anonymous login ##</span><br><span class="line">anonymous_enable=NO</span><br><span class="line">## Uncomment ##</span><br><span class="line">ascii_upload_enable=YES</span><br><span class="line">ascii_download_enable=YES</span><br><span class="line"></span><br><span class="line">## Uncomment - Enter your Welcome message - This is optional ##</span><br><span class="line">ftpd_banner=Welcome to UNIXMEN FTP service.</span><br><span class="line"></span><br><span class="line">## Add at the end of this  file ##</span><br><span class="line">use_localtime=YES</span><br></pre></td></tr></table></figure>
-<p>运行并且开启vsftpd命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable vsftpd</span><br><span class="line">systemctl start vsftpd</span><br></pre></td></tr></table></figure>
-<p>创建ftp用户：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd ftpuser</span><br><span class="line">passwd ftpuser</span><br></pre></td></tr></table></figure>
-<p>连接ftp用户：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ftp ftpuser@192.168.1.101</span><br></pre></td></tr></table></figure>
-<h3 id="firewall建立防火墙"><a href="#firewall建立防火墙" class="headerlink" title="firewall建立防火墙"></a>firewall建立防火墙</h3><p><a href="https://www.linode.com/docs/security/firewalls/introduction-to-firewalld-on-centos/" target="_blank" rel="noopener">https://www.linode.com/docs/security/firewalls/introduction-to-firewalld-on-centos/</a><br>FirewallD 是iptables的前端控制器用来实现网络交通规则。和iptables相比有两个不同：  </p>
-<ol>
-<li>FirewallD 使用 zones 和services 而不是chain和rules</li>
-<li>它动态的管理规则，运行在不破坏当前sessions和链接的情况下升级。</li>
-</ol>
-<p><em>FirewallD是一个iptables的wrapper来更加简单的管理iptables的规则。它不是iptables的替代品。所以iptables命令仍然可以在FirewallD上使用，但是只推荐在FirewallD上运行FirewallD的命令。</em></p>
-<h4 id="在Firewalld中基本的观点"><a href="#在Firewalld中基本的观点" class="headerlink" title="在Firewalld中基本的观点"></a>在Firewalld中基本的观点</h4><h5 id="Zones-区"><a href="#Zones-区" class="headerlink" title="Zones 区"></a>Zones 区</h5><p>firewalld后台进程管理规则组称为 zones。 Zones基本上是一个规则集合支配交通应该被允许基于你相信的网络的信任级别。网络接口被分配一个区域用来治理防火墙允许的行为。<br>对于需要移动频繁的电脑，这类灵活性提供了一个很行的方式来根据网络修改你的规则。你也许有严格的规则组织大部分的网络当在一个公共WIFI网络上，当在家庭网络时会有比较宽松的限制。对于一个服务器这些区并不是特别重要，因为服务器的网络不常改变。<br>无视你的网络环境有多动态，熟悉预设区域背后的规则也会有帮助。<br>从不信任到最信任，在firewalld中预设区如下：  </p>
-<ol>
-<li>drop: 对低级别信任。所有的连接将会被丢掉并不会回复并且只有出去的网络是允许的。</li>
-<li>block:同上，但是除了简单的丢弃连接，进来的请求将会收到icmp-host-prohibited or icmp6-adm-prohibited的拒绝信息。</li>
-<li>public公共：代表公共，不信任的网络。你也许不信任其他的电脑，但是也许会允许满足一定条件的连接。</li>
-<li>external外部的：在这个情况下你使用firewall作为你的网关。这个是用来配置NAT伪装这样你的内部网络可以保存私密同时可达。</li>
-<li>internal内部的：外部区的反面，用来作为内部网关的一部分。这里的电脑是可以信任的并且一些另外的服务是可以使用的。</li>
-<li>dmz:用于给位于DMZ的计算机(对计算器进行隔离使其不能访问你的网络其他的部分)。只有确定的请求才能被允许。 </li>
-<li>work:工作的计算器。信任这个网络中的大部分计算器。可能会允许更多的服务。</li>
-<li>home:一个家庭网络。通常它中是大部分你信任的机器并且大部分的服务将会被接受。</li>
-<li>trusted：信任这个网络中的所有的机器。最开放的可用选项，应谨慎使用。</li>
-</ol>
-<h5 id="Rule-Permanence-规则的持久性"><a href="#Rule-Permanence-规则的持久性" class="headerlink" title="Rule Permanence 规则的持久性"></a>Rule Permanence 规则的持久性</h5><p>在firewalld中，规程可以是持久的或者是暂时的。如果一个规则是被添加或者修改的，默认的，当前运行的防火墙的行为将会改变。在下一次启动的时候，旧的规则将会被reverted。<br>大部分的firewall-cmd选项可以允许 –permanent 标志来指示应针对非临时防火墙。这个将会影响重载的规则。这意味着你可以测试规则在你活跃的防火墙实例中，并且如果有任何问题可以进行重载。随着时间你可以使用–permanent标识来构建一个完整的规则。</p>
-<h4 id="安装并且启动防火墙"><a href="#安装并且启动防火墙" class="headerlink" title="安装并且启动防火墙"></a>安装并且启动防火墙</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install firewalld</span><br><span class="line">sudo systemctl enable firewalld</span><br><span class="line">sudo reboot</span><br><span class="line">sudo firewall-cmd --state</span><br></pre></td></tr></table></figure>
-<p><em>重启以后，防火墙就启动了，这个时候，所有都连不进去了，所以。。再重新登录控制面板来操作吧。</em><br>一些命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --get-default-zone</span><br><span class="line">output</span><br><span class="line">public</span><br><span class="line">firewall-cmd --get-active-zones</span><br><span class="line">output</span><br><span class="line">public</span><br><span class="line">  interfaces: eth0</span><br><span class="line">firewall-cmd --list-all</span><br><span class="line">output</span><br><span class="line">public (default, active)</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces: eth0 eth1</span><br><span class="line">  sources: </span><br><span class="line">  services: ssh dhcpv6-client</span><br><span class="line">  ports: </span><br><span class="line">  protocols: </span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports: </span><br><span class="line">  source-ports: </span><br><span class="line">  icmp-blocks: </span><br><span class="line">  rich rules: </span><br><span class="line">firewall-cmd --get-zones</span><br></pre></td></tr></table></figure>
-<p>我主要运行的命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone=public --list-all</span><br><span class="line">firewall-cmd --zone=public --permanent --add-service=http</span><br><span class="line">firewall-cmd --zone=public --permanent --add-service=ssh</span><br><span class="line">firewall-cmd --zone=public --permanent --add-service=https</span><br><span class="line">firewall-cmd --zone=public --permanent --add-service=ftp  </span><br><span class="line">firewall-cmd --zone=public --permanent --add-port=21443/tcp</span><br><span class="line">firewall-cmd --zone=public --permanent --add-port=28517/tcp</span><br><span class="line">output</span><br><span class="line">public (active)</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces: eth0</span><br><span class="line">  sources:</span><br><span class="line">  services: dhcpv6-client ssh http https ftp</span><br><span class="line">  ports: 21443/tcp 28517/tcp</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br></pre></td></tr></table></figure>
-<p>其实还有很多，都在文章中，可以看看，不过暂时不需要。只要port限制就好.</p>
-<h3 id="安装Python，git以及Shadowsock以及v2ray"><a href="#安装Python，git以及Shadowsock以及v2ray" class="headerlink" title="安装Python，git以及Shadowsock以及v2ray"></a>安装Python，git以及Shadowsock以及v2ray</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># install git</span><br><span class="line">yum install git</span><br><span class="line"># install python 2.7 and pip</span><br><span class="line">sudo yum install -y python-setuptools</span><br><span class="line">sudo easy_install pip</span><br><span class="line"># install ssr:</span><br><span class="line">sudo pip install git+https://github.com/shadowsocks/shadowsocks.git@master</span><br></pre></td></tr></table></figure>
-<p>接下来就是在服务器里面进行配置了：</p>
-<ol>
-<li>设置配置文件：vi /etc/shadowsocks/config.json</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;server&quot;: &quot;0.0.0.0&quot;,</span><br><span class="line">&quot;server_port&quot;: 443,</span><br><span class="line">&quot;local_address&quot;: &quot;127.0.0.1&quot;,</span><br><span class="line">&quot;local_port&quot;: 21080,</span><br><span class="line">&quot;password&quot;: &quot;password&quot;,</span><br><span class="line">&quot;timeout&quot;: 300,</span><br><span class="line">&quot;method&quot;: &quot;aes-256-cfb&quot;,</span><br><span class="line">&quot;fast_open&quot;: false,</span><br><span class="line">&quot;workers&quot;: 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>设置ssr服务为开机启动服务：</li>
-</ol>
-<p>增加一个开机启动服务service：在/usr/lib/systemd/system中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Shadowsocks</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">TimeoutStartSec=0</span><br><span class="line">ExecStart=/usr/bin/ssserver -c /etc/shadowsocks/config.json</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<p>运行以下的命令：  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable shadowsocks</span><br><span class="line">systemctl start shadowsocks</span><br><span class="line">systemctl status shadowsocks -l</span><br></pre></td></tr></table></figure>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent none </span><br><span class="line">    stages &#123;</span><br><span class="line">        stage('Build') &#123; </span><br><span class="line">            agent &#123;</span><br><span class="line">                docker &#123;</span><br><span class="line">                    image 'python:<span class="number">2</span>-alpine' </span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh 'python -m py_compile sources/add2vals.py sources/calc.py' </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ol start="3">
-<li><p>远程测试一下  </p>
-<p> telnet ip 443</p>
-</li>
+<li>保存Jenkinsfile 并且使用git提交文件。</li>
+<li>回到Jenkins并且点击 打开Blue Ocean 按钮来访问Jenkins Blue Ocean界面。</li>
+<li>在 “This job has not been run”的消息框中点击运行， 然后点击对应的行来查看详情</li>
+<li>回到主要的Blue Ocean 界面。</li>
 </ol>
-<p>有一个不错的写了安装脚本的，可以看下，学习下:<br>install-shadowsocks.sh:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"># Install Shadowsocks on CentOS 7</span><br><span class="line"></span><br><span class="line">echo &quot;Installing Shadowsocks...&quot;</span><br><span class="line"></span><br><span class="line">random-string()</span><br><span class="line">&#123;</span><br><span class="line">    cat /dev/urandom | tr -dc &apos;a-zA-Z0-9&apos; | fold -w $&#123;1:-32&#125; | head -n 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">CONFIG_FILE=/etc/shadowsocks.json</span><br><span class="line">SERVICE_FILE=/etc/systemd/system/shadowsocks.service</span><br><span class="line">SS_PASSWORD=$(random-string 32)</span><br><span class="line">SS_PORT=8388</span><br><span class="line">SS_METHOD=aes-256-cfb</span><br><span class="line">SS_IP=`ip route get 1 | awk &apos;&#123;print $NF;exit&#125;&apos;`</span><br><span class="line">GET_PIP_FILE=/tmp/get-pip.py</span><br><span class="line"></span><br><span class="line"># install pip</span><br><span class="line">curl &quot;https://bootstrap.pypa.io/get-pip.py&quot; -o &quot;$&#123;GET_PIP_FILE&#125;&quot;</span><br><span class="line">python $&#123;GET_PIP_FILE&#125;</span><br><span class="line"></span><br><span class="line"># install shadowsocks</span><br><span class="line">pip install --upgrade pip</span><br><span class="line">pip install shadowsocks</span><br><span class="line"></span><br><span class="line"># create shadowsocls config</span><br><span class="line">cat &lt;&lt;EOF | sudo tee $&#123;CONFIG_FILE&#125;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;server&quot;: &quot;0.0.0.0&quot;,</span><br><span class="line">  &quot;server_port&quot;: $&#123;SS_PORT&#125;,</span><br><span class="line">  &quot;password&quot;: &quot;$&#123;SS_PASSWORD&#125;&quot;,</span><br><span class="line">  &quot;method&quot;: &quot;$&#123;SS_METHOD&#125;&quot;</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"># create service</span><br><span class="line">cat &lt;&lt;EOF | sudo tee $&#123;SERVICE_FILE&#125;</span><br><span class="line">[Unit]</span><br><span class="line">Description=Shadowsocks</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">TimeoutStartSec=0</span><br><span class="line">ExecStart=/usr/bin/ssserver -c $&#123;CONFIG_FILE&#125;</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"># start service</span><br><span class="line">systemctl enable shadowsocks</span><br><span class="line">systemctl start shadowsocks</span><br><span class="line"></span><br><span class="line"># view service status</span><br><span class="line">sleep 5</span><br><span class="line">systemctl status shadowsocks -l</span><br><span class="line"></span><br><span class="line">echo &quot;================================&quot;</span><br><span class="line">echo &quot;&quot;</span><br><span class="line">echo &quot;Congratulations! Shadowsocks has been installed on your system.&quot;</span><br><span class="line">echo &quot;You shadowsocks connection info:&quot;</span><br><span class="line">echo &quot;--------------------------------&quot;</span><br><span class="line">echo &quot;server:      $&#123;SS_IP&#125;&quot;</span><br><span class="line">echo &quot;server_port: $&#123;SS_PORT&#125;&quot;</span><br><span class="line">echo &quot;password:    $&#123;SS_PASSWORD&#125;&quot;</span><br><span class="line">echo &quot;method:      $&#123;SS_METHOD&#125;&quot;</span><br><span class="line">echo &quot;--------------------------------&quot;</span><br></pre></td></tr></table></figure>
-<h4 id="v2ray"><a href="#v2ray" class="headerlink" title="v2ray"></a>v2ray</h4><p>把v2ray也放上。<br>在su的情况下，（不要是sudo，否则会有报错的。）运行如下命令：</p>
-<pre><code>bash &lt;(curl -L -s https://install.direct/go.sh)
-</code></pre><p>服务器配置文件/etc/v2ray/config.json， 内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;inbounds&quot;: [&#123;</span><br><span class="line">    &quot;port&quot;: 10086, // 服务器监听端口，必须和上面的一样</span><br><span class="line">    &quot;protocol&quot;: &quot;vmess&quot;,</span><br><span class="line">    &quot;settings&quot;: &#123;</span><br><span class="line">      &quot;clients&quot;: [&#123; &quot;id&quot;: &quot;b831381d-6324-4d53-ad4f-8cda48b30811&quot; &#125;]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;],</span><br><span class="line">  &quot;outbounds&quot;: [&#123;</span><br><span class="line">    &quot;protocol&quot;: &quot;freedom&quot;,</span><br><span class="line">    &quot;settings&quot;: &#123;&#125;</span><br><span class="line">  &#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>并且开启对应的防火墙端口：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo firewall-cmd --zone=public --permanent --add-port=10086/tcp</span><br><span class="line">sudo firewall-cmd --zone=public --permanent --add-port=10086/udp</span><br></pre></td></tr></table></figure>
-<p>对客户端文件进行如下配置修改config.json：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  &quot;inbounds&quot;: [&#123;</span><br><span class="line">    &quot;port&quot;: 1080,  // SOCKS 代理端口，在浏览器中需配置代理并指向这个端口</span><br><span class="line">    &quot;listen&quot;: &quot;127.0.0.1&quot;,</span><br><span class="line">    &quot;protocol&quot;: &quot;socks&quot;,</span><br><span class="line">    &quot;settings&quot;: &#123;</span><br><span class="line">      &quot;udp&quot;: true</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;],</span><br><span class="line">  &quot;outbounds&quot;: [&#123;</span><br><span class="line">    &quot;protocol&quot;: &quot;vmess&quot;,</span><br><span class="line">    &quot;settings&quot;: &#123;</span><br><span class="line">      &quot;vnext&quot;: [&#123;</span><br><span class="line">        &quot;address&quot;: &quot;server&quot;, // 服务器地址，请修改为你自己的服务器 ip 或域名</span><br><span class="line">        &quot;port&quot;: 10086,  // 服务器端口</span><br><span class="line">        &quot;users&quot;: [&#123; &quot;id&quot;: &quot;b831381d-6324-4d53-ad4f-8cda48b30811&quot; &#125;]</span><br><span class="line">      &#125;]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,&#123;</span><br><span class="line">    &quot;protocol&quot;: &quot;freedom&quot;,</span><br><span class="line">    &quot;tag&quot;: &quot;direct&quot;,</span><br><span class="line">    &quot;settings&quot;: &#123;&#125;</span><br><span class="line">  &#125;],</span><br><span class="line">  &quot;routing&quot;: &#123;</span><br><span class="line">    &quot;domainStrategy&quot;: &quot;IPOnDemand&quot;,</span><br><span class="line">    &quot;rules&quot;: [&#123;</span><br><span class="line">      &quot;type&quot;: &quot;field&quot;,</span><br><span class="line">      &quot;ip&quot;: [&quot;geoip:private&quot;],</span><br><span class="line">      &quot;outboundTag&quot;: &quot;direct&quot;</span><br><span class="line">    &#125;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>目前是都已经做完了上述步骤，但是仍然没能在本地连上。具体可能还要查查。</strong><br>Ref: <a href="https://www.v2ray.com/chapter_00/start.html" target="_blank" rel="noopener">https://www.v2ray.com/chapter_00/start.html</a></p>
-<h3 id="将自己的个人博客转到这个服务器上"><a href="#将自己的个人博客转到这个服务器上" class="headerlink" title="将自己的个人博客转到这个服务器上"></a>将自己的个人博客转到这个服务器上</h3><h4 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y update</span><br><span class="line">rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm</span><br><span class="line">yum install nginx</span><br></pre></td></tr></table></figure>
-<h4 id="将hexo配置上"><a href="#将hexo配置上" class="headerlink" title="将hexo配置上"></a>将hexo配置上</h4><h5 id="server端的修改"><a href="#server端的修改" class="headerlink" title="server端的修改"></a>server端的修改</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#设置hexo到服务器上</span><br><span class="line">mkdir -p code/gitLibrary/blog/hexo</span><br><span class="line">#设置nginx配置，主要是目录：</span><br><span class="line">sudo vi /etc/nginx/nginx.conf</span><br><span class="line">#在配置中添加以下内容</span><br><span class="line">	http&#123;</span><br><span class="line">			gzip on;</span><br><span class="line">			server &#123;</span><br><span class="line">		      		listen       80 default_server;</span><br><span class="line">		      		listen       [::]:80 default_server;</span><br><span class="line">		      		server_name  blog.domain.com; # 填写个人域名</span><br><span class="line">		      		root         /home/user/code/gitLibrary/blog/hexo;</span><br><span class="line">		 	 &#125;</span><br><span class="line">	&#125;</span><br><span class="line">#修改hexo git配置</span><br><span class="line">cd /home/user/code/gitLibrary/hexo.git/hooks</span><br><span class="line">vi post-update</span><br><span class="line">#添加一下的内容到文件中。 前面是需要上传的地址路径，后面是git的目录地址</span><br><span class="line">git --work-tree=/home/user/code/gitLibrary/blog/hexo --git-dir=/home/user/code/gitLibrary/hexo.git checkout -f</span><br></pre></td></tr></table></figure>
-<p>启动nginx：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -t</span><br><span class="line">systemctl start nginx</span><br><span class="line">systemctl status nginx</span><br></pre></td></tr></table></figure>
-<p><strong>踩了一个坑，nginx老是无法访问对应的文件，然后我检查的时候看到相应的文件都以及设置了可读的权限，但是仍然无法访问。后面自己在建立了一个用户来测试，才发现，对于目录文件来说，权限要设置为可读且可执行的才能被读取里面的文件，也就是755的权限了。</strong>    </p>
-<h5 id="本地机器的修改"><a href="#本地机器的修改" class="headerlink" title="本地机器的修改"></a>本地机器的修改</h5><p>修改deploy的git远程机器：</p>
-<pre><code>vi /Users/user/code/blog/_config.yml
-#deploy中需要改为如下：
-deploy:
-  type: git
-  repo: ssh://user@ip:port/home/user/code/gitLibrary/hexo
-  brach: master
-</code></pre><h5 id="域名转换"><a href="#域名转换" class="headerlink" title="域名转换"></a>域名转换</h5><p>IP变了，所以要去域名服务商改下ip。<br>比如我这个是在name    上，进入<a href="https://www.name.com/zh-cn/account/domain/details/sevenpan.com#dns" target="_blank" rel="noopener">DNS</a>设置自己的ip就可以进行转发了。      </p>
+<h4 id="在你的流水线中增加一个测试环节"><a href="#在你的流水线中增加一个测试环节" class="headerlink" title="在你的流水线中增加一个测试环节"></a>在你的流水线中增加一个测试环节</h4><ol>
+<li>打开你的Jenkinsfile文件</li>
+<li>在文件build环节下增加下面一段：</li>
+</ol>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"> stage('Test') &#123;</span><br><span class="line">    agent &#123;</span><br><span class="line">        docker &#123;</span><br><span class="line">            image 'qnib/pytest'</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    steps &#123;</span><br><span class="line">        sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'</span><br><span class="line">    &#125;</span><br><span class="line">    post &#123;</span><br><span class="line">        always &#123;</span><br><span class="line">            junit 'test-reports/results.xml'</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">```        </span><br><span class="line"><span class="number">3</span>. git提交修改的文件</span><br><span class="line"><span class="number">4</span>. 回到Jenkins上进入Blue Ocean界面点击左侧的运行按钮。</span><br><span class="line"></span><br><span class="line">#### 在流水线中增加一个发布过程</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>. 打开你的Jenkinsfile文件</span><br><span class="line"><span class="number">2</span>. 在文件test环节下增加下面一段：</span><br></pre></td></tr></table></figure>
+<p>stage(‘Deliver’) {<br>    agent {<br>        docker {<br>            image ‘cdrx/pyinstaller-linux:python2’<br>        }<br>    }<br>    steps {<br>        sh ‘pyinstaller –onefile sources/add2vals.py’<br>    }<br>    post {<br>        success {<br>            archiveArtifacts ‘dist/add2vals’<br>        }<br>    }<br>}<br><code>`</code>                </p>
+<ol start="3">
+<li>git 提交你的修改</li>
+<li>回到Jenkins上进入Blue Ocean界面点击左侧的运行按钮。</li>
+</ol>
+<p><a href="https://jenkins.io/doc/tutorials/create-a-pipeline-in-blue-ocean/" target="_blank" rel="noopener">https://jenkins.io/doc/tutorials/create-a-pipeline-in-blue-ocean/</a></p>
+<h4 id="在Blue-Ocean中创建你的Pipeline"><a href="#在Blue-Ocean中创建你的Pipeline" class="headerlink" title="在Blue Ocean中创建你的Pipeline"></a>在Blue Ocean中创建你的Pipeline</h4><ol>
+<li>登录Jenkins并且打开 Blue Ocean界面</li>
+<li>点击 Create a new Pipeline 来开始创建Pipeline</li>
+<li>选择GitHub，并且点击创建一个访问key，github中的设置选择默认就好了，并且将该key复制到blue Ocean上。</li>
+<li>在Blue Ocean上选择对应的github账户，并且选择之前fork的仓库代码(<a href="https://github.com/jenkins-docs/creating-a-pipeline-in-blue-ocean" target="_blank" rel="noopener">https://github.com/jenkins-docs/creating-a-pipeline-in-blue-ocean</a>)</li>
+<li>点击  Create Pipeline。<br> Blue Ocean检测到这个仓库的master 分支的root级别上没有Jenkinsfile，将会帮助你创建一个。<br> 一个Pipeline项目被通过Blue Ocean 创建通常是”multibranch Pipeline”。所以，Jenkins会在你的每一个分支中查找最少一个Jenkinsfile。</li>
+</ol>
+<h4 id="创建你自己的初始化Pipeline"><a href="#创建你自己的初始化Pipeline" class="headerlink" title="创建你自己的初始化Pipeline"></a>创建你自己的初始化Pipeline</h4><ol>
+<li>在页面右侧代理选择 docker，然后image填写node:6-alpine,参数填写：-p 3000:3000</li>
+<li>回到主Pipeline编辑器，点击+号，从而打开一个新的stage在右侧。</li>
+<li>在这个面板输入名字为build，然后点击 Add Step按钮，选择Shell Script，然后在打开的Build/Shell Script面板中输入“npm install”    </li>
+<li>点击保存来保存你的当前的Pipeline</li>
+<li>在Save Pipeline对话框中，填写描述（ Add initial Pipeline (Jenkinsfile)）。选择Commit to master.然后点击 Save&amp;Run。</li>
+</ol>
+<h3 id="构建一个多分支的Pipeline项目"><a href="#构建一个多分支的Pipeline项目" class="headerlink" title="构建一个多分支的Pipeline项目"></a>构建一个多分支的Pipeline项目</h3><p><a href="https://jenkins.io/doc/tutorials/build-a-multibranch-pipeline-project/" target="_blank" rel="noopener">https://jenkins.io/doc/tutorials/build-a-multibranch-pipeline-project/</a> </p>
+<ol>
+<li>将<a href="https://github.com/jenkins-docs/building-a-multibranch-pipeline-project" target="_blank" rel="noopener">building-a-multibranch-pipeline-project</a>项目fork到自己仓库来。并将代码clone到本地。  </li>
+<li><p>输入’git branch development’和 ‘git branch production’ 创建两个分支。<br><em>运行npm install的时候总会碰到exit code:137然后退出运行，经查可能是内存不足，无法运行，准备杀掉些进程，或者增加swap。<a href="https://www.thegeekstuff.com/2010/08/how-to-add-swap-space/" target="_blank" rel="noopener">增加swap</a></em></p>
+</li>
+<li></li>
+</ol>
 
           
         
@@ -2632,7 +2680,7 @@ deploy:
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2673,7 +2721,11 @@ deploy:
                     
                       
                     
-                    <span class="site-state-item-count">13</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">tags</span>
                   
                 </div>

@@ -99,25 +99,26 @@
 
 
   <meta name="description" content="DevOps找了一个关于devops的文章，想看看详细的实践是怎么做的。from: https://medium.com/@devfire https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d 基础https://medium.c">
+<meta name="keywords" content="DevOps">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Eden">
-<meta property="og:url" content="http://blog.sevenpan.com/2019/02/03/基础建设和杂项比较/DevOps 笔记/index.html">
+<meta property="og:title" content="DevOps 介绍">
+<meta property="og:url" content="http://blog.sevenpan.com/2019/02/03/FoundationAndDevops/DevOps 笔记/index.html">
 <meta property="og:site_name" content="Eden">
 <meta property="og:description" content="DevOps找了一个关于devops的文章，想看看详细的实践是怎么做的。from: https://medium.com/@devfire https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d 基础https://medium.c">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://blog.sevenpan.com/2019/02/03/基础建设和杂项比较/DevOps%20笔记/TerraformAndAnsible.png">
-<meta property="og:updated_time" content="2019-02-11T04:41:01.000Z">
+<meta property="og:image" content="http://blog.sevenpan.com/2019/02/03/images/baseAndFun/TerraformAndAnsible.png">
+<meta property="og:updated_time" content="2019-03-27T04:16:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eden">
+<meta name="twitter:title" content="DevOps 介绍">
 <meta name="twitter:description" content="DevOps找了一个关于devops的文章，想看看详细的实践是怎么做的。from: https://medium.com/@devfire https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d 基础https://medium.c">
-<meta name="twitter:image" content="http://blog.sevenpan.com/2019/02/03/基础建设和杂项比较/DevOps%20笔记/TerraformAndAnsible.png">
+<meta name="twitter:image" content="http://blog.sevenpan.com/2019/02/03/images/baseAndFun/TerraformAndAnsible.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://blog.sevenpan.com/2019/02/03/基础建设和杂项比较/DevOps 笔记/"/>
+  <link rel="canonical" href="http://blog.sevenpan.com/2019/02/03/FoundationAndDevops/DevOps 笔记/"/>
 
 
 
@@ -127,13 +128,13 @@
   };
 </script>
 
-  <title> | Eden</title>
+  <title>DevOps 介绍 | Eden</title>
   
 
 
 
 
-  <script async src="//www.googletagmanager.com/gtag/js?id=[object Object]"></script>
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-135755004-1"></script>
   <script>
     var host = window.location.hostname;
     if (host !== "localhost" || !true) {
@@ -303,7 +304,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2019/02/03/基础建设和杂项比较/DevOps 笔记/"/>
+    <link itemprop="mainEntityOfPage" href="http://blog.sevenpan.com/2019/02/03/FoundationAndDevops/DevOps 笔记/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pan"/>
@@ -320,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">DevOps 介绍
 
               
             
@@ -346,7 +347,7 @@
                 
               
 
-              <time title="Created: 2019-02-03 15:43:16" itemprop="dateCreated datePublished" datetime="2019-02-03T15:43:16+08:00">2019-02-03</time>
+              <time title="Created: 2019-02-03 00:00:00" itemprop="dateCreated datePublished" datetime="2019-02-03T00:00:00+08:00">2019-02-03</time>
             
 
             
@@ -363,7 +364,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-02-11 12:41:01" itemprop="dateModified" datetime="2019-02-11T12:41:01+08:00">2019-02-11</time>
+                <time title="Modified: 2019-03-27 12:16:44" itemprop="dateModified" datetime="2019-03-27T12:16:44+08:00">2019-03-27</time>
               
             
           </span>
@@ -425,15 +426,17 @@
       
 
       
-        <h1 id="DevOps"><a href="#DevOps" class="headerlink" title="DevOps"></a>DevOps</h1><p>找了一个关于devops的文章，想看看详细的实践是怎么做的。<br>from: <a href="https://medium.com/@devfire" target="_blank" rel="noopener">https://medium.com/@devfire</a><br> <a href="https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d" target="_blank" rel="noopener">https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d</a></p>
-<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><p><a href="https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-366097df7737" target="_blank" rel="noopener">https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-366097df7737</a><br>基础列的就是三部分:Linux, Python 以及 AWS.<br>然后六个部分：  </p>
+        <h2 id="DevOps"><a href="#DevOps" class="headerlink" title="DevOps"></a>DevOps</h2><p>找了一个关于devops的文章，想看看详细的实践是怎么做的。<br>from: <a href="https://medium.com/@devfire" target="_blank" rel="noopener">https://medium.com/@devfire</a><br> <a href="https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d" target="_blank" rel="noopener">https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d</a></p>
+<h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><p><a href="https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-366097df7737" target="_blank" rel="noopener">https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-366097df7737</a><br>基础列的就是三部分:Linux, Python 以及 AWS.<br>然后六个部分：  </p>
 <pre><code>configure配置：Terraform - Ansible
 Version版本：Git+GitHub - GitLab
 package包:Docker - Lambda
 Deploy部署:Jenkins - codeDeploy 
 Run运行:ECS - Kubernetes
 Monitoer监控：ELK Stack - Prometheus
-</code></pre><h2 id="configure-配置"><a href="#configure-配置" class="headerlink" title="configure 配置"></a>configure 配置</h2><p><a href="https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d" target="_blank" rel="noopener">https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d</a><br>配置就是将机器配置好基础设施来让代码运行。以前的话可能是一步一步的安装，而新的方法是将基础设施也编码(infrastructure-as-code).这也是这个阶段需要做的事情。<br><em>作为最佳实践，基础设施作为代码要求提供计算资源所需的任何工作都必须通过代码来完成。</em><br>计算资源是指：计算，存储，网络，数据库等等。<br>在Devops中，我们将会：</p>
+</code></pre><h3 id="configure-配置"><a href="#configure-配置" class="headerlink" title="configure 配置"></a>configure 配置</h3><p><a href="https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d" target="_blank" rel="noopener">https://medium.com/@devfire/how-to-become-a-devops-engineer-in-six-months-or-less-part-2-configure-a2dfc11f6f7d</a><br>配置就是将机器配置好基础设施来让代码运行。以前的话可能是一步一步的安装，而新的方法是将基础设施也编码(infrastructure-as-code).这也是这个阶段需要做的事情。 </p>
+<p><strong>作为最佳实践，基础设施作为代码要求提供计算资源所需的任何工作都必须通过代码来完成。</strong>      </p>
+<p>计算资源是指：计算，存储，网络，数据库等等。<br>在Devops中，我们将会：</p>
 <ol>
 <li>在<a href="https://www.terraform.io/" target="_blank" rel="noopener">Terraform</a>中填写我们需要的设施</li>
 <li>将它保存在我们源代码管理中</li>
@@ -441,7 +444,7 @@ Monitoer监控：ELK Stack - Prometheus
 <li>测试</li>
 <li>执行用来提供所有需要的资源。</li>
 </ol>
-<p><img src="TerraformAndAnsible.png" alt="TerraformAndAnsible"><br>同时Ansible可能后面会慢慢淘汰，因为 immutable deployments的推行。所有的环境配置都是一致的无需改变的。<br>怎么开始： Terraform+AWS 套餐可以看下。  </p>
+<p><img src="../../images/baseAndFun/TerraformAndAnsible.png" alt="TerraformAndAnsible"><br>同时Ansible可能后面会慢慢淘汰，因为 immutable deployments的推行。所有的环境配置都是一致的无需改变的。<br>怎么开始： Terraform+AWS 套餐可以看下。  </p>
 <h2 id="版本version"><a href="#版本version" class="headerlink" title="版本version"></a>版本version</h2><p>使用git进行版本控制。<br>最少你应该精通以下：</p>
 <ol>
 <li>Fork一个仓库</li>
@@ -473,6 +476,12 @@ Monitoer监控：ELK Stack - Prometheus
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/DevOps/" rel="tag"># DevOps</a>
+          
+        </div>
+      
 
       
       
@@ -482,7 +491,7 @@ Monitoer监控：ELK Stack - Prometheus
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/22/基础建设和杂项比较/一台VPS所需要的安装/" rel="next" title="一台VPS所需要的操作">
+              <a href="/2019/01/22/FoundationAndDevops/一台VPS所需要的安装/" rel="next" title="一台VPS所需要的操作">
                 <i class="fa fa-chevron-left"></i> 一台VPS所需要的操作
               </a>
             
@@ -492,8 +501,8 @@ Monitoer监控：ELK Stack - Prometheus
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/03/03/java/Spring/Spring 学习-- IOC容器和Dependency Injection 模式/" rel="prev" title="Spring 学习-- IOC容器和Dependency Injection 模式">
-                Spring 学习-- IOC容器和Dependency Injection 模式 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/02/05/FoundationAndDevops/Jenkins 学习记录/" rel="prev" title="Jenkins 学习记录">
+                Jenkins 学习记录 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -568,7 +577,7 @@ Monitoer监控：ELK Stack - Prometheus
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -609,7 +618,11 @@ Monitoer监控：ELK Stack - Prometheus
                     
                       
                     
-                    <span class="site-state-item-count">13</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">tags</span>
                   
                 </div>
@@ -645,7 +658,7 @@ Monitoer监控：ELK Stack - Prometheus
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DevOps"><span class="nav-number">1.</span> <span class="nav-text">DevOps</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础"><span class="nav-number">1.1.</span> <span class="nav-text">基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#configure-配置"><span class="nav-number">1.2.</span> <span class="nav-text">configure 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#版本version"><span class="nav-number">1.3.</span> <span class="nav-text">版本version</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打包-Package"><span class="nav-number">1.4.</span> <span class="nav-text">打包 Package</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker"><span class="nav-number">1.4.1.</span> <span class="nav-text">Docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lambda"><span class="nav-number">1.4.2.</span> <span class="nav-text">Lambda</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DevOps"><span class="nav-number">1.</span> <span class="nav-text">DevOps</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础"><span class="nav-number">1.1.</span> <span class="nav-text">基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configure-配置"><span class="nav-number">1.2.</span> <span class="nav-text">configure 配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#版本version"><span class="nav-number">2.</span> <span class="nav-text">版本version</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打包-Package"><span class="nav-number">3.</span> <span class="nav-text">打包 Package</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker"><span class="nav-number">3.1.</span> <span class="nav-text">Docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lambda"><span class="nav-number">3.2.</span> <span class="nav-text">Lambda</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -812,7 +825,7 @@ Monitoer监控：ELK Stack - Prometheus
   
     <script>
   window.livereOptions = {
-    refer: '2019/02/03/基础建设和杂项比较/DevOps 笔记/'
+    refer: '2019/02/03/FoundationAndDevops/DevOps 笔记/'
   };
   (function(d, s) {
     var j, e = d.getElementsByTagName(s)[0];
