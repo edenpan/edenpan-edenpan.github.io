@@ -105,7 +105,7 @@
 <meta property="og:site_name" content="Eden">
 <meta property="og:description" content="From: A re-introduction to JavaScript (JS tutorial)  为啥是re-introduction？因为JavaScript已经变成了世界上最难懂的编程语言了（这个吐槽js的文章写的还挺有意思的）。但是JavaScript现在被用在很多应用中，非常的重要了。   JavaScript在1995年被Brendan Eich发明。本来叫做LiveScript">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-21T11:48:51.000Z">
+<meta property="og:updated_time" content="2019-04-03T07:11:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="A Re-Introduction to JavaScript (JS Tutorial)">
 <meta name="twitter:description" content="From: A re-introduction to JavaScript (JS tutorial)  为啥是re-introduction？因为JavaScript已经变成了世界上最难懂的编程语言了（这个吐槽js的文章写的还挺有意思的）。但是JavaScript现在被用在很多应用中，非常的重要了。   JavaScript在1995年被Brendan Eich发明。本来叫做LiveScript">
@@ -344,12 +344,24 @@
                 
               
 
-              <time title="Created: 2019-03-21 16:12:30 / Modified: 19:48:51" itemprop="dateCreated datePublished" datetime="2019-03-21T16:12:30+08:00">2019-03-21</time>
+              <time title="Created: 2019-03-21 16:12:30" itemprop="dateCreated datePublished" datetime="2019-03-21T16:12:30+08:00">2019-03-21</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-04-03 15:11:04" itemprop="dateModified" datetime="2019-04-03T15:11:04+08:00">2019-04-03</time>
               
             
           </span>
@@ -385,7 +397,7 @@
                 
                   <span class="post-meta-item-text">Symbols count in article: </span>
                 
-                <span title="Symbols count in article">11k</span>
+                <span title="Symbols count in article">14k</span>
               
 
               
@@ -399,7 +411,7 @@
                 
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
-                <span title="Reading time">20 mins.</span>
+                <span title="Reading time">25 mins.</span>
               
             </div>
           
@@ -524,7 +536,25 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">first, last</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.first = first;</span><br><span class="line">  <span class="keyword">this</span>.last = last;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.fullName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.first + <span class="string">' '</span> + <span class="keyword">this</span>.last;</span><br><span class="line">&#125;;</span><br><span class="line">Person.prototype.fullNameReversed = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.last + <span class="string">', '</span> + <span class="keyword">this</span>.first;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p><code>Person.prototype</code>是一个对象被所有的Person实例所共享。它形成了一个查找链，每当你想要访问一个Person不存在的属性时，JS将会检查它们是否存在在Person.prototype中。所以，任何被赋值给Person.prototype的属性将会对这个对象所有实例可见。<br>你也可以修改JS的内建对象，比如String：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> Person(<span class="string">'Simon'</span>, <span class="string">'Willison'</span>);</span><br><span class="line">s.firstNameCaps(); <span class="comment">// TypeError on line 1: s.firstNameCaps is not a function</span></span><br><span class="line"></span><br><span class="line">Person.prototype.firstNameCaps = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.first.toUpperCase();</span><br><span class="line">&#125;;</span><br><span class="line">s.firstNameCaps(); <span class="comment">// "SIMON"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> s = <span class="string">'Simon'</span>;</span><br><span class="line">s.reversed(); <span class="comment">// TypeError on line 1: s.reversed is not a function</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">String</span>.prototype.reversed = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> r = <span class="string">''</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="keyword">this</span>.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">    r += <span class="keyword">this</span>[i];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> r;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">s.reversed(); <span class="comment">// nomiS</span></span><br></pre></td></tr></table></figure>
-<p><strong>Not Finished</strong></p>
+<p>就像之前提到的，原型形成了链的一部分。这个链的根节点是<code>Object.prototype</code>,包含有一个方法<code>toString()</code>，当你想要代表一个对象为一个string的时候将会调用这个方法。这在我们debgging我们的<code>Person</code>对象的时候很有用: </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> Person(<span class="string">'Simon'</span>, <span class="string">'Willison'</span>);</span><br><span class="line">s.toString(); <span class="comment">// [object Object]</span></span><br><span class="line"></span><br><span class="line">Person.prototype.toString = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'&lt;Person: '</span> + <span class="keyword">this</span>.fullName() + <span class="string">'&gt;'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">s.toString(); <span class="comment">// "&lt;Person: Simon Willison&gt;"</span></span><br></pre></td></tr></table></figure>
+<p>记得<code>avg.apply()</code>有一个null的第一个参数？我们现在可以聊聊了.<code>apply()</code>的第一个参数是应该被当成<code>this</code>的对象。比如，这有一个不重要的<code>new</code>的实现：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">trivialNew</span>(<span class="params">constructor, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> o = &#123;&#125;; <span class="comment">// Create an object</span></span><br><span class="line">  <span class="keyword">constructor</span>.apply(o, args);</span><br><span class="line">  return o;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这不是一个确切的<code>new</code>的复制，因为它没有构建原型链(这很难掩饰)。这是你很少使用的，但是如果你知道了对你很有好处的。在上面代码段中,<code>...args</code>(包括省略号)，被称为’rest arguments’—就像名字所说的，这包含了其他所有的参数。<br>调用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bill = trivialNew(Person, <span class="string">'William'</span>, <span class="string">'Orange'</span>);</span><br></pre></td></tr></table></figure>
+<p>几乎等价于</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bill = <span class="keyword">new</span> Person(<span class="string">'William'</span>, <span class="string">'Orange'</span>);</span><br></pre></td></tr></table></figure>
+<p><code>apply()</code>有一个姐妹函数称为<code>call</code>，可以让你设置<code>this</code>参数但是可以接受扩展的参数而不是一个矩阵。  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">lastNameCaps</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.last.toUpperCase();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> Person(<span class="string">'Simon'</span>, <span class="string">'Willison'</span>);</span><br><span class="line">lastNameCaps.call(s);</span><br><span class="line"><span class="comment">// Is the same as:</span></span><br><span class="line">s.lastNameCaps = lastNameCaps;</span><br><span class="line">s.lastNameCaps(); <span class="comment">// WILLISON</span></span><br></pre></td></tr></table></figure>
+<h3 id="内部函数"><a href="#内部函数" class="headerlink" title="内部函数"></a>内部函数</h3><p>JavaScript 可以在其他函数中进行函数声明。我们已经看过一次了，在<code>makePerson()</code>函数中。JS中嵌套函数的一个重要细节是它们可以访问它们双亲函数的变量：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">parentFunc</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">nestedFunc</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> b = <span class="number">4</span>; <span class="comment">// parentFunc can't use this</span></span><br><span class="line">    <span class="keyword">return</span> a + b; </span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> nestedFunc(); <span class="comment">// 5</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这一点提供了很大的便利来编写维护性好的代码。如果一个被调用函数依赖一到两个其他不常被使用的函数，你可以将它们作为功能函数嵌套在里面。这保证了全局上函数的数量是小的，这是一个不错的事情。<br>这同样也是对全局变量的反击。在编写复杂代码的时候，我们常常想要使用全局变量来在不同函数之间共享值-这将会导致代码难以维护。嵌套函数可以在双亲函数中共享变量，这样你可以使用“本地全局”这个机制来决定函数间的耦合而不会污染你的全局命名空间。这个技术被使用的时候应该谨慎，但是这是一个很有用的功能。  </p>
+<h2 id="Closures-闭包"><a href="#Closures-闭包" class="headerlink" title="Closures 闭包"></a>Closures 闭包</h2><p>下面提到的是JS最有用的抽象之一，但是也是最有可能令人迷惑的功能。看如下代码：  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeAdder</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> add5 = makeAdder(<span class="number">5</span>);</span><br><span class="line"><span class="keyword">var</span> add20 = makeAdder(<span class="number">20</span>);</span><br><span class="line">add5(<span class="number">6</span>); <span class="comment">// ?</span></span><br><span class="line">add20(<span class="number">7</span>); <span class="comment">// ?</span></span><br></pre></td></tr></table></figure>
+<p>makeAdder()函数：它创造了新的’adder’函数，这个函数调用的时候传入一个参数，然后返回这个参数和创造函数的时候一起创造的参数的和。<br>这里发生的事情和之前内部函数发生的事情很相似：一个定义在函数内部的函数可以访问这个外部函数的变量。唯一的不同是，这里外部函数已经返回了，然后一般情况会认为这个本地变量已经不存在了。但是它们仍然存在-否则的话，adder函数将会无法工作。(是说上面的变量a在定义了以后就一直存在了。)所以下面两行的结果就是：  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add5(<span class="number">6</span>); <span class="comment">// returns 11</span></span><br><span class="line">add20(<span class="number">7</span>); <span class="comment">// returns 27</span></span><br></pre></td></tr></table></figure>
+<p>解释下具体发生了什么。当JS执行一个函数时，一个“范围”对象会被创建用来保存这个函数的本地变量。传入的参数对它进行了初始化。这看起来和全局对象(所有的全局变量和全局函数所在的地方)有些相似，但是有一些很重要的不同点：首先，每次一个函数开始执行的时候，新的范围对象将会被创建。其次，不像全局对象(可以通过<code>this</code>,在浏览器中通过<code>window</code>进行访问)这些范围对象无法直接在你的JS代码中被访问。例如你无法遍历当前范围变量的所有属性。<br>所以当你调用<code>makeAdder()</code>时，一个范围对象和它的一个属性<code>a</code>被创建了，这个属性会用来传递给<code>makeAdder()</code>函数.<code>makeAdder()</code> 然后会返回一个新创建的函数。通常JS的垃圾回收器将会清理<code>makeAdder()</code>所创建的范围对象，但是由于返回的函数对这个范围对象有引用。所以这个范围对象将不会被回收直到没有引用指向<code>makeAdder()</code>所返回的函数对象。  </p>
+<p>范围对象形成了范围链(the scope chain)，和JS对象系统所使用的属性链(the prototype chain)有些相似。<br>一个闭合(closure)就是一个函数以及这个函数所创造的范围对象的组合。Closure可以让你保存状态，这样它可以用来替换对象。你可以看到更多信息在<a href="http://stackoverflow.com/questions/111102/how-do-javascript-closures-work" target="_blank" rel="noopener">several excellent introductions to closures</a>。</p>
 
       
     </div>
@@ -722,7 +752,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字Numbers"><span class="nav-number">2.</span> <span class="nav-text">数字Numbers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他类型"><span class="nav-number">3.</span> <span class="nav-text">其他类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">4.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作符"><span class="nav-number">5.</span> <span class="nav-text">操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#控制结构"><span class="nav-number">5.1.</span> <span class="nav-text">控制结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象"><span class="nav-number">6.</span> <span class="nav-text">对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组"><span class="nav-number">7.</span> <span class="nav-text">数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数"><span class="nav-number">8.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义对象"><span class="nav-number">9.</span> <span class="nav-text">自定义对象</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字Numbers"><span class="nav-number">2.</span> <span class="nav-text">数字Numbers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他类型"><span class="nav-number">3.</span> <span class="nav-text">其他类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">4.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作符"><span class="nav-number">5.</span> <span class="nav-text">操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#控制结构"><span class="nav-number">5.1.</span> <span class="nav-text">控制结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象"><span class="nav-number">6.</span> <span class="nav-text">对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组"><span class="nav-number">7.</span> <span class="nav-text">数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数"><span class="nav-number">8.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义对象"><span class="nav-number">9.</span> <span class="nav-text">自定义对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内部函数"><span class="nav-number">9.1.</span> <span class="nav-text">内部函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Closures-闭包"><span class="nav-number">10.</span> <span class="nav-text">Closures 闭包</span></a></li></ol></div>
             
 
           </div>
@@ -743,7 +773,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -755,7 +785,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="Symbols count total">141k</span>
+    <span title="Symbols count total">144k</span>
   
 
   
@@ -764,7 +794,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="Reading time total">4:17</span>
+    <span title="Reading time total">4:22</span>
   
 </div>
 
